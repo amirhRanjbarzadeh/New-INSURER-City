@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rml error="d"
-  warning="d"
-  object="d"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
+<rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  <import from="../Database/output/eq_fault_sources.csv" name="LS" />
-  <import from="../Database/output/eq_area_sources.csv" name="AS" />
+  <import from="../../Database/hazard/eq_fault_sources.csv" name="LS" />
+  <import from="../../Database/hazard/eq_area_sources.csv" name="AS" />
 
   <instantiate default="SB" class="RLocation">
     <property name="ObjectName">
