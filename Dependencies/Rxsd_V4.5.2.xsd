@@ -1,0 +1,970 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
+
+    <xs:complexType name="importType">
+        <xs:attribute name="from" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="name" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="import" type="importType" />
+
+    <xs:complexType name="includeType">
+        <xs:attribute name="from" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="include" type="includeType" />
+
+    <xs:complexType name="writeType">
+        <xs:attribute name="comment" type="xs:string" />
+        <xs:attribute name="string" use="required" />
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="write" type="writeType"></xs:element>
+
+    <xs:complexType name="runType">
+        <xs:attribute name="targetGroup" use="required" />
+        <xs:attribute name="group" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="run" type="runType"></xs:element>
+
+    <xs:complexType name="skipType">
+        <xs:attribute name="targetGroup" use="required" />
+        <xs:attribute name="group" type="xs:string" />
+    </xs:complexType>
+    <xs:element name="skip" type="skipType"></xs:element>
+
+    <xs:complexType name="saveType">
+        <xs:attribute name="name" use="required" />
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="save" type="saveType"></xs:element>
+
+
+    <xs:complexType name="caseType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="run" />
+                <xs:element ref="skip" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="value">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="case" type="caseType"></xs:element>
+
+    <xs:complexType name="cellType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="case" />
+                <xs:element ref="save" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="column">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="row">
+            <xs:simpleType>
+                <xs:restriction base="xs:integer" />
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="cell" type="cellType"></xs:element>
+
+    <xs:complexType name="configType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="cell" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="source">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+
+    </xs:complexType>
+    <xs:element name="config" type="configType"></xs:element>
+
+
+    <xs:complexType name="columnType">
+        <xs:attribute name="name" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="column" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="source">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="format" type="xs:string" />
+        <xs:attribute name="split">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="applyFunction">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="product" />
+                    <xs:enumeration value="sum" />
+                    <xs:enumeration value="average" />
+                    <xs:enumeration value="max" />
+                    <xs:enumeration value="min" />
+                    <xs:enumeration value="count" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="column" type="columnType"></xs:element>
+
+    <xs:complexType name="valueType">
+        <xs:attribute name="name" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="string" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="value" type="valueType"></xs:element>
+
+    <xs:complexType name="functionType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="column" />
+                <xs:element ref="value" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="default">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="outputColumnsName" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="name" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="detectCollisions()" />
+                    <xs:enumeration value="detectCollisionsSourceBase()" />
+                    <xs:enumeration value="sumValues()" />
+                    <xs:enumeration value="simpleWeight()" />
+                    <xs:enumeration value="lookupWeight()" />
+                    <xs:enumeration value="flag()" />
+                    <xs:enumeration value="convert2PDF()" />
+                    <xs:enumeration value="saveSingleColumn()" />
+                    <xs:enumeration value="range()" />
+                    <xs:enumeration value="repeat()" />
+                    <xs:enumeration value="cumulative()" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="separator" type="xs:string" />
+        <xs:attribute name="pattern" type="xs:string" />
+        <xs:attribute name="offset" type="xs:string" />
+        <xs:attribute name="inclusive" type="xs:boolean" />
+        <xs:attribute name="start" type="xs:integer" />
+        <xs:attribute name="group" type="xs:string" />
+
+
+    </xs:complexType>
+    <xs:element name="function" type="functionType"></xs:element>
+
+    <xs:complexType name="formulaType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="column" />
+                <xs:element ref="value" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="default">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="expression" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="outputColumnsName" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+
+    </xs:complexType>
+    <xs:element name="formula" type="formulaType"></xs:element>
+
+    <xs:complexType name="tableType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="function" />
+                <xs:element ref="formula" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="base">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="export">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+
+        <xs:attribute name="name" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+
+    </xs:complexType>
+    <xs:element name="table" type="tableType"></xs:element>
+
+
+    <xs:complexType name="conditionType">
+        <xs:attribute name="column" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="contain">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="notContain">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="equal">
+        </xs:attribute>
+        <xs:attribute name="notEqual">
+        </xs:attribute>
+        <xs:attribute name="greaterThan">
+        </xs:attribute>
+        <xs:attribute name="greaterThanEqual">
+        </xs:attribute>
+        <xs:attribute name="smallerThan">
+        </xs:attribute>
+        <xs:attribute name="smallerThanEqual">
+        </xs:attribute>
+        <xs:attribute name="value">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="notValue">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="regex" />
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="condition" type="conditionType"></xs:element>
+
+    <xs:complexType name="andType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="condition"></xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="and" type="andType"></xs:element>
+
+    <xs:complexType name="filterType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="and"></xs:element>
+                <xs:element ref="condition"></xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="source" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="name" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="export">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="basedOn">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="cluster">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="orderColumnList">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="orderSourceList">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="sequence">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="source" />
+                    <xs:enumeration value="condition" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+
+    </xs:complexType>
+    <xs:element name="filter" type="filterType"></xs:element>
+
+    <xs:complexType name="constantType">
+        <xs:attribute name="string" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="repeat">
+            <xs:simpleType>
+                <xs:union memberTypes="xs:string xs:integer" />
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="labelForColumn">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="separatedBy">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="return">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="constant" type="constantType"></xs:element>
+
+    <xs:complexType name="enumeratorType">
+        <xs:attribute name="start">
+            <xs:simpleType>
+                <xs:restriction base="xs:integer">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="digits">
+            <xs:simpleType>
+                <xs:restriction base="xs:integer">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="continue" />
+        <xs:attribute name="name" />
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="enumerator" type="enumeratorType" />
+
+    <xs:complexType name="regexType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="read"></xs:element>
+                <xs:element ref="combine"></xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="expression" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="default">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="groupIndex">
+            <xs:simpleType>
+                <xs:restriction base="xs:int">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="matchIndex">
+            <xs:simpleType>
+                <xs:restriction base="xs:int">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="skipEmpty">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="true" />
+                    <xs:enumeration value="false" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="regex" type="regexType" />
+
+    <xs:complexType name="readType">
+        <xs:attribute name="column" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="source">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="repeat">
+            <xs:simpleType>
+                <xs:union memberTypes="xs:string xs:integer" />
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="row">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="labelForColumn">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="separatedBy">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="linkTo">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="split">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="applyFunction">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="max" />
+                    <xs:enumeration value="min" />
+                    <xs:enumeration value="periodToString" />
+                    <xs:enumeration value="empty" />
+                    <xs:enumeration value="count" />
+                    <xs:enumeration value="reciprocal" />
+                    <xs:enumeration value="sum" />
+                    <xs:enumeration value="average" />
+                    <xs:enumeration value="stdv_P" />
+                    <xs:enumeration value="stdv_S" />
+                    <xs:enumeration value="var_S" />
+                    <xs:enumeration value="var_P" />
+                    <xs:enumeration value="normalized" />
+                    <xs:enumeration value="cumulative" />
+                    <xs:enumeration value="reverseCumulative" />
+                    <xs:enumeration value="weight" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="return">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="read" type="readType"></xs:element>
+
+    <xs:complexType name="flattenType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="constant" />
+                <xs:element ref="read" />
+                <xs:element ref="lookup" />
+                <xs:element ref="combine" />
+                <xs:element ref="regex" />
+                <xs:element ref="sourceLoop" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="default">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="applyFunction">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="normalized" />
+                    <xs:enumeration value="weight" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="flatten" type="flattenType"></xs:element>
+
+    <xs:complexType name="targetType">
+        <xs:attribute name="matchColumn" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="readColumn" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="specificString" />
+        <xs:attribute name="source">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="ifEqualTo" />
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="target" type="targetType"></xs:element>
+
+    <xs:complexType name="lookupType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="target"></xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="column" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="default">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="split">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="splitedBy">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="source">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="defaultValue" />
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="lookup" type="lookupType"></xs:element>
+
+    <xs:complexType name="combineType">
+
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="constant" />
+                <xs:element ref="enumerator" />
+                <xs:element ref="read" />
+                <xs:element ref="lookup" />
+                <xs:element ref="combine" />
+                <xs:element ref="regex" />
+                <xs:element ref="sourceLoop" />
+                <xs:element ref="flatten" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="primary" use="required" />
+        <xs:attribute name="secondary" />
+        <xs:attribute name="default" />
+        <xs:attribute name="group">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="type">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="index" />
+                    <xs:enumeration value="group" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+
+    </xs:complexType>
+    <xs:element name="combine" type="combineType" />
+
+    <xs:complexType name="sourceLoopType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="constant" />
+                <xs:element ref="read" />
+                <xs:element ref="lookup" />
+                <xs:element ref="combine" />
+                <xs:element ref="regex" />
+                <xs:element ref="sourceLoop" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="sourceList">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="link">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="flatten">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="true" />
+                    <xs:enumeration value="false" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+
+    </xs:complexType>
+    <xs:element name="sourceLoop" type="sourceLoopType" />
+
+    <xs:complexType name="propertyType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="constant" />
+                <xs:element ref="enumerator" />
+                <xs:element ref="read" />
+                <xs:element ref="lookup" />
+                <xs:element ref="combine" />
+                <xs:element ref="regex" />
+                <xs:element ref="sourceLoop" />
+                <xs:element ref="flatten" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="default">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="name" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="property" type="propertyType"></xs:element>
+
+    <xs:complexType name="instantiateType">
+        <xs:sequence>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="filter"></xs:element>
+                <xs:element ref="property"></xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="class" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="default">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="export">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="comment" />
+    </xs:complexType>
+    <xs:element name="instantiate" type="instantiateType"></xs:element>
+
+    <xs:complexType name="clearType">
+        <xs:attribute name="name" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="group" type="xs:string" />
+
+    </xs:complexType>
+    <xs:element name="clear" type="clearType"></xs:element>
+
+    <xs:complexType name="rmlType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="import" />
+                <xs:element ref="include" />
+                <xs:element ref="write" />
+                <xs:element ref="filter" />
+                <xs:element ref="instantiate" />
+                <xs:element ref="clear" />
+                <xs:element ref="config" />
+                <xs:element ref="table" />
+            </xs:choice>
+        </xs:sequence>
+         <xs:attribute name="openFile">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="true" />
+                    <xs:enumeration value="false" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="error" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="warning">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="object" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="debug">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="rml" type="rmlType"></xs:element>
+
+</xs:schema>

@@ -1,0 +1,2 @@
+magnitude,number_of_samples,number_of_threads,saving_sample_interval,preferred_number_of_cdf_points,report_ram_usage_interval,power_Network,water_Network,bayesian_network
+6.8,50,5,-1,200,1000,Full,Full,TRUE

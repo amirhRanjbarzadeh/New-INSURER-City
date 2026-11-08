@@ -1,0 +1,48 @@
+﻿Distribution Node Name,Liquefaction,RES Or NoneRES,NonResidential Distribution Node Demands,Post Disaster Population,Description,Longitude,Latitude,Demand (L/s),Water Station Type,Pipeline Materials,Pipeline Materials Ratio,Total Pipeline Length (Km),Soil Corrosivity,Elevation (m),VS30
+DN01,No,NonResidential,666662.4,,zone 11-2,49.767452,36.1657579,7.71605,DistributionNode,PVC; AsbestosCement; ,0.7;0.3; ,25.87,Unknown,555.65,270
+DN02,No,NonResidential,944179.2,,governmental,49.7359813,36.1924553,10.92809,DistributionNode,PVC; AsbestosCement; ,0.89;0.11; ,4.62,Unknown,543.97,425
+DN03,No,Residential,,2232,Zone1-2,49.6961014,36.2203487,7.35205,DistributionNode,PVC; AsbestosCement; ,0.59;0.41; ,15.81,Unknown,641.18,425
+DN04,No,NonResidential,242179.2,,zone9-1,49.7119632,36.2044369,2.8039,DistributionNode,PVC; AsbestosCement; ,0.76;0.24; ,13.52,Unknown,579.23,425
+DN05,Yes,NonResidential,677116.8,,zone10-2,49.731285,36.220356,7.59151,DistributionNode,PVC; AsbestosCement; ,0.68;0.32; ,21.07,Unknown,500.23,330
+DN06,No,NonResidential,205459.2,,zone9-3,49.7119632,36.1924553,2.37757,DistributionNode,PVC; AsbestosCement; ,0.62;0.38; ,14.41,Unknown,596.04,425
+DN07,No,Residential,,3402,Zone1-9,49.6961014,36.1931851,11.20598,DistributionNode,PVC; AsbestosCement; ,0.7;0.3; ,18.19,Unknown,649.46,425
+DN08,No,NonResidential,181267.2,,zone 8-2,49.7593243,36.1923613,2.09772,DistributionNode,PVC; AsbestosCement; ,0.92;0.08; ,15.13,Unknown,532.74,330
+DN09,No,Residential,,5743,zone2-4,49.7857944,36.1818293,18.91832,DistributionNode,PVC; AsbestosCement; ,0.52;0.48; ,11.82,Unknown,596.31,330
+DN10,No,Residential,,5570,zone 5-2,49.7667409,36.182093,18.34996,DistributionNode,PVC; AsbestosCement; ,0.93;0.07; ,12.25,Unknown,554.6,330
+DN11,No,Residential,,4568,zone4-4,49.7359938,36.1826075,15.04985,DistributionNode,PVC; AsbestosCement; ,0.59;0.41; ,9.07,Unknown,577.85,330
+DN12,No,Residential,,3345,zone3-1,49.7857849,36.1997964,11.01802,DistributionNode,PVC; AsbestosCement; ,0.92;0.08; ,9.54,Unknown,568.98,425
+DN13,No,Residential,,5106,zone7,49.7641761,36.2211392,16.82034,DistributionNode,PVC; AsbestosCement; ,0.83;0.17; ,4.24,Unknown,524.85,330
+DN14,No,Residential,,2639,zone6-2,49.764279,36.1994817,8.69301,DistributionNode,PVC; AsbestosCement; ,0.85;0.15; ,7.03,Unknown,539.82,330
+DN15,No,Residential,,2595,Zone1-6,49.6961014,36.2044082,8.54912,DistributionNode,PVC; AsbestosCement; ,0.6;0.4; ,16.54,Unknown,658.89,425
+DN16,No,NonResidential,314668.8,,walmart projects-1,49.7119632,36.1762459,3.6427,DistributionNode,PVC; AsbestosCement; ,0.52;0.48; ,1.69,Unknown,591.27,425
+DN17,No,Residential,,1369,Zone1-1,49.6961014,36.223219571,4.5113,DistributionNode,PVC; AsbestosCement; ,0.55;0.45; ,15.73,Unknown,639.09,425
+DN18,No,Residential,,2377,Zone1-3,49.6961014,36.2171322,7.83099,DistributionNode,PVC; AsbestosCement; ,0.65;0.35; ,17.17,Unknown,647.57,425
+DN19,No,Residential,,2656,Zone1-4,49.6961014,36.213264,8.7504,DistributionNode,PVC; AsbestosCement; ,0.98;0.02; ,14.06,Unknown,654.77,425
+DN20,No,Residential,,2213,Zone1-5,49.6961014,36.2091683,7.2916,DistributionNode,PVC; AsbestosCement; ,0.5;0.5; ,17.97,Unknown,661.16,425
+DN21,No,Residential,,2418,Zone1-7,49.6961014,36.2005972,7.96571,DistributionNode,PVC; AsbestosCement; ,0.52;0.48; ,15.64,Unknown,656.15,425
+DN22,No,Residential,,2280,Zone1-8,49.6961014,36.1969928,7.50996,DistributionNode,PVC; AsbestosCement; ,0.85;0.15; ,19.35,Unknown,653.39,425
+DN23,No,NonResidential,184982.4,,zone 8-1,49.753141,36.1923613,2.14166,DistributionNode,PVC; AsbestosCement; ,0.74;0.26; ,13.58,Unknown,531.5,330
+DN24,No,NonResidential,181699.2,,zone8-3,49.7653735,36.1923613,2.10311,DistributionNode,PVC; AsbestosCement; ,0.93;0.07; ,14.17,Unknown,542.35,330
+DN25,No,Residential,,3794,zone 5-1,49.7628425,36.182093,12.49705,DistributionNode,PVC; AsbestosCement; ,1;0; ,10.59,Unknown,550.1,330
+DN26,No,Residential,,5581,zone 5-4,49.7669042,36.1781227,18.38564,DistributionNode,PVC; AsbestosCement; ,0.92;0.08; ,11.82,Unknown,556.65,270
+DN27,No,Residential,,3888,zone 5-3,49.7628425,36.1781227,12.80839,DistributionNode,PVC; AsbestosCement; ,0.78;0.22; ,11.45,Unknown,552.66,270
+DN28,No,Residential,,3628,zone2-3,49.7817574,36.1818293,11.95134,DistributionNode,PVC; AsbestosCement; ,0.67;0.33; ,9.74,Unknown,585.56,330
+DN29,No,Residential,,4054,zone2-5,49.7817574,36.1778818,13.35602,DistributionNode,PVC; AsbestosCement; ,0.68;0.32; ,11.3,Unknown,585.05,425
+DN30,No,Residential,,5992,zone2-6,49.7857944,36.1778818,19.74057,DistributionNode,PVC; AsbestosCement; ,0.51;0.49; ,11.91,Unknown,595.43,330
+DN31,Yes,NonResidential,677289.6,,zone10-1,49.731285,36.2278929,7.83688,DistributionNode,PVC; AsbestosCement; ,0.61;0.39; ,22.5,Unknown,497.06,270
+DN32,No,NonResidential,251337.6,,zone9-2,49.7119632,36.198666,2.90913,DistributionNode,PVC; AsbestosCement; ,0.69;0.31; ,12.43,Unknown,593.25,425
+DN33,No,NonResidential,144288,,zone9-4,49.7119632,36.1859033,1.67,DistributionNode,PVC; AsbestosCement; ,0.51;0.49; ,13.5,Unknown,595.94,425
+DN34,No,Residential,,7512,zone4-3,49.730071,36.1826075,24.7457,DistributionNode,PVC; AsbestosCement; ,0.98;0.02; ,9.23,Unknown,562.08,330
+DN35,No,Residential,,5007,Zone4-6,49.7359938,36.1786784,16.49467,DistributionNode,PVC; AsbestosCement; ,0.73;0.27; ,7.69,Unknown,579.14,270
+DN36,No,Residential,,8202,Zone4-5,49.730071,36.1786784,27.02093,DistributionNode,PVC; AsbestosCement; ,0.77;0.23; ,9,Unknown,566.52,330
+DN37,No,NonResidential,666662.4,,zone 11-1,49.7561755,36.1657579,7.71605,DistributionNode,PVC; AsbestosCement; ,0.52;0.48; ,18.12,Unknown,559.7,210
+DN38,No,Residential,,2023,zone2-1,49.7817574,36.183969,6.66296,DistributionNode,PVC; AsbestosCement; ,0.69;0.31; ,12.28,Unknown,585.21,330
+DN39,No,Residential,,3051,zone2-2,49.7857944,36.183969,10.05222,DistributionNode,PVC; AsbestosCement; ,1;0; ,12.25,Unknown,596.94,330
+DN40,No,NonResidential,666662.4,,zone 11-3,49.7770012,36.1657579,7.71605,DistributionNode,PVC; AsbestosCement; ,0.57;0.43; ,23.38,Unknown,570.53,330
+DN41,Yes,NonResidential,360115.2,,zone10-3,49.731285,36.2167136,4.1638,DistributionNode,PVC; AsbestosCement; ,0.85;0.15; ,24.99,Unknown,502.5,330
+DN42,No,Residential,,5539,zone3-2,49.7857849,36.1976895,18.24565,DistributionNode,PVC; AsbestosCement; ,0.66;0.34; ,9.91,Unknown,574.68,425
+DN43,No,Residential,,5081,zone6-1,49.7622479,36.1994817,16.73865,DistributionNode,PVC; AsbestosCement; ,0.58;0.42; ,7.41,Unknown,537.61,330
+DN44,No,Residential,,2533,zone4-2,49.7359938,36.184416331,8.34561,DistributionNode,PVC; AsbestosCement; ,0.59;0.41; ,8.85,Unknown,571.47,330
+DN45,No,Residential,,4054,zone4-1,49.730071,36.184416331,13.35345,DistributionNode,PVC; AsbestosCement; ,0.59;0.41; ,7.78,Unknown,556.97,425
+DN46,No,Residential,,2473,Zone4-8,49.7359938,36.1767248,8.14814,DistributionNode,PVC; AsbestosCement; ,0.68;0.32; ,9.44,Unknown,577.02,270
+DN47,No,Residential,,3288,Zone4-7,49.730071,36.1767248,10.83139,DistributionNode,PVC; AsbestosCement; ,0.95;0.05; ,6.94,Unknown,567.99,330

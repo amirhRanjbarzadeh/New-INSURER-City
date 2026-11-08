@@ -1,0 +1,2 @@
+grid_size,initial_time,eq_date_max,interest_rate,inference_samples,propagation_length,epsilon_cutoff,plotting_interval,records_path,bn_output_path
+180,43543,365,0,10000,5,0.005,50,Output/Records/BN,Output/BayesianNetwork

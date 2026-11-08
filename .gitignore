@@ -1,0 +1,14 @@
+.vscode
+.vs
+.claude
+/Analysis/CPTs
+/Analysis/Loggers
+/Analysis/Output
+/Analysis/*.txt
+/Database/output
+/RML_Files/Errors/*.txt
+/RML_Files/Warnings/*.txt
+
+__pycache__/
+*.pyc
+_other

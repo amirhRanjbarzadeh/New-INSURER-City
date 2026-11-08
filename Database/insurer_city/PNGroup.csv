@@ -1,0 +1,24 @@
+﻿Name,Group,Unnamed: 2,Unnamed: 3
+PNRecoveryDay_R_,Resilience,F1,Func4
+PN100RecoveryDay_R_,Resilience,F2,Func4
+PN80RecoveryDay_R_,Resilience,F3,Func4
+PSGenORTransTotalRepairCost_R_,Resilience,F4,Func4
+PSDistTotalRepairCost_R_,Resilience,,
+PLTotalRepairCost_R_,Resilience,,
+PLMTotalRepairCost_R_,Resilience,,
+PNTotalRepairCost_R_,Resilience,,
+BaseResPopWithPowerFunc,Func4,,
+NumberOfServiceableStationsFunc,Func4,,
+ServiceableStationsRatioFunc,Func4,,
+NumberOfFunctionalLinesFunc,Func4,,
+FunctionalLinesRatioFunc,Func4,,
+TotalActivePowerFunc,Func4,,
+TotalReactivePowerFunc,Func4,,
+EnergyNotServedFunc,Func4,,
+DemandSatisfactionRatioFunc,Func4,,
+TotalRealDemandFunc,Func4,,
+BaseResPopWithPower_R_,Risk,,
+PowerNetwork_NumberOfServiceableStations_,Risk,,
+PowerNetwork_ServiceableStationsRatio_,Risk,,
+PowerNetwork_NumberOfFunctionalLines_,Risk,,
+PowerNetwork_FunctionalLinesRatio_,Risk,,

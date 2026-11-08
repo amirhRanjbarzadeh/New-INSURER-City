@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rml error="Errors/insurer_city.txt" warning="Warnings/insurer_city.txt"
+  object="../Analysis/insurer_city.txt"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../Dependencies/Rxsd_V4.5.2.xsd" openFile="true">
+
+  
+  <import from="../Dependencies/analysis_option.csv" name="AnalysisOptions" />
+
+
+  <config source="AnalysisOptions">
+    <cell column="number_of_samples" row="2">
+      <save name="NoS" />
+    </cell>
+    <cell column="preferred_number_of_cdf_points" row="2">
+      <save name="prefPoint" />
+    </cell>
+    <cell column="saving_sample_interval" row="2">
+      <save name="savInt" />
+    </cell>
+    <cell column="number_of_threads" row="2">
+      <save name="thrdCnt" />
+    </cell>
+    <cell column="report_ram_usage_interval" row="2">
+      <save name="ramInt" />
+    </cell>
+    <cell column="power_Network" row="2">
+      <case value="Dummy">
+        <skip targetGroup="PNGroup" />
+        <skip targetGroup="HospitalGroup" />
+      </case>
+      <case value="Full">
+        <skip targetGroup="DummyPNGroup" />
+      </case>
+    </cell>
+    <cell column="water_Network" row="2">
+      <case value="Dummy">
+        <skip targetGroup="WNGroup" />
+        <skip targetGroup="HospitalGroup" />
+      </case>
+      <case value="Full">
+        <skip targetGroup="DummyWNGroup" />
+      </case>
+    </cell>
+    <cell column="bayesian_network" row="2">
+      <case value="FALSE">
+        <skip targetGroup="BNGroup" />
+      </case>
+    </cell>
+  </config>
+
+  <include from="./BayesianNetwork.xml" group="BNGroup" />
+</rml>

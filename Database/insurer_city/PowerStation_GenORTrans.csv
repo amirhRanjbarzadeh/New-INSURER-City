@@ -1,0 +1,18 @@
+﻿Power Station Name,Comments,Power Station Type,Replacement Cost [kT],Components,COV,Bus Type,Apparent Power Limit
+PNNodeP0001,plant,FEMA_NIBS_2012_LW_TransformationSubstation,728000000,Unancored,0.25,PQ,90
+PNNodeS0002,slack,FEMA_NIBS_2012_LW_TransformationSubstation,49600000,Unancored,0.25,Slack,120
+PNNodeS0003,slack,FEMA_NIBS_2012_LW_TransformationSubstation,49600000,Unancored,0.25,Slack,60
+PNNodeS0004,slack,FEMA_NIBS_2012_LW_TransformationSubstation,49600000,Unancored,0.25,Slack,80
+PNNodeT0002,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,27200000,Unancored,0.25,PQ,90
+PNNodeT0004,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13600000,Unancored,0.25,PQ,45
+PNNodeT0005,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,14500000,Unancored,0.25,PQ,30
+PNNodeT0006,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13100000,Unancored,0.25,PQ,30
+PNNodeT0007,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13600000,Unancored,0.25,PQ,30
+PNNodeT0008,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,7200000,Unancored,0.25,PQ,60
+PNNodeT0009,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,27200000,Unancored,0.25,PQ,90
+PNNodeT0011,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13600000,Unancored,0.25,PQ,30
+PNNodeT0012,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13100000,Unancored,0.25,PQ,15
+PNNodeT0013,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13600000,Unancored,0.25,PQ,30
+PNNodeT0017,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13100000,Unancored,0.25,PQ,45
+PNNodeT0018,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13900000,Unancored,0.25,PQ,45
+PNNodeT0019,transformer,FEMA_NIBS_2012_LW_TransformationSubstation,13600000,Unancored,0.25,PQ,45

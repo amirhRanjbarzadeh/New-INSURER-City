@@ -1,0 +1,8 @@
+﻿Water Station Name,Longitude,Latitude,isSource,Replacement Cost Mean (KT),Replacement Cost CoV,Susceptible to,Water Station Type,Monitoring,Capacity,Elevation (m),Initial Head of Tank (m),VS30,Power Supplier,Inspection Time Parameter 1,Inspection Time Parameter 2,Inspection Cost Parameter 1 [KT],Inspection Cost Parameter 2 [KT],Power Dependency,Backup Generation Time Mean,Backup Generation Time Standard Deviation,Turbidity Time
+WST01,49.68826134143827,36.21017328249643,False,28000000,0.1,PGA,OnGroundAnchoredConcreteTank,Visual,13000 m3,700.45,3,425,-,2,3,1400,2800,False,,,
+WST02,49.797670750708996,36.18728255277955,False,73000000,0.1,PGD,BuriedConcreteTank,Visual,33000 m3,666.8,3,425,-,3,4,2400,4800,False,,,
+WSPS01,49.726385362500935,36.21268234482511,True,5000000,0.1,PGA,AnchoredMediumOrLargePumpingStation,Visual,72 L/s,499,-,330,PDN1001,1,2,500,750,True,5,1,
+WSPS02,49.71577632185291,36.21611587604703,False,4300000,0.1,PGA,AnchoredMediumOrLargePumpingStation,Visual,72 L/s,535.48,-,425,PDN1001,1,2,430,645,True,5,1,
+WSPS03,49.801266916070595,36.19060480533839,False,5500000,0.1,PGA,AnchoredMediumOrLargePumpingStation,Visual,92 L/s,645,-,425,PDN0205,1,2,550,825,True,5,1,
+WSW01,49.79985808775671,36.19311828567851,True,6000000,0.1,PGA,Well,Visual,80 L/s,635,-,425,PDN1001,0.5,1.5,1200,1500,True,7,1,WSW01TurbidityTime
+WSTP01,49.71780602472386,36.2153833145256,False,15000000,0.1,PGA,AnchoredMediumTreatmentPlant,Visual,80 L/s,525.89,-,425,PDN0205,3,4,500,1125,True,10,1,

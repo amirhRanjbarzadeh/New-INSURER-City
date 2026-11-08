@@ -1,0 +1,2 @@
+area_source_id,vertex_latitude_list,vertex_longitude_list,strike_angle,dip_angle,rake_angle,depth_max,depth_min,magnitude_min,magnitude_max,gr_a,b_prime,tectonic_region_type,rupture_aspect_ratio,mesh_spacing,meshSize,meshCount
+AS,36.2850539; 36.2850539; 36.1085309; 36.1085309,49.612422; 49.857855; 49.857855; 49.612422,100.2,75,-165,20,1,5,7.6,NAN,1.6312,active_shallow_crust,1.55,10,2;2;2,8

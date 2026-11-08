@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rml error="Errors/bayesian.txt" warning="Warnings/bayesian.txt"
+  object="../Analysis/bayesian.txt"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../Dependencies/Rxsd_V4.5.2.xsd" openFile="true">
+  
+  <import from="../Dependencies/bn_parts.csv" name="BNParts" />
+
+  <config source="BNParts">
+    <cell column="hazard" row="2">
+      <case value="FALSE">
+        <skip targetGroup="BNHazardGroup" />
+        <skip targetGroup="BNBuildingGroup" />
+        <skip targetGroup="BNPowerGroup" />
+        <skip targetGroup="BNWaterGroup" />
+        <skip targetGroup="BNHospitalGroup" />
+      </case>
+    </cell>
+    <cell column="building" row="2">
+      <case value="FALSE">
+        <skip targetGroup="BNBuildingGroup" />
+      </case>
+    </cell>
+    <cell column="power" row="2">
+      <case value="FALSE">
+        <skip targetGroup="BNPowerGroup" />
+        <skip targetGroup="BNHospitalGroup" />
+      </case>
+    </cell>
+    <cell column="water" row="2">
+      <case value="FALSE">
+        <skip targetGroup="BNWaterGroup" />
+        <skip targetGroup="BNHospitalGroup" />
+      </case>
+    </cell>
+    <cell column="hospital" row="2">
+      <case value="FALSE">
+        <skip targetGroup="BNHospitalGroup" />
+      </case>
+    </cell>
+    <cell column="power_serviceability" row="2">
+      <case value="network">
+        <skip targetGroup="BNPowerServUserDefinedGroup" />
+      </case>
+      <case value="user_defined">
+        <skip targetGroup="BNPowerServNetworkGroup" />
+      </case>
+    </cell>
+    <cell column="water_serviceability" row="2">
+      <case value="network">
+        <skip targetGroup="BNWaterServUserDefinedGroup" />
+      </case>
+      <case value="user_defined">
+        <skip targetGroup="BNWaterServNetworkGroup" />
+      </case>
+    </cell>
+  </config>
+
+  <include from="./BN_Parts/_BNHazard.xml" group="BNHazardGroup" />
+  <include from="./BN_Parts/_BNBuilding.xml" group="BNBuildingGroup" />
+  <include from="./BN_Parts/_BNPower.xml" group="BNPowerGroup" />
+  <include from="./BN_Parts/_BNWater.xml" group="BNWaterGroup" />
+  <include from="./BN_Parts/_BNHospital.xml" group="BNHospitalGroup" />
+
+</rml>
