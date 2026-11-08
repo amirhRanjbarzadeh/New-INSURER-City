@@ -136,7 +136,7 @@
 
 
 
-  <import from="../../Database/bayesian_network/city_grid_180.csv" name="HG" group="BNGroup"/>
+  <import from="../Database/bayesian_network/city_grid_180.csv" name="HG" group="BNGroup"/>
   <instantiate class="RLocation" default="HG" comment="Hazard grid site locations" group="BNGroup">
     <property name="ObjectName">
       <constant string="_Loc" />
