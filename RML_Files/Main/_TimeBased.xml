@@ -525,7 +525,7 @@
           <constant string="W" />
           <read column="Pipe Line Name" />
         </combine>
-        <combine default="HG" primary="" secondary=";">
+        <combine default="HG" primary="" secondary=";" group="BNGroup">
           <constant string="_Loc" />
           <read column="name" />
         </combine>
@@ -1008,7 +1008,7 @@
           <constant string="W" />
           <read column="Pipe Line Name" />
         </combine>
-        <combine default="HG" primary="" secondary=";">
+        <combine default="HG" primary="" secondary=";" group="BNGroup">
           <constant string="_Loc" />
           <read column="name" />
         </combine>

@@ -135,6 +135,21 @@
   </instantiate>
 
 
+
+  <import from="../../Database/bayesian_network/city_grid_180.csv" name="HG" group="BNGroup"/>
+  <instantiate class="RLocation" default="HG" comment="Hazard grid site locations" group="BNGroup">
+    <property name="ObjectName">
+      <constant string="_Loc" />
+      <read column="name" />
+    </property>
+    <property name="Latitude">
+      <read column="lat" />
+    </property>
+    <property name="Longitude">
+      <read column="lon" />
+    </property>
+  </instantiate>
+
   <write string="// #1 Hazard Models" />
   <include from="./Main/_TimeBased.xml" />
 

@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  <import from="../../Database/bayesian_network/city_grid_180.csv" name="HG" />
   <import from="../../Database/bayesian_network/city_grid_vertices_180.csv" name="HGV" />
-
-  <instantiate class="RLocation" default="HG" comment="Hazard grid site locations">
-    <property name="ObjectName">
-      <constant string="_Loc" />
-      <read column="name" />
-    </property>
-    <property name="Latitude">
-      <read column="lat" />
-    </property>
-    <property name="Longitude">
-      <read column="lon" />
-    </property>
-  </instantiate>
 
   <instantiate class="RLocation" default="HGV" comment="Hazard grid cell vertex locations">
     <property name="ObjectName">
