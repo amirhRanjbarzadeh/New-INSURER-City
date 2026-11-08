@@ -5,5 +5,60 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
+  <import from="../Database/output/eq_fault_sources.csv" name="LS" />
+  <import from="../Database/output/eq_area_sources.csv" name="AS" />
+
+  <instantiate default="SB" class="RLocation">
+    <property name="ObjectName">
+      <constant string="_Loc" />
+      <read column="Sub Block Name" />
+    </property>
+    <property name="Latitude">
+      <read column="Latitude" />
+    </property>
+    <property name="Longitude">
+      <read column="Longitude" />
+    </property>
+  </instantiate>
+
+  <instantiate default="WS" class="RLocation" comment="Water station locations">
+    <property name="ObjectName">
+      <constant string="_Loc" />
+      <read column="Water Station Name" />
+    </property>
+    <property name="Latitude">
+      <read column="Latitude" />
+    </property>
+    <property name="Longitude">
+      <read column="Longitude" />
+    </property>
+  </instantiate>
+
+  <instantiate default="WSDNLT" class="RLocation" comment="Water distribution node locations">
+    <property name="ObjectName">
+      <constant string="_Loc" />
+      <read column="Water Station Name" />
+    </property>
+    <property name="Latitude">
+      <read column="Latitude" />
+    </property>
+    <property name="Longitude">
+      <read column="Longitude" />
+    </property>
+  </instantiate>
+
+  <instantiate default="WPl" class="RLocation" comment="Water pipeline center locations">
+    <property name="ObjectName">
+      <constant string="_Loc" />
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+    </property>
+    <property name="Latitude">
+      <read column="Pipeline Center Latitude" />
+    </property>
+    <property name="Longitude">
+      <read column="Pipeline Center Longitude" />
+    </property>
+  </instantiate>
   
 </rml>
