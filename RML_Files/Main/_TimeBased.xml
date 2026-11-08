@@ -4,7 +4,8 @@
   <import from="../../Database/hazard/eq_fault_sources.csv" name="LS" />
   <import from="../../Database/hazard/eq_area_sources.csv" name="AS" />
 
-  <instantiate default="SB" class="RLocation">
+  <write string="// Infrastructure Locations" />
+  <instantiate class="RLocation" default="SB" comment="Sub-block locations">
     <property name="ObjectName">
       <constant string="_Loc" />
       <read column="Sub Block Name" />
@@ -17,7 +18,7 @@
     </property>
   </instantiate>
 
-  <instantiate default="WS" class="RLocation" comment="Water station locations">
+  <instantiate class="RLocation" default="WS" comment="Water station locations">
     <property name="ObjectName">
       <constant string="_Loc" />
       <read column="Water Station Name" />
@@ -30,7 +31,7 @@
     </property>
   </instantiate>
 
-  <instantiate default="WSDNLT" class="RLocation" comment="Water distribution node locations">
+  <instantiate class="RLocation" default="WSDNLT" comment="Water distribution node locations">
     <property name="ObjectName">
       <constant string="_Loc" />
       <read column="Water Station Name" />
@@ -43,7 +44,7 @@
     </property>
   </instantiate>
 
-  <instantiate default="WPl" class="RLocation" comment="Water pipeline center locations">
+  <instantiate class="RLocation" default="WPl" comment="Water pipeline center locations">
     <property name="ObjectName">
       <constant string="_Loc" />
       <constant string="W" />
@@ -56,5 +57,966 @@
       <read column="Pipeline Center Longitude" />
     </property>
   </instantiate>
-  
+
+  <instantiate class="RLocation" default="PS" comment="Power station locations">
+    <property name="ObjectName">
+      <constant string="_Loc" />
+      <read column="Power Station Name" />
+    </property>
+    <property name="Latitude">
+      <read column="Latitude" />
+    </property>
+    <property name="Longitude">
+      <read column="Longitude" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RLocation" default="PL" comment="Power line midpoint locations">
+    <property name="ObjectName">
+      <constant string="_Loc" />
+      <read column="Power Line Name" />
+    </property>
+    <property name="Latitude">
+      <read column="Middle Point Latitude" />
+    </property>
+    <property name="Longitude">
+      <read column="Middle Point Longitude" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RLocation" default="PL_M" comment="Power maneuver line midpoint locations">
+    <property name="ObjectName">
+      <constant string="_Loc" />
+      <read column="Power Line Name" />
+    </property>
+    <property name="Latitude">
+      <read column="Middle Point Latitude" />
+    </property>
+    <property name="Longitude">
+      <read column="Middle Point Longitude" />
+    </property>
+  </instantiate>
+
+  <write string="// Line Source Model" />
+  <instantiate class="RConstant" default="LS" comment="Line sources' rake angle">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RakeAngle" />
+    </property>
+    <property name="CurrentValue">
+      <read column="rake_angle" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="LS" comment="Line sources' dip angle">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="DipAngle" />
+    </property>
+    <property name="CurrentValue">
+      <read column="dip_angle" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="LS" comment="Line sources' rupture aspect ratio">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAspectRatio" />
+    </property>
+    <property name="CurrentValue">
+      <read column="rupture_aspect_ratio" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="LS" comment="Line sources' upper seismogenic depth">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="UpperSeismogenicDepth" />
+    </property>
+    <property name="CurrentValue">
+      <read column="depth_min" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="LS" comment="Line sources' lower seismogenic depth">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="LowerSeismogenicDepth" />
+    </property>
+    <property name="CurrentValue">
+      <read column="depth_max" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' magnitude theta">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="Mag_Theta" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="LS" comment="Line sources' minimum magnitude">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="Mag_Mmin" />
+    </property>
+    <property name="CurrentValue">
+      <read column="magnitude_min" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="LS" comment="Line sources' maximum magnitude">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="Mag_Mmax" />
+    </property>
+    <property name="CurrentValue">
+      <read column="magnitude_max" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="LS" comment="Line sources' magnitude beta">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="Mag_Beta" />
+    </property>
+    <property name="CurrentValue">
+      <read column="b_prime" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBoundedExponentialMagnitudeModel" default="LS" comment="Line sources' bounded exponential magnitude model">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="MagModel" />
+    </property>
+    <property name="MinimumMagnitude">
+      <read column="fault_source_id" />
+      <constant string="Mag_Mmin" />
+    </property>
+    <property name="MaximumMagnitude">
+      <read column="fault_source_id" />
+      <constant string="Mag_Mmax" />
+    </property>
+    <property name="Beta">
+      <read column="fault_source_id" />
+      <constant string="Mag_Beta" />
+    </property>
+    <property name="Theta">
+      <read column="fault_source_id" />
+      <constant string="Mag_Theta" />
+    </property>
+  </instantiate>
+
+  <write string="// Line Source Rupture Area Model" />
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' rupture area epsilon">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModelEpsilon" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' rupture area theta1">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModelTheta1" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' rupture area theta2">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModelTheta2" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' rupture area variance uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModelVarianceUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWellsCoppersmith1994RuptureAreaModel" default="LS" comment="Line sources' rupture area model (Wells and Coppersmith 1994)">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModel" />
+    </property>
+    <property name="RakeAngle">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RakeAngle" />
+    </property>
+    <property name="MomentMagnitude">
+      <read column="fault_source_id" />
+      <constant string="MagModel_R_" />
+    </property>
+    <property name="Theta1Uncertainty">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModelTheta1" />
+    </property>
+    <property name="Theta2Uncertainty">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModelTheta2" />
+    </property>
+    <property name="VarianceUncertainty">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModelVarianceUnc" />
+    </property>
+    <property name="EpsilonUncertainty">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModelEpsilon" />
+    </property>
+  </instantiate>
+
+  <write string="// Line Source Simple Fault Model" />
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' simple fault theta1">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="SimpleFaultModelTheta1" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' simple fault theta2">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="SimpleFaultModelTheta2" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' along-strike hypocenter uncertainty">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="AlongStrikeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Laplace (a, xo)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0.13748" />
+    </property>
+    <property name="Parameter2">
+      <constant string="0.5" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RTruncatedDistributionModel" default="LS" comment="Line sources' along-strike hypocenter uncertainty, truncated to [0, 1]">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="AlongStrikeUncTruncated" />
+    </property>
+    <property name="ContinuousRandomVariable">
+      <read column="fault_source_id" />
+      <constant string="AlongStrikeUnc" />
+    </property>
+    <property name="LowerBound">
+      <constant string="0" />
+    </property>
+    <property name="UpperBound">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="LS" comment="Line sources' dip-down hypocenter uncertainty">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="DipDownUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0.49795" />
+    </property>
+    <property name="Parameter2">
+      <constant string="0.176" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RTruncatedDistributionModel" default="LS" comment="Line sources' dip-down hypocenter uncertainty, truncated to [0, 1]">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="DipDownUncTruncated" />
+    </property>
+    <property name="ContinuousRandomVariable">
+      <read column="fault_source_id" />
+      <constant string="DipDownUnc" />
+    </property>
+    <property name="LowerBound">
+      <constant string="0" />
+    </property>
+    <property name="UpperBound">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RLocation" default="LS" comment="Line sources' fault trace points">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="Point" />
+      <enumerator />
+    </property>
+    <property name="Latitude">
+      <read column="trace_latitude_list" split=";" />
+    </property>
+    <property name="Longitude">
+      <read column="trace_longitude_list" split=";" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RSimpleFaultModel" default="LS" comment="Line sources' simple fault model">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="SimpleFaultModel" />
+    </property>
+    <property name="PointLocationList">
+      <combine primary="" secondary=";">
+        <constant string="_" />
+        <read column="fault_source_id" labelForColumn="trace_latitude_list" separatedBy=";" />
+        <constant string="Point" />
+        <enumerator />
+      </combine>
+    </property>
+    <property name="Theta1">
+      <read column="fault_source_id" />
+      <constant string="SimpleFaultModelTheta1" />
+    </property>
+    <property name="Theta2">
+      <read column="fault_source_id" />
+      <constant string="SimpleFaultModelTheta2" />
+    </property>
+    <property name="DipAngle">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="DipAngle" />
+    </property>
+    <property name="UpperSeismogenicDepth">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="UpperSeismogenicDepth" />
+    </property>
+    <property name="LowerSeismogenicDepth">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="LowerSeismogenicDepth" />
+    </property>
+    <property name="RuptureAspectRatio">
+      <constant string="_" />
+      <read column="fault_source_id" />
+      <constant string="RuptureAspectRatio" />
+    </property>
+    <property name="RuptureArea">
+      <read column="fault_source_id" />
+      <constant string="RuptureAreaModel_R_" />
+    </property>
+    <property name="AlongStrikeHypocenterUncertainty">
+      <read column="fault_source_id" />
+      <constant string="AlongStrikeUncTruncated_R_" />
+    </property>
+    <property name="DipDownHypocenterUncertainty">
+      <read column="fault_source_id" />
+      <constant string="DipDownUncTruncated_R_" />
+    </property>
+    <property name="StructureLocationList">
+      <combine primary="" secondary="">
+        <combine default="SB" primary="" secondary=";">
+          <constant string="_Loc" />
+          <read column="Sub Block Name" />
+        </combine>
+        <combine default="PS" primary="" secondary=";" group="PNGroup">
+          <constant string="_Loc" />
+          <read column="Power Station Name" />
+        </combine>
+        <combine default="PL" primary="" secondary=";" group="PNGroup">
+          <constant string="_Loc" />
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="PL_M" primary="" secondary=";" group="PNGroup">
+          <constant string="_Loc" />
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="WSDNLT" primary="" secondary=";" group="WNGroup">
+          <constant string="_Loc" />
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WS" primary="" secondary=";" group="WNGroup">
+          <constant string="_Loc" />
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WPl" primary="" secondary=";" group="WNGroup">
+          <constant string="_Loc" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="_Loc" />
+          <read column="name" />
+        </combine>
+      </combine>
+    </property>
+    <property name="GenerateSurfaceFaultRuptureResponses">
+      <constant string="true" />
+    </property>
+  </instantiate>
+
+  <write string="// Area Source Model" />
+  <instantiate class="RConstant" default="AS" comment="Area sources' rake angle">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RakeAngle" />
+    </property>
+    <property name="CurrentValue">
+      <read column="rake_angle" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="AS" comment="Area sources' dip angle">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="DipAngle" />
+    </property>
+    <property name="CurrentValue">
+      <read column="dip_angle" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="AS" comment="Area sources' strike angle">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="StrikeAngle" />
+    </property>
+    <property name="CurrentValue">
+      <read column="strike_angle" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="AS" comment="Area sources' rupture aspect ratio">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAspectRatio" />
+    </property>
+    <property name="CurrentValue">
+      <read column="rupture_aspect_ratio" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="AS" comment="Area sources' upper seismogenic depth">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="UpperSeismogenicDepth" />
+    </property>
+    <property name="CurrentValue">
+      <read column="depth_min" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="AS" comment="Area sources' lower seismogenic depth">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="LowerSeismogenicDepth" />
+    </property>
+    <property name="CurrentValue">
+      <read column="depth_max" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' centroid depth, uniform between upper and lower seismogenic depth">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="CentroidDepth" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <read column="depth_min" />
+    </property>
+    <property name="Parameter2">
+      <read column="depth_max" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' magnitude theta">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="Mag_Theta" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="AS" comment="Area sources' minimum magnitude">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="Mag_Mmin" />
+    </property>
+    <property name="CurrentValue">
+      <read column="magnitude_min" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="AS" comment="Area sources' maximum magnitude">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="Mag_Mmax" />
+    </property>
+    <property name="CurrentValue">
+      <read column="magnitude_max" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="AS" comment="Area sources' magnitude beta">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="Mag_Beta" />
+    </property>
+    <property name="CurrentValue">
+      <read column="b_prime" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBoundedExponentialMagnitudeModel" default="AS" comment="Area sources' bounded exponential magnitude model">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="MagModel" />
+    </property>
+    <property name="MinimumMagnitude">
+      <read column="area_source_id" />
+      <constant string="Mag_Mmin" />
+    </property>
+    <property name="MaximumMagnitude">
+      <read column="area_source_id" />
+      <constant string="Mag_Mmax" />
+    </property>
+    <property name="Beta">
+      <read column="area_source_id" />
+      <constant string="Mag_Beta" />
+    </property>
+    <property name="Theta">
+      <read column="area_source_id" />
+      <constant string="Mag_Theta" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' rupture area epsilon">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModelEpsilon" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' rupture area theta1">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModelTheta1" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' rupture area theta2">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModelTheta2" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' rupture area variance uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModelVarianceUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWellsCoppersmith1994RuptureAreaModel" default="AS" comment="Area sources' rupture area model (Wells and Coppersmith 1994)">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModel" />
+    </property>
+    <property name="RakeAngle">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RakeAngle" />
+    </property>
+    <property name="MomentMagnitude">
+      <read column="area_source_id" />
+      <constant string="MagModel_R_" />
+    </property>
+    <property name="Theta1Uncertainty">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModelTheta1" />
+    </property>
+    <property name="Theta2Uncertainty">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModelTheta2" />
+    </property>
+    <property name="VarianceUncertainty">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModelVarianceUnc" />
+    </property>
+    <property name="EpsilonUncertainty">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModelEpsilon" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' polygonal area theta1">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="locationModelTheta1" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' polygonal area theta2">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="locationModelTheta2" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RLocation" default="AS" comment="Area sources' boundary vertex points">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="Point" />
+      <enumerator />
+    </property>
+    <property name="Latitude">
+      <read column="vertex_latitude_list" split=";" />
+    </property>
+    <property name="Longitude">
+      <read column="vertex_longitude_list" split=";" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPolygonalAreaSourceModel" default="AS" comment="Area sources' polygonal area model (samples the epicenter within the polygon)">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="AreaModel" />
+    </property>
+    <property name="BoundaryLocationList">
+      <combine primary="" secondary=";">
+        <constant string="_" />
+        <read column="area_source_id" labelForColumn="vertex_latitude_list" separatedBy=";" />
+        <constant string="Point" />
+        <enumerator />
+      </combine>
+    </property>
+    <property name="Theta1">
+      <read column="area_source_id" />
+      <constant string="locationModelTheta1" />
+    </property>
+    <property name="Theta2">
+      <read column="area_source_id" />
+      <constant string="locationModelTheta2" />
+    </property>
+    <property name="Depth">
+      <constant string="_CZero" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' along-strike hypocenter uncertainty">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="AlongStrikeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Laplace (a, xo)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0.13748" />
+    </property>
+    <property name="Parameter2">
+      <constant string="0.5" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RTruncatedDistributionModel" default="AS" comment="Area sources' along-strike hypocenter uncertainty, truncated to [0, 1]">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="AlongStrikeUncTruncated" />
+    </property>
+    <property name="ContinuousRandomVariable">
+      <read column="area_source_id" />
+      <constant string="AlongStrikeUnc" />
+    </property>
+    <property name="LowerBound">
+      <constant string="0" />
+    </property>
+    <property name="UpperBound">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="AS" comment="Area sources' dip-down hypocenter uncertainty">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="DipDownUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0.49795" />
+    </property>
+    <property name="Parameter2">
+      <constant string="0.176" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RTruncatedDistributionModel" default="AS" comment="Area sources' dip-down hypocenter uncertainty, truncated to [0, 1]">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="DipDownUncTruncated" />
+    </property>
+    <property name="ContinuousRandomVariable">
+      <read column="area_source_id" />
+      <constant string="DipDownUnc" />
+    </property>
+    <property name="LowerBound">
+      <constant string="0" />
+    </property>
+    <property name="UpperBound">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RRuptureLocationModel" default="AS" comment="Area sources' rupture location model (rupture plane around the sampled point, gives Rjb to every structure)">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="RuptureLocationModel" />
+    </property>
+    <property name="PointLocation">
+      <read column="area_source_id" />
+      <constant string="AreaModel_R_" />
+    </property>
+    <property name="DipAngle">
+      <read column="area_source_id" />
+      <constant string="DipAngle" />
+    </property>
+    <property name="StrikeAngle">
+      <read column="area_source_id" />
+      <constant string="StrikeAngle" />
+    </property>
+    <property name="UpperSeismogenicDepth">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="UpperSeismogenicDepth" />
+    </property>
+    <property name="LowerSeismogenicDepth">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="LowerSeismogenicDepth" />
+    </property>
+    <property name="CentroidDepth">
+      <read column="area_source_id" />
+      <constant string="CentroidDepth" />
+    </property>
+    <property name="RuptureAspectRatio">
+      <constant string="_" />
+      <read column="area_source_id" />
+      <constant string="RuptureAspectRatio" />
+    </property>
+    <property name="RuptureArea">
+      <read column="area_source_id" />
+      <constant string="RuptureAreaModel_R_" />
+    </property>
+    <property name="AlongStrikeHypocenterUncertainty">
+      <read column="area_source_id" />
+      <constant string="AlongStrikeUncTruncated_R_" />
+    </property>
+    <property name="DipDownHypocenterUncertainty">
+      <read column="area_source_id" />
+      <constant string="DipDownUncTruncated_R_" />
+    </property>
+    <property name="StructureLocationList">
+      <combine primary="" secondary="">
+        <combine default="SB" primary="" secondary=";">
+          <constant string="_Loc" />
+          <read column="Sub Block Name" />
+        </combine>
+        <combine default="PS" primary="" secondary=";" group="PNGroup">
+          <constant string="_Loc" />
+          <read column="Power Station Name" />
+        </combine>
+        <combine default="PL" primary="" secondary=";" group="PNGroup">
+          <constant string="_Loc" />
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="PL_M" primary="" secondary=";" group="PNGroup">
+          <constant string="_Loc" />
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="WSDNLT" primary="" secondary=";" group="WNGroup">
+          <constant string="_Loc" />
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WS" primary="" secondary=";" group="WNGroup">
+          <constant string="_Loc" />
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WPl" primary="" secondary=";" group="WNGroup">
+          <constant string="_Loc" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="_Loc" />
+          <read column="name" />
+        </combine>
+      </combine>
+    </property>
+    <property name="GenerateSurfaceFaultRuptureResponses">
+      <constant string="true" />
+    </property>
+  </instantiate>
+
 </rml>
