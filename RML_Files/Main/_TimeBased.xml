@@ -1019,4 +1019,343 @@
     </property>
   </instantiate>
 
+  <write string="// Intensity Models" />
+
+  <instantiate class="RConstant">
+    <property name="ObjectName">
+      <constant string="_SaShortPeriod" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="0.3" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant">
+    <property name="ObjectName">
+      <constant string="_Sa1" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="1.0" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant">
+    <property name="ObjectName">
+      <constant string="_Sa0" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="0.0" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant">
+    <property name="ObjectName">
+      <constant string="_SaM1" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="-1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant">
+    <property name="ObjectName">
+      <constant string="_SaM1Corr" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="1.0" />
+    </property>
+  </instantiate>
+
+  <import from="../../Database/insurer_city/Constants.csv" name="UniqueConst" />
+
+  <filter source="UniqueConst" name="UniqueConst_VS">
+    <condition column="Useful For" value="VS" />
+  </filter>
+
+  <instantiate default="UniqueConst_VS" class="RConstant">
+    <property name="ObjectName">
+      <constant string="_Const" />
+      <read column="Constant Value" />
+    </property>
+    <property name="CurrentValue">
+      <read column="Constant Value" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="ChiouYoungs2008 LS Intensity Model" default="LS">
+    <property name="ObjectName">
+      <flatten>
+        <sourceLoop sourceList="LS">
+          <combine primary="">
+            <constant string="_ChiuYung08" />
+            <read column="fault_source_id" />
+            <read column="Sub Block Name" source="SB" />
+            <constant string="Eps" />
+          </combine>
+        </sourceLoop>
+
+        <sourceLoop sourceList="LS" group="PNGroup">
+          <combine primary="">
+            <constant string="_ChiuYung08" />
+            <read column="fault_source_id" />
+            <read column="Power Station Name" source="PS" />
+            <constant string="Eps" />
+          </combine>
+        </sourceLoop>
+
+        <sourceLoop sourceList="LS" group="PNGroup">
+          <combine primary="">
+            <constant string="_ChiuYung08" />
+            <read column="fault_source_id" />
+            <read column="Power Line Name" source="PL" />
+            <constant string="Eps" />
+          </combine>
+        </sourceLoop>
+
+        <sourceLoop sourceList="LS" group="PNGroup">
+          <combine primary="">
+            <constant string="_ChiuYung08" />
+            <read column="fault_source_id" />
+            <read column="Power Line Name" source="PL_M" />
+            <constant string="Eps" />
+          </combine>
+        </sourceLoop>
+
+        <sourceLoop sourceList="LS" group="WNGroup">
+          <combine primary="">
+            <constant string="_ChiuYung08" />
+            <read column="fault_source_id" />
+            <read column="Water Station Name" source="WSDNLT" />
+            <constant string="Eps" />
+          </combine>
+        </sourceLoop>
+
+        <sourceLoop sourceList="LS" group="WNGroup">
+          <combine primary="">
+            <constant string="_ChiuYung08" />
+            <read column="fault_source_id" />
+            <read column="Water Station Name" source="WS" />
+            <constant string="Eps" />
+          </combine>
+        </sourceLoop>
+
+        <sourceLoop sourceList="LS" group="WNGroup">
+          <combine primary="">
+            <constant string="_ChiuYung08" />
+            <read column="fault_source_id" />
+            <read column="Pipe Line Name" source="WPl" />
+            <constant string="Eps" />
+          </combine>
+        </sourceLoop>
+      </flatten>
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="LS">
+    <property name="ObjectName">
+      <constant string="_CY2008" />
+      <read column="fault_source_id" />
+      <constant string="Eta" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="AkkarEtAl2014 LS Intensity Model ">
+    <property name="ObjectName">
+      <constant string="_AkkarEtAl2014LSIntensityModelEpsilon" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable">
+    <property name="ObjectName">
+      <constant string="_AkkarEtAl2014LSIntensityModelEta" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <write string="// Common Parent Epsilon (Markhvida et al. 2018 random field, 2 common parents, periods _Sa0/_SaShortPeriod/_Sa1)" group="BNGroup" />
+  
+  <instantiate class="RContinuousRandomVariable" comment="First common parent" group="BNGroup">
+    <property name="ObjectName">
+      <constant string="_ApproximateResidulasU1" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Second common parent"  group="BNGroup">
+    <property name="ObjectName">
+      <constant string="_ApproximateResidulasU2" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="HG"
+    comment="Site-specific residual uncertainty, PGA (_Sa0, clamped to 0.01s by the model)"  group="BNGroup"> 
+    <property name="ObjectName">
+      <constant string="_Res" />
+      <read column="name" />
+      <constant string="_Sa0" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="HG"
+    comment="Site-specific residual uncertainty, T = 0.3s (_SaShortPeriod)" group="BNGroup">
+    <property name="ObjectName">
+      <constant string="_Res" />
+      <read column="name" />
+      <constant string="_SaShortPeriod" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="HG"
+    comment="Site-specific residual uncertainty, T = 1.0s (_Sa1)" group="BNGroup">
+    <property name="ObjectName">
+      <constant string="_Res" />
+      <read column="name" />
+      <constant string="_Sa1" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="HG"
+    comment="Site-specific residual uncertainty, PGV (Uncorrelated)" group="BNGroup">
+    <property name="ObjectName">
+      <constant string="_Res" />
+      <read column="name" />
+      <constant string="_SaM1" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RApproximateIntraeventResidualsModel"
+    comment="Spatially correlated epsilon field over the hazard grid, 2 common parents" group="BNGroup">
+    <property name="ObjectName">
+      <constant string="ApproximateResidulas" />
+    </property>
+    <property name="StructureLocationList">
+      <combine default="HG" primary="" secondary=";">
+        <constant string="_Loc" />
+        <read column="name" />
+      </combine>
+    </property>
+    <property name="PeriodTable">
+      <constant string="_Sa0;_SaShortPeriod;_Sa1;_SaM1Corr" />
+    </property>
+    <property name="CommonParentList">
+      <constant string="_ApproximateResidulasU1;_ApproximateResidulasU2" />
+    </property>
+    <property name="UncertaintyTable">
+      <combine default="HG" type="index" primary=";" secondary="/">
+        <combine default="HG" primary="">
+          <constant string="_Res" />
+          <read column="name" />
+          <constant string="_Sa0" />
+        </combine>
+        <combine default="HG" primary="">
+          <constant string="_Res" />
+          <read column="name" />
+          <constant string="_SaShortPeriod" />
+        </combine>
+        <combine default="HG" primary="">
+          <constant string="_Res" />
+          <read column="name" />
+          <constant string="_Sa1" />
+        </combine>
+        <combine default="HG" primary="">
+          <constant string="_Res" />
+          <read column="name" />
+          <constant string="_SaM1" />
+        </combine>
+      </combine>
+    </property>
+    <property name="DistanceTolerance">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+
 </rml>
