@@ -3915,6 +3915,29 @@
     </property>
   </instantiate>
 
+  <write string="// Source Indicator (ground truth response used to learn the Source node's CPT)" />
+
+  <table name="TMCCaseList">
+    <function name="range()" outputColumnsName="CaseList" separator=";" pattern="{i}"
+      default="TMC">
+      <column name="Values" column="Sum" />
+    </function>
+  </table>
+
+  <table name="LSSourceIndex">
+    <function name="repeat()" outputColumnsName="sourceIndexList" separator=";" pattern="{r}"
+      default="LSMesh">
+      <column name="Counts" column="MeshCount" />
+    </function>
+  </table>
+
+  <table name="ASSourceIndex">
+    <function name="repeat()" outputColumnsName="sourceIndexList" separator=";" pattern="{r}"
+      offset="LS" default="ASMesh">
+      <column name="Counts" column="MeshCount" />
+    </function>
+  </table>
+
   <instantiate class="RSwitchCaseModel"
     comment="Maps the sampled global mesh index (Hypocenter's raw value) to the owning source's state index in Source">
     <property name="ObjectName">
@@ -3928,10 +3951,10 @@
     </property>
     <property name="SwitchVector">
       <combine primary="" secondary=";">
-        <combine default="LSGSourceIndex" primary="" secondary=";">
+        <combine default="LSSourceIndex" primary="" secondary=";">
           <read column="sourceIndexList" split=";" />
         </combine>
-        <combine default="ASGSourceIndex" primary="" secondary=";">
+        <combine default="ASSourceIndex" primary="" secondary=";">
           <read column="sourceIndexList" split=";" />
         </combine>
         <constant string="-1" />
