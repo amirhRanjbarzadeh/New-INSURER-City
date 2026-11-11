@@ -323,6 +323,89 @@
     </property>
   </instantiate>
 
+  <instantiate class="RRecorder">
+    <property name="ObjectName">
+      <constant string="Recorder" />
+    </property>
+    <property name="OutputPath">
+      <constant string="Recorders/" />
+    </property>
+    <!-- <property name="PreferredNumberOfCDFPoints">
+      <constant string="ref::prefPoint" />
+    </property>
+    <property name="SavingInterval">
+      <constant string="ref::savInt" />
+    </property> -->
+    <property name="Responses">
+      <constant string="SourceSelector_State_;" />
+      <constant string="SourceIndicator_R_;" />
+      <constant string="SourceSelector_Mag_;" />
+      <constant string="SourceSelector_RuptureArea_;" />
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="Rrup_" />
+      </combine>
+      <constant string="SourceSelector_Eta_;" />
+      <constant string="SourceSelector_U1_;" />
+      <constant string="SourceSelector_U2_;" />
+      <constant string="AveragePGA_R_;" />
+      <combine default="ZoneInfo" primary="" secondary=";">
+        <read column="Zone Name" />
+        <constant string="AveragePGA_R_" />
+      </combine>
+      <combine default="SB" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="Sub Block Name" />
+        <constant string="Sa0_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="Sa0_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="SaShortPeriod_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="Sa1_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="SaM1_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="ApproximateResidulas_Loc" />
+        <read column="name" />
+        <constant string="Sa0_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="ApproximateResidulas_Loc" />
+        <read column="name" />
+        <constant string="SaShortPeriod_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="ApproximateResidulas_Loc" />
+        <read column="name" />
+        <constant string="Sa1_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="ApproximateResidulas_Loc" />
+        <read column="name" />
+        <constant string="SaM1Corr_" />
+      </combine>
+      
+    </property>
+    <property name="RecordingTypeFlagMatrix">
+      <constant string="1;1;1;0;1/" />
+    </property>
+  </instantiate>
+
   <instantiate class="RSamplingAnalyzer" comment="Sampling Analyzer">
     <property name="ObjectName">
       <constant string="Sampling" />
