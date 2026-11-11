@@ -3915,4 +3915,28 @@
     </property>
   </instantiate>
 
+  <instantiate class="RSwitchCaseModel"
+    comment="Maps the sampled global mesh index (Hypocenter's raw value) to the owning source's state index in Source">
+    <property name="ObjectName">
+      <constant string="SourceIndicator" />
+    </property>
+    <property name="Input">
+      <constant string="SourceSelector_State_" />
+    </property>
+    <property name="CaseVector">
+      <read column="CaseList" source="TMCCaseList" />
+    </property>
+    <property name="SwitchVector">
+      <combine primary="" secondary=";">
+        <combine default="LSGSourceIndex" primary="" secondary=";">
+          <read column="sourceIndexList" split=";" />
+        </combine>
+        <combine default="ASGSourceIndex" primary="" secondary=";">
+          <read column="sourceIndexList" split=";" />
+        </combine>
+        <constant string="-1" />
+      </combine>
+    </property>
+  </instantiate>
+
 </rml>
