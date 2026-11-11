@@ -275,4 +275,73 @@
     </property>
   </instantiate>
 
+  <instantiate class="RFunction" comment="Objective function of the sampling analysis">
+    <property name="ObjectName">
+      <constant string="ActivatorFunc" />
+    </property>
+    <property name="Expression">
+      <constant string="Activator_R_" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNoCorrelationTransformer">
+    <property name="ObjectName">
+      <constant string="myTransformer" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RIndependentNormalRandomNumberGenerator">
+    <property name="ObjectName">
+      <constant string="myRandomNumberGenerator" />
+    </property>
+    <property name="Algorithm">
+      <constant string="mt19937" />
+    </property>
+    <property name="Transformer">
+      <constant string="myTransformer" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RHistogramAccumulator">
+    <property name="ObjectName">
+      <constant string="myHistogramAccumulator" />
+    </property>
+    <property name="MaximumIterations">
+      <constant string="ref::NoS" />
+    </property>
+    <property name="PlottingInterval">
+      <constant string="ref::plotInt" />
+    </property>
+    <property name="DisplayDiagrams">
+      <constant string="true" />
+    </property>
+    <property name="SaveOutputPerSample">
+      <constant string="FALSE" />
+    </property>
+    <property name="OutputDisplayLevel">
+      <constant string="Minimum" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RSamplingAnalyzer" comment="Sampling Analyzer">
+    <property name="ObjectName">
+      <constant string="Sampling" />
+    </property>
+    <property name="Recorder">
+      <constant string="Recorder" />
+    </property>
+    <property name="FunctionList">
+      <constant string="ActivatorFunc;" />
+    </property>
+    <property name="RandomNumberGenerator">
+      <constant string="myRandomNumberGenerator" />
+    </property>
+    <property name="Transformer">
+      <constant string="myTransformer" />
+    </property>
+    <property name="Accumulator">
+      <constant string="myHistogramAccumulator" />
+    </property>
+  </instantiate>
+
 </rml>
