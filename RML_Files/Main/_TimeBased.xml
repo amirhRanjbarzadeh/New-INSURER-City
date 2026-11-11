@@ -3590,10 +3590,10 @@
       <constant string="SimpleFaultModel_Hypocenter_" />
     </property>
     <property name="GridLocationList">
-      <read column="GridList" source="LSGGridList" />
+      <read column="GridList" source="LSGridList" />
     </property>
     <property name="StartingIndex">
-      <read column="StartingIndex" source="LSGStart" />
+      <read column="StartingIndex" source="LSStart" />
     </property>
   </instantiate>
 
@@ -3607,10 +3607,10 @@
       <constant string="AreaModel_R_" />
     </property>
     <property name="GridLocationList">
-      <read column="GridList" source="ASGGridList" />
+      <read column="GridList" source="ASGridList" />
     </property>
     <property name="StartingIndex">
-      <read column="StartingIndex" source="ASGStart" />
+      <read column="StartingIndex" source="ASStart" />
     </property>
   </instantiate>
 
