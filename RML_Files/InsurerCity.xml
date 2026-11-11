@@ -116,7 +116,6 @@
   </table>
 
   <write string="ThreadCount ref::thrdCnt" />
-  <write string=" " />
 
   <instantiate class="RTime">
     <property name="ObjectName">

@@ -3613,5 +3613,269 @@
       <read column="StartingIndex" source="ASStart" />
     </property>
   </instantiate>
+  <write string="// Source Type Selector (fault source vs. area source)" />
+
+  <instantiate class="RContinuousRandomVariable">
+    <property name="ObjectName">
+      <constant string="_SourceSelectionUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RSelectorModel"
+    comment="Selects the hypocenter state, magnitude, rupture area and site intensities of either the fault sources or the area sources">
+    <property name="ObjectName">
+      <constant string="SourceSelector" />
+    </property>
+    <property name="SetUnselectedResponsesToZero">
+      <constant string="false" />
+    </property>
+    <property name="Weights">
+      <constant string="0.5;0.5;" />
+    </property>
+    <property name="ParameterList">
+      <combine primary="">
+        <!-- Fault source branch -->
+        <combine primary="" secondary=";" default="LS">
+          <read column="fault_source_id" />
+          <constant string="State_R_;" />
+          <read column="fault_source_id" />
+          <constant string="MagModel_R_;" />
+          <read column="fault_source_id" />
+          <constant string="RuptureAreaModel_R_;" />
+          <constant string="LSAttSelector_Eta_" />
+          <constant string="_ApproximateResidulasU1;" />
+          <constant string="_ApproximateResidulasU2" />
+        </combine>
+        <combine primary="" secondary="">
+          <combine default="SB" type="index" primary="" secondary=";">
+            <constant string="LSAttSelector_" />
+            <read column="Sub Block Name" />
+            <constant string="Sa0_;" />
+            <constant string="LSAttSelector_" />
+            <read column="Sub Block Name" />
+            <constant string="SaShortPeriod_;" />
+            <constant string="LSAttSelector_" />
+            <read column="Sub Block Name" />
+            <constant string="Sa1_" />
+          </combine>
+          <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+            <constant string="LSAttSelector_" />
+            <read column="Power Station Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+            <constant string="LSAttSelector_" />
+            <read column="Power Line Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+            <constant string="LSAttSelector_" />
+            <read column="Power Line Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+            <constant string="LSAttSelector_" />
+            <read column="Water Station Name" />
+            <constant string="SaM1_;" />
+            <constant string="LSAttSelector_" />
+            <read column="Water Station Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+            <constant string="LSAttSelector_" />
+            <read column="Water Station Name" />
+            <constant string="SaM1_;" />
+            <constant string="LSAttSelector_" />
+            <read column="Water Station Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+            <constant string="LSAttSelector_" />
+            <constant string="W" />
+            <read column="Pipe Line Name" />
+            <constant string="SaM1_;" />
+            <constant string="LSAttSelector_" />
+            <constant string="W" />
+            <read column="Pipe Line Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="HG" type="index" primary="" secondary=";">
+            <constant string="LSAttSelector_" />
+            <read column="name" />
+            <constant string="Sa0_;" />
+            <constant string="LSAttSelector_" />
+            <read column="name" />
+            <constant string="SaShortPeriod_;" />
+            <constant string="LSAttSelector_" />
+            <read column="name" />
+            <constant string="Sa1_;" />
+            <constant string="LSAttSelector_" />
+            <read column="name" />
+            <constant string="SaM1_" />
+            <constant string=";" />
+            <read column="fault_source_id" source="LS" />
+            <constant string="SimpleFaultModel_Loc" />
+            <read column="name" />
+            <constant string="Rrup_" />
+          </combine>
+        </combine>
+        <!-- Area source branch -->
+        <combine primary="" secondary=";" default="AS">
+          <read column="area_source_id" />
+          <constant string="State_R_;" />
+          <read column="area_source_id" />
+          <constant string="MagModel_R_;" />
+          <read column="area_source_id" />
+          <constant string="RuptureAreaModel_R_;" />
+          <constant string="ASAttSelector_Eta_" />
+          <constant string="_ApproximateResidulasU1;" />
+          <constant string="_ApproximateResidulasU2" />
+        </combine>
+        <combine primary="" secondary="">
+          <combine default="SB" type="index" primary="" secondary=";">
+            <constant string="ASAttSelector_" />
+            <read column="Sub Block Name" />
+            <constant string="Sa0_;" />
+            <constant string="ASAttSelector_" />
+            <read column="Sub Block Name" />
+            <constant string="SaShortPeriod_;" />
+            <constant string="ASAttSelector_" />
+            <read column="Sub Block Name" />
+            <constant string="Sa1_" />
+          </combine>
+          <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+            <constant string="ASAttSelector_" />
+            <read column="Power Station Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+            <constant string="ASAttSelector_" />
+            <read column="Power Line Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+            <constant string="ASAttSelector_" />
+            <read column="Power Line Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+            <constant string="ASAttSelector_" />
+            <read column="Water Station Name" />
+            <constant string="SaM1_;" />
+            <constant string="ASAttSelector_" />
+            <read column="Water Station Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+            <constant string="ASAttSelector_" />
+            <read column="Water Station Name" />
+            <constant string="SaM1_;" />
+            <constant string="ASAttSelector_" />
+            <read column="Water Station Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+            <constant string="ASAttSelector_" />
+            <constant string="W" />
+            <read column="Pipe Line Name" />
+            <constant string="SaM1_;" />
+            <constant string="ASAttSelector_" />
+            <constant string="W" />
+            <read column="Pipe Line Name" />
+            <constant string="Sa0_;" />
+          </combine>
+          <combine default="HG" type="index" primary="" secondary=";">
+            <constant string="ASAttSelector_" />
+            <read column="name" />
+            <constant string="Sa0_;" />
+            <constant string="ASAttSelector_" />
+            <read column="name" />
+            <constant string="SaShortPeriod_;" />
+            <constant string="ASAttSelector_" />
+            <read column="name" />
+            <constant string="Sa1_;" />
+            <constant string="ASAttSelector_" />
+            <read column="name" />
+            <constant string="SaM1_" />
+            <constant string=";" />
+            <read column="area_source_id" source="AS" />
+            <constant string="RuptureLocationModel_Loc" />
+            <read column="name" />
+            <constant string="Rrup_" />
+          </combine>
+        </combine>
+      </combine>
+    </property>
+    <property name="ResponseNames">
+      <combine primary="" secondary="">
+        <constant string="State;Mag;RuptureArea;Eta;U1;U2;"/>
+        <combine default="SB" type="index" primary="" secondary=";">
+          <read column="Sub Block Name" />
+          <constant string="Sa0;" />
+          <read column="Sub Block Name" />
+          <constant string="SaShortPeriod;" />
+          <read column="Sub Block Name" />
+          <constant string="Sa1" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Station Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+          <constant string="SaM1;" />
+          <read column="Water Station Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+          <constant string="SaM1;" />
+          <read column="Water Station Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="SaM1;" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <read column="name" />
+          <constant string="Sa0;" />
+          <read column="name" />
+          <constant string="SaShortPeriod;" />
+          <read column="name" />
+          <constant string="Sa1;" />
+          <read column="name" />
+          <constant string="SaM1" />
+          <constant string=";" />
+          <read column="name" />
+          <constant string="Rrup" />
+        </combine>
+      </combine>
+    </property>
+    <property name="Uncertainty">
+      <constant string="_SourceSelectionUnc" />
+    </property>
+  </instantiate>
 
 </rml>
