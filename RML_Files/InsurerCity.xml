@@ -60,7 +60,61 @@
 
   <import from="../../Database/hazard/eq_fault_sources.csv" name="LS" />
   <import from="../../Database/hazard/eq_area_sources.csv" name="AS" />
-  
+
+  <table name="LSMesh">
+    <formula expression="m" outputColumnsName="MeshCount" default="LS">
+      <column name="m" column="meshSize" split=";" applyFunction="product" />
+    </formula>
+  </table>
+
+  <table name="ASMesh">
+    <formula expression="m" outputColumnsName="MeshCount" default="AS">
+      <column name="m" column="meshSize" split=";" applyFunction="product" />
+    </formula>
+  </table>
+
+  <table name="TMCTotal">
+    <function name="sumValues()" outputColumnsName="Total">
+      <column name="a" source="LSMesh" column="MeshCount" />
+      <column name="b" source="ASMesh" column="MeshCount" />
+    </function>
+  </table>
+
+  <table name="TMC">
+    <formula expression="t-1" outputColumnsName="Sum" default="TMCTotal">
+      <column name="t" column="Total" />
+    </formula>
+  </table>
+
+  <table name="LSStart">
+    <function name="cumulative()" outputColumnsName="StartingIndex" default="LSMesh">
+      <column name="Values" column="MeshCount" />
+    </function>
+  </table>
+
+  <table name="ASStart">
+    <function name="cumulative()" outputColumnsName="StartingIndex" default="ASMesh">
+      <column name="Values" column="MeshCount" />
+      <column name="Offset" source="LSMesh" column="MeshCount" />
+    </function>
+  </table>
+
+  <table name="LSGridList">
+    <function name="repeat()" outputColumnsName="GridList" separator=";"
+      pattern="{v}GriddingModel_Grid{i}_" start="1" default="LSMesh">
+      <column name="Counts" column="MeshCount" />
+      <column name="Values" source="LS" column="fault_source_id" />
+    </function>
+  </table>
+
+  <table name="ASGridList">
+    <function name="repeat()" outputColumnsName="GridList" separator=";"
+      pattern="{v}GriddingModel_Grid{i}_" start="1" default="ASMesh">
+      <column name="Counts" column="MeshCount" />
+      <column name="Values" source="AS" column="area_source_id" />
+    </function>
+  </table>
+
   <write string="ThreadCount ref::thrdCnt" />
   <write string=" " />
 
