@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  <import from="../../Database/hazard/eq_fault_sources.csv" name="LS" />
-  <import from="../../Database/hazard/eq_area_sources.csv" name="AS" />
 
   <write string="// Infrastructure Locations" />
   <instantiate class="RLocation" default="SB" comment="Sub-block locations">
@@ -3579,6 +3577,40 @@
     </property>
     <property name="Uncertainty">
       <constant string="_AttSelectionUnc" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNearestGridModel" default="LS">
+    <property name="ObjectName">
+      <read column="fault_source_id" />
+      <constant string="State" />
+    </property>
+    <property name="Location">
+      <read column="fault_source_id" />
+      <constant string="SimpleFaultModel_Hypocenter_" />
+    </property>
+    <property name="GridLocationList">
+      <read column="GridList" source="LSGGridList" />
+    </property>
+    <property name="StartingIndex">
+      <read column="StartingIndex" source="LSGStart" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNearestGridModel" default="AS">
+    <property name="ObjectName">
+      <read column="area_source_id" />
+      <constant string="State" />
+    </property>
+    <property name="Location">
+      <read column="area_source_id" />
+      <constant string="AreaModel_R_" />
+    </property>
+    <property name="GridLocationList">
+      <read column="GridList" source="ASGGridList" />
+    </property>
+    <property name="StartingIndex">
+      <read column="StartingIndex" source="ASGStart" />
     </property>
   </instantiate>
 
