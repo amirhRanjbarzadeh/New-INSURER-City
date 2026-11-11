@@ -2394,6 +2394,9 @@
           <read column="name" />
           <constant string="SaM1_" />
         </combine>
+        <combine primary="" >
+          <constant string="_AkkarEtAl2014LSIntensityModelEpsilon;_AkkarEtAl2014LSIntensityModelEta;" />
+        </combine>
       </combine>
     </property>
     <property name="ResponseNames">
@@ -2449,7 +2452,7 @@
           <constant string="SaM1" />
         </combine>
         <combine primary="">
-          <constant string="Epsilon; Eta" />
+          <constant string="Epsilon; Eta;" />
         </combine>
       </combine>
     </property>
