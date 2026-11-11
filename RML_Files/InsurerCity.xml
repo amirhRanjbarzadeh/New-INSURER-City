@@ -307,19 +307,19 @@
       <constant string="myHistogramAccumulator" />
     </property>
     <property name="MaximumIterations">
-      <constant string="ref::NoS" />
+      <constant string="1000" />
     </property>
     <property name="PlottingInterval">
-      <constant string="ref::plotInt" />
+      <constant string="0" />
     </property>
     <property name="DisplayDiagrams">
-      <constant string="true" />
+      <constant string="False" />
     </property>
     <property name="SaveOutputPerSample">
-      <constant string="FALSE" />
+      <constant string="False" />
     </property>
     <property name="OutputDisplayLevel">
-      <constant string="Minimum" />
+      <constant string="None" />
     </property>
   </instantiate>
 
