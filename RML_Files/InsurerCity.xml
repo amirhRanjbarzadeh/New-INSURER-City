@@ -58,8 +58,8 @@
   <import from="../Database/insurer_city/WSDNLocsAndTypes.csv" name="WSDNLT" group="WNGroup" />
   <import from="../Database/insurer_city/WaterPipeline.csv" name="WPl" group="WNGroup" />
 
-  <import from="../../Database/hazard/eq_fault_sources.csv" name="LS" />
-  <import from="../../Database/hazard/eq_area_sources.csv" name="AS" />
+  <import from="../Database/hazard/eq_fault_sources.csv" name="LS" />
+  <import from="../Database/hazard/eq_area_sources.csv" name="AS" />
 
   <table name="LSMesh">
     <formula expression="m" outputColumnsName="MeshCount" default="LS">
