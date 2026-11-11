@@ -2461,5 +2461,1125 @@
     </property>
   </instantiate>
 
+  <write string="// Area Source Intensity Model" />
+
+  <instantiate class="RContinuousRandomVariable" comment="ChiouYoungs2008 AS Intensity Model epsilon">
+    <property name="ObjectName">
+      <constant string="_ChiouYoungs2008ASIntensityModelEpsilon" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="ChiouYoungs2008 AS Intensity Model eta">
+    <property name="ObjectName">
+      <constant string="_ChiouYoungs2008ASIntensityModelEta" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="AkkarCagnan2010 AS Intensity Model epsilon">
+    <property name="ObjectName">
+      <constant string="_AkkarCagnan2010ASIntensityModelEpsilon" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="AkkarCagnan2010 AS Intensity Model eta">
+    <property name="ObjectName">
+      <constant string="_AkkarCagnan2010ASIntensityModelEta" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="AkkarEtAl2014 AS Intensity Model epsilon">
+    <property name="ObjectName">
+      <constant string="_AkkarEtAl2014ASIntensityModelEpsilon" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable">
+    <property name="ObjectName">
+      <constant string="_AkkarEtAl2014ASIntensityModelEta" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <write string="// ChiouYoungs2008 AS Intensity Model" />
+  <instantiate class="RChiouYoungs2008IntensityModel">
+    <property name="ObjectName">
+      <constant string="ChiouYoungs2008ASIntensityModel" />
+    </property>
+    <property name="MagnitudeList">
+      <constant string="ASMagModel_R_;" />
+    </property>
+    <property name="RxTable">
+      <combine primary="" secondary="">
+        <combine default="SB" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Sub Block Name" />
+          <constant string="Rx_" />
+        </combine>
+        <combine default="PS" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Station Name" />
+          <constant string="Rx_" />
+        </combine>
+        <combine default="PL" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rx_" />
+        </combine>
+        <combine default="PL_M" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rx_" />
+        </combine>
+        <combine default="WSDNLT" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rx_" />
+        </combine>
+        <combine default="WS" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rx_" />
+        </combine>
+        <combine default="WPl" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Rx_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="name" />
+          <constant string="Rx_" />
+        </combine>
+      </combine>
+    </property>
+    <property name="RjbTable">
+      <combine primary="" secondary="">
+        <combine default="SB" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Sub Block Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PS" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PL" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PL_M" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WSDNLT" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WS" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WPl" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="name" />
+          <constant string="Rjb_" />
+        </combine>
+      </combine>
+    </property>
+    <property name="RrupTable">
+      <combine primary="" secondary="">
+        <combine default="SB" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Sub Block Name" />
+          <constant string="Rrup_" />
+        </combine>
+        <combine default="PS" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Station Name" />
+          <constant string="Rrup_" />
+        </combine>
+        <combine default="PL" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rrup_" />
+        </combine>
+        <combine default="PL_M" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rrup_" />
+        </combine>
+        <combine default="WSDNLT" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rrup_" />
+        </combine>
+        <combine default="WS" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rrup_" />
+        </combine>
+        <combine default="WPl" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Rrup_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="name" />
+          <constant string="Rrup_" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ZtorList">
+      <constant string="ASRuptureLocationModel_Ztor_" />
+    </property>
+    <property name="Z1List">
+      <constant string="_C999" />
+    </property>
+    <property name="EpsilonUncertaintyTable">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary="/">
+          <constant string="_ChiouYoungs2008ASIntensityModelEpsilon" repeat="SB" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_ChiouYoungs2008ASIntensityModelEpsilon" repeat="PS" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_ChiouYoungs2008ASIntensityModelEpsilon" repeat="PL" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_ChiouYoungs2008ASIntensityModelEpsilon" repeat="PL_M" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_ChiouYoungs2008ASIntensityModelEpsilon" repeat="WSDNLT" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_ChiouYoungs2008ASIntensityModelEpsilon" repeat="WS" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_ChiouYoungs2008ASIntensityModelEpsilon" repeat="WPl" />
+        </combine>
+        <combine default="HG" type="index" primary=";" secondary="/">
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="Sa0_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="SaShortPeriod_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="Sa1_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="SaM1Corr_" />
+          </combine>
+        </combine>
+      </combine>
+    </property>
+    <property name="EtaUncertainty">
+      <constant string="_ChiouYoungs2008ASIntensityModelEta" />
+    </property>
+    <property name="RakeAngleList">
+      <constant string="_ASRakeAngle" />
+    </property>
+    <property name="DipAngleList">
+      <constant string="ASDipAngle" />
+    </property>
+    <property name="PeriodTable">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary="/">
+          <constant string="_Sa0; _SaShortPeriod; _Sa1" repeat="SB" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PS" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PL" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PL_M" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WSDNLT" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WS" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WPl" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary="/">
+          <constant string="_Sa0; _SaShortPeriod; _Sa1; _SaM1" repeat="HG" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ShearWaveVelocityList">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary=";">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <constant string="_Const" />
+          <read column="Vs30" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ResponseNames">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary=";">
+          <read column="Sub Block Name" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Station Name" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <read column="name" />
+        </combine>
+      </combine>
+    </property>
+  </instantiate>
+
+  <write string="// AkkarCagnan2010 AS Intensity Model" />
+  <instantiate class="RAkkarCagnan2010IntensityModel">
+    <property name="ObjectName">
+      <constant string="AkkarCagnan2010ASIntensityModel" />
+    </property>
+    <property name="MagnitudeList">
+      <constant string="ASMagModel_R_;" />
+    </property>
+    <property name="RjbTable">
+      <combine primary="" secondary="">
+        <combine default="SB" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Sub Block Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PS" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PL" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PL_M" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WSDNLT" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WS" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WPl" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="name" />
+          <constant string="Rjb_" />
+        </combine>
+      </combine>
+    </property>
+    <property name="EpsilonUncertaintyTable">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary="/">
+          <constant string="_AkkarCagnan2010ASIntensityModelEpsilon" repeat="SB" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_AkkarCagnan2010ASIntensityModelEpsilon" repeat="PS" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_AkkarCagnan2010ASIntensityModelEpsilon" repeat="PL" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_AkkarCagnan2010ASIntensityModelEpsilon" repeat="PL_M" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_AkkarCagnan2010ASIntensityModelEpsilon" repeat="WSDNLT" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_AkkarCagnan2010ASIntensityModelEpsilon" repeat="WS" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_AkkarCagnan2010ASIntensityModelEpsilon" repeat="WPl" />
+        </combine>
+        <combine default="HG" type="index" primary=";" secondary="/">
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="Sa0_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="SaShortPeriod_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="Sa1_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="SaM1Corr_" />
+          </combine>
+        </combine>
+      </combine>
+    </property>
+    <property name="EtaUncertainty">
+      <constant string="_AkkarCagnan2010ASIntensityModelEta" />
+    </property>
+    <property name="RakeAngleList">
+      <constant string="_ASRakeAngle" />
+    </property>
+    <property name="PeriodTable">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary="/">
+          <constant string="_Sa0; _SaShortPeriod; _Sa1" repeat="SB" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PS" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PL" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PL_M" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WSDNLT" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WS" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WPl" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary="/">
+          <constant string="_Sa0; _SaShortPeriod; _Sa1; _SaM1" repeat="HG" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ShearWaveVelocityList">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary=";">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <constant string="_Const" />
+          <read column="Vs30" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ResponseNames">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary=";">
+          <read column="Sub Block Name" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Station Name" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <read column="name" />
+        </combine>
+      </combine>
+    </property>
+  </instantiate>
+
+  <write string="// AkkarEtAl2014 AS Intensity Model" />
+  <instantiate class="RAkkarEtAl2014IntensityModel">
+    <property name="ObjectName">
+      <constant string="AkkarEtAl2014ASIntensityModel" />
+    </property>
+    <property name="MagnitudeList">
+      <constant string="ASMagModel_R_;" />
+    </property>
+    <property name="RjbTable">
+      <combine primary="" secondary="">
+        <combine default="SB" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Sub Block Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PS" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PL" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="PL_M" primary="" secondary=";" group="PNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Power Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WSDNLT" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WS" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="Water Station Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="WPl" primary="" secondary=";" group="WNGroup">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Rjb_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <read column="area_source_id" source="AS" />
+          <constant string="RuptureLocationModel_Loc" />
+          <read column="name" />
+          <constant string="Rjb_" />
+        </combine>
+      </combine>
+    </property>
+    <property name="EpsilonUncertaintyTable">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary="/">
+          <constant string="_AkkarEtAl2014ASIntensityModelEpsilon" repeat="SB" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_AkkarEtAl2014ASIntensityModelEpsilon" repeat="PS" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_AkkarEtAl2014ASIntensityModelEpsilon" repeat="PL" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_AkkarEtAl2014ASIntensityModelEpsilon" repeat="PL_M" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_AkkarEtAl2014ASIntensityModelEpsilon" repeat="WSDNLT" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_AkkarEtAl2014ASIntensityModelEpsilon" repeat="WS" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_AkkarEtAl2014ASIntensityModelEpsilon" repeat="WPl" />
+        </combine>
+        <combine default="HG" type="index" primary=";" secondary="/">
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="Sa0_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="SaShortPeriod_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="Sa1_" />
+          </combine>
+          <combine default="HG" primary="">
+            <constant string="ApproximateResidulas_Loc" />
+            <read column="name" />
+            <constant string="SaM1Corr_" />
+          </combine>
+        </combine>
+      </combine>
+    </property>
+    <property name="EtaUncertainty">
+      <constant string="_AkkarEtAl2014ASIntensityModelEta" />
+    </property>
+    <property name="RakeAngleList">
+      <constant string="_ASRakeAngle" />
+    </property>
+    <property name="PeriodTable">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary="/">
+          <constant string="_Sa0; _SaShortPeriod; _Sa1" repeat="SB" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PS" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PL" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary="/" group="PNGroup">
+          <constant string="_Sa0; " repeat="PL_M" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WSDNLT" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WS" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary="/" group="WNGroup">
+          <constant string="_SaM1; _Sa0;" repeat="WPl" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary="/">
+          <constant string="_Sa0; _SaShortPeriod; _Sa1; _SaM1" repeat="HG" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ShearWaveVelocityList">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary=";">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="_Const" />
+          <read column="VS30" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <constant string="_Const" />
+          <read column="Vs30" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ResponseNames">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary=";">
+          <read column="Sub Block Name" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Station Name" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <read column="name" />
+        </combine>
+      </combine>
+    </property>
+  </instantiate>
+  
+
+  <instantiate class="RSelectorModel">
+    <property name="ObjectName">
+      <constant string="ASAttSelector" />
+    </property>
+    <property name="SetUnselectedResponsesToZero">
+      <constant string="true" />
+    </property>
+    <property name="Weights">
+      <constant string="0.388888888888888;0.222222222222222;0.388888888888888;" />
+    </property>
+    <property name="ParameterList">
+      <combine primary="" secondary="">
+        <!-- ChiouYoungs2008 -->
+        <combine default="SB" type="index" primary="" secondary=";">
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="Sa0_;" />
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="SaShortPeriod_;" />
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="Sa1_" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Power Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Power Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Power Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="SaM1_;" />
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="SaM1_;" />
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="SaM1_;" />
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="name" />
+          <constant string="Sa0_;" />
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="name" />
+          <constant string="SaShortPeriod_;" />
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="name" />
+          <constant string="Sa1_;" />
+          <constant string="ChiouYoungs2008ASIntensityModel_" />
+          <read column="name" />
+          <constant string="SaM1_" />
+        </combine>
+        <combine primary="" >
+          <constant string="_ChiouYoungs2008ASIntensityModelEpsilon;_ChiouYoungs2008ASIntensityModelEta;" />
+        </combine>
+        <!-- AkkarCagnan2010 -->
+        <combine default="SB" type="index" primary="" secondary=";">
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="Sa0_;" />
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="SaShortPeriod_;" />
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="Sa1_" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Power Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Power Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Power Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="SaM1_;" />
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="SaM1_;" />
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="SaM1_;" />
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="name" />
+          <constant string="Sa0_;" />
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="name" />
+          <constant string="SaShortPeriod_;" />
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="name" />
+          <constant string="Sa1_;" />
+          <constant string="AkkarCagnan2010ASIntensityModel_" />
+          <read column="name" />
+          <constant string="SaM1_" />
+        </combine>
+        <combine primary="" >
+          <constant string="_AkkarCagnan2010ASIntensityModelEpsilon;_AkkarCagnan2010ASIntensityModelEta;" />
+        </combine>
+        <!-- AkkarEtAl2014 -->
+        <combine default="SB" type="index" primary="" secondary=";">
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="Sa0_;" />
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="SaShortPeriod_;" />
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Sub Block Name" />
+          <constant string="Sa1_" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Power Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Power Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Power Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="SaM1_;" />
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="SaM1_;" />
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="Water Station Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="SaM1_;" />
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Sa0_;" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="name" />
+          <constant string="Sa0_;" />
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="name" />
+          <constant string="SaShortPeriod_;" />
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="name" />
+          <constant string="Sa1_;" />
+          <constant string="AkkarEtAl2014ASIntensityModel_" />
+          <read column="name" />
+          <constant string="SaM1_" />
+        </combine>
+        <combine primary="" >
+          <constant string="_AkkarEtAl2014ASIntensityModelEpsilon;_AkkarEtAl2014ASIntensityModelEta;" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ResponseNames">
+      <combine primary="" secondary="">
+        <combine default="SB" type="index" primary="" secondary=";">
+          <read column="Sub Block Name" />
+          <constant string="Sa0;" />
+          <read column="Sub Block Name" />
+          <constant string="SaShortPeriod;" />
+          <read column="Sub Block Name" />
+          <constant string="Sa1" />
+        </combine>
+        <combine default="PS" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Station Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="PL" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="PL_M" type="index" primary="" secondary=";" group="PNGroup">
+          <read column="Power Line Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="WSDNLT" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+          <constant string="SaM1;" />
+          <read column="Water Station Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="WS" type="index" primary="" secondary=";" group="WNGroup">
+          <read column="Water Station Name" />
+          <constant string="SaM1;" />
+          <read column="Water Station Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="WPl" type="index" primary="" secondary=";" group="WNGroup">
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="SaM1;" />
+          <constant string="W" />
+          <read column="Pipe Line Name" />
+          <constant string="Sa0;" />
+        </combine>
+        <combine default="HG" type="index" primary="" secondary=";">
+          <read column="name" />
+          <constant string="Sa0;" />
+          <read column="name" />
+          <constant string="SaShortPeriod;" />
+          <read column="name" />
+          <constant string="Sa1;" />
+          <read column="name" />
+          <constant string="SaM1" />
+        </combine>
+        <combine primary="">
+          <constant string="Epsilon; Eta;" />
+        </combine>
+      </combine>
+    </property>
+    <property name="Uncertainty">
+      <constant string="_AttSelectionUnc" />
+    </property>
+  </instantiate>
 
 </rml>
