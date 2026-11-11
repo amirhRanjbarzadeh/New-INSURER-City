@@ -3580,6 +3580,43 @@
     </property>
   </instantiate>
 
+  <import from="../Database/output/Zone_Information.csv" name="ZoneInfo" />
+  <filter source="SB" name="SB_ZoneSourceList" basedOn="Zone ID"></filter>
+
+  <instantiate default="ZoneInfo" class="RArithmeticOperationModel" group="HazardResponse">
+    <property name="ObjectName">
+      <read column="Zone Name" />
+      <constant string="AveragePGA" />
+    </property>
+    <property name="OperationType">
+      <constant string="Mean" />
+    </property>
+    <property name="ParameterList">
+      <sourceLoop sourceList="SB_ZoneSourceList">
+        <combine primary="" secondary=";">
+          <constant string="LSAttSelector_" />
+          <read column="Sub Block Name" />
+          <constant string="Sa0_" />
+        </combine>
+      </sourceLoop>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" group="HazardResponse">
+    <property name="ObjectName">
+      <constant string="AveragePGA" />
+    </property>
+    <property name="OperationType">
+      <constant string="Mean" />
+    </property>
+    <property name="ParameterList">
+      <combine default="ZoneInfo" primary="" secondary=";">
+        <read column="Zone Name" />
+        <constant string="AveragePGA_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
   <instantiate class="RNearestGridModel" default="LS">
     <property name="ObjectName">
       <read column="fault_source_id" />

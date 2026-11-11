@@ -197,4 +197,187 @@
 
   <write string="// #3 Water Network Models" />
   <include from="./Main/_WaterNetwork.xml" group="WNGroup" />
+
+
+
+  <instantiate class="RArithmeticOperationModel"
+    comment="Activator: pulls every recorded response into the evaluation tree so the sampler computes them all">
+    <property name="ObjectName">
+      <constant string="Activator" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <constant string="SourceSelector_State_;" />
+      <constant string="SourceIndicator_R_;" />
+      <constant string="SourceSelector_Mag_;" />
+      <constant string="SourceSelector_RuptureArea_;" />
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="Rrup_" />
+      </combine>
+      <constant string="SourceSelector_Eta_;" />
+      <constant string="SourceSelector_U1_;" />
+      <constant string="SourceSelector_U2_;" />
+      <constant string="AveragePGA_R_;" />
+      <combine default="ZoneInfo" primary="" secondary=";">
+        <read column="Zone Name" />
+        <constant string="AveragePGA_R_" />
+      </combine>
+      <combine default="SB" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="Sub Block Name" />
+        <constant string="Sa0_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="Sa0_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="SaShortPeriod_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="Sa1_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="SourceSelector_" />
+        <read column="name" />
+        <constant string="SaM1_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="ApproximateResidulas_Loc" />
+        <read column="name" />
+        <constant string="Sa0_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="ApproximateResidulas_Loc" />
+        <read column="name" />
+        <constant string="SaShortPeriod_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="ApproximateResidulas_Loc" />
+        <read column="name" />
+        <constant string="Sa1_" />
+      </combine>
+      <combine default="HG" primary="" secondary=";">
+        <constant string="ApproximateResidulas_Loc" />
+        <read column="name" />
+        <constant string="SaM1Corr_" />
+      </combine>
+      <combine default="PSDist_Switch" primary="" secondary=";" group="PNGroup">
+        <read column="Power Station Name" />
+        <constant string="Dmg_Ratio_" />
+      </combine>
+      <combine default="PSGenORTrans" primary="" secondary=";" group="PNGroup">
+        <read column="Power Station Name" />
+        <constant string="Dmg_Ratio_" />
+      </combine>
+      <combine default="PL" primary="" secondary=";" group="PNGroup">
+        <read column="Power Line Name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="PL_M" primary="" secondary=";" group="PNGroup">
+        <read column="Power Line Name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="WS" primary="" secondary=";" group="WNGroup">
+        <read column="Water Station Name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="WSDN" primary="" secondary=";" group="WNGroup">
+        <constant string="WS" />
+        <read column="Distribution Node Name" />
+        <constant string="Dmg_AverageRepairRate_" />
+      </combine>
+      <combine default="WSDN" primary="" secondary=";" group="WNGroup">
+        <constant string="WS" />
+        <read column="Distribution Node Name" />
+        <constant string="Dmg_NumberOfLeaksResponse_" />
+      </combine>
+      <combine default="WSDN" primary="" secondary=";" group="WNGroup">
+        <constant string="WS" />
+        <read column="Distribution Node Name" />
+        <constant string="Dmg_NumberOfBreaksResponse_" />
+      </combine>
+      <combine default="WPl" primary="" secondary=";" group="WNGroup">
+        <constant string="W" />
+        <read column="Pipe Line Name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="SB" primary="" secondary=";">
+        <read column="Sub Block Name" />
+        <constant string="Dmg_StructuralDamageRatio_" />
+      </combine>
+      <combine default="SB" primary="" secondary=";">
+        <read column="Sub Block Name" />
+        <constant string="Dmg_StructuralCostRatio_" />
+      </combine>
+      <combine default="SB" primary="" secondary=";">
+        <read column="Sub Block Name" />
+        <constant string="Dmg_NonstructuralDriftSensitiveDamageRatio_" />
+      </combine>
+      <combine default="SB" primary="" secondary=";">
+        <read column="Sub Block Name" />
+        <constant string="Dmg_NonstructuralAccelerationSensitiveDamageRatio_" />
+      </combine>
+      <combine default="SB" primary="" secondary=";">
+        <read column="Sub Block Name" />
+        <constant string="Dmg_ContentDamageRatio_" />
+      </combine>
+      <combine default="SB" primary="" secondary=";">
+        <read column="Sub Block Name" />
+        <constant string="Dmg_CollapseStatus_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+        <constant string="BldgCostRatio_R_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS1_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS2_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS3_" />
+      </combine>
+      <combine default="AGM_PS" primary="" secondary=";" group="PNGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_FunctionalityState_" />
+      </combine>
+      <combine default="AGM_WS" primary="" secondary=";" group="WNGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_Functionality_" />
+      </combine>
+      <combine default="PSC" primary="" secondary=";" group="PNGroup">
+        <constant string="PowerNetwork_" />
+        <read column="node" />
+        <constant string="InfoServiceability_" />
+      </combine>
+      <combine default="WSC" primary="" secondary=";" group="WNGroup">
+        <constant string="WaterNetwork_" />
+        <read column="node" />
+        <constant string="InfoServiceability_" />
+      </combine>
+      <combine default="PZS" primary="" secondary=";" group="PNGroup">
+        <read column="zone" />
+        <constant string="Serv_R_" />
+      </combine>
+      <combine default="WZS" primary="" secondary=";" group="WNGroup">
+        <read column="zone" />
+        <constant string="Serv_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
 </rml>
