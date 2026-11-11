@@ -3580,7 +3580,7 @@
     </property>
   </instantiate>
 
-  <import from="../Database/output/Zone_Information.csv" name="ZoneInfo" />
+  <import from="../../Database/insurer_city/Zone_Information.csv" name="ZoneInfo" />
   <filter source="SB" name="SB_ZoneSourceList" basedOn="Zone ID"></filter>
 
   <instantiate default="ZoneInfo" class="RArithmeticOperationModel" group="HazardResponse">
