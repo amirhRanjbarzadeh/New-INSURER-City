@@ -3651,7 +3651,7 @@
           <constant string="MagModel_R_;" />
           <read column="fault_source_id" />
           <constant string="RuptureAreaModel_R_;" />
-          <constant string="LSAttSelector_Eta_" />
+          <constant string="LSAttSelector_Eta_;" />
           <constant string="_ApproximateResidulasU1;" />
           <constant string="_ApproximateResidulasU2" />
         </combine>
@@ -3736,7 +3736,7 @@
           <constant string="MagModel_R_;" />
           <read column="area_source_id" />
           <constant string="RuptureAreaModel_R_;" />
-          <constant string="ASAttSelector_Eta_" />
+          <constant string="ASAttSelector_Eta_;" />
           <constant string="_ApproximateResidulasU1;" />
           <constant string="_ApproximateResidulasU2" />
         </combine>
