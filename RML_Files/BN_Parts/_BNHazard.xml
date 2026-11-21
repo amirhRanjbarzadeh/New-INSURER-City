@@ -81,5 +81,542 @@
       <constant string="LowerSeismogenicDepth" />
     </property>
   </instantiate>
-  
+
+  <instantiate class="RConditionalProbabilityTable" comment="Hypocenter Node">
+    <property name="ObjectName">
+      <constant string="HypocenterCPT" />
+    </property>
+  </instantiate>
+
+  <table name="HypoStates">
+    <function name="range()" outputColumnsName="Ranges" separator="/" pattern="{i};{i+1}"
+      default="TMC">
+      <column name="Values" column="Sum" />
+    </function>
+  </table>
+
+  <instantiate class="RNode" default="HypoStates" comment="One state per source grid cell (global mesh index)">
+    <property name="ObjectName">
+      <constant string="Hypocenter" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="HypocenterCPT" />
+    </property>
+    <property name="StateBoundsTable">
+      <read column="Ranges" />
+    </property>
+  </instantiate>
+
+  <import from="../../Database/bayesian_network/source_cpt.csv" name="SCPT" />
+
+  <instantiate class="RConditionalProbabilityTable" comment="Source Node" default="SCPT">
+    <property name="ObjectName">
+      <constant string="SourceCPT" />
+    </property>
+    <property name="ValueTable">
+      <combine primary="" secondary="/">
+        <read column="cpt" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="SCPT">
+    <property name="ObjectName">
+      <constant string="Source" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="SourceCPT" />
+    </property>
+    <property name="StateNames">
+      <combine primary="" secondary=";">
+        <read column="source_id" />
+      </combine>
+    </property>
+    <property name="StateBoundsTable">
+      <combine primary="" secondary="/">
+        <read column="source_id" applyFunction="empty" />
+        <enumerator start="0" />
+        <constant string=";" />
+        <enumerator start="1" />
+      </combine>
+    </property>
+    <property name="ParentList">
+      <constant string="Hypocenter" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" comment="Magnitude Node">
+    <property name="ObjectName">
+      <constant string="MagnitudeCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode">
+    <property name="ObjectName">
+      <constant string="Magnitude" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="MagnitudeCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::magStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::magStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="Source" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" comment="Rupture area Node">
+    <property name="ObjectName">
+      <constant string="ArupCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" comment="Rupture area (km^2)">
+    <property name="ObjectName">
+      <constant string="Arup" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="ArupCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::arupStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::arupStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="Magnitude" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid distance nodes">
+    <property name="ObjectName">
+      <read column="name" />
+      <constant string="DistanceCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG" comment="Site-to-rupture distance Rrup (km) per hazard grid site">
+    <property name="ObjectName">
+      <read column="name" />
+      <constant string="Distance" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="name" />
+      <constant string="DistanceCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::distanceStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::distanceStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="Hypocenter;Arup" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" comment="Eta Node">
+    <property name="ObjectName">
+      <constant string="EtaCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode">
+    <property name="ObjectName">
+      <constant string="Eta" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="EtaCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::stdNormStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::stdNormStates" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" comment="First common parent Node">
+    <property name="ObjectName">
+      <constant string="U1CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode">
+    <property name="ObjectName">
+      <constant string="U1" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="U1CPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::stdNormStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::stdNormStates" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" comment="Second common parent Node">
+    <property name="ObjectName">
+      <constant string="U2CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode">
+    <property name="ObjectName">
+      <constant string="U2" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="U2CPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::stdNormStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::stdNormStates" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid Sa0 epsilon nodes">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa0EpsilonCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa0Epsilon" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa0EpsilonCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::stdNormStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::stdNormStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="U1;U2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid SaShortPeriod epsilon nodes">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaShortPeriodEpsilonCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaShortPeriodEpsilon" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaShortPeriodEpsilonCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::stdNormStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::stdNormStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="U1;U2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid Sa1 epsilon nodes">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa1EpsilonCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa1Epsilon" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa1EpsilonCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::stdNormStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::stdNormStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="U1;U2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid SaM1 (PGV) epsilon nodes">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaM1EpsilonCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaM1Epsilon" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaM1EpsilonCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::stdNormStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::stdNormStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="U1;U2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid Sa0 (PGA) nodes">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa0CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa0" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa0CPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::sa0StateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::sa0States" />
+    </property>
+    <property name="ParentList">
+      <combine primary="">
+        <read column="name" />
+        <constant string="Distance;Magnitude;Eta;" />
+        <constant string="IM" />
+        <read column="name" />
+        <constant string="Sa0Epsilon" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid SaShortPeriod nodes">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaShortPeriodCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaShortPeriod" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaShortPeriodCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::saShortPeriodStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::saShortPeriodStates" />
+    </property>
+    <property name="ParentList">
+      <combine primary="">
+        <read column="name" />
+        <constant string="Distance;Magnitude;Eta;" />
+        <constant string="IM" />
+        <read column="name" />
+        <constant string="SaShortPeriodEpsilon" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid Sa1 nodes">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa1CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa1" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="Sa1CPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::sa1StateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::sa1States" />
+    </property>
+    <property name="ParentList">
+      <combine primary="">
+        <read column="name" />
+        <constant string="Distance;Magnitude;Eta;" />
+        <constant string="IM" />
+        <read column="name" />
+        <constant string="Sa1Epsilon" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HG" comment="Hazard grid SaM1 (PGV) nodes">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaM1CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HG">
+    <property name="ObjectName">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaM1" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <constant string="IM" />
+      <read column="name" />
+      <constant string="SaM1CPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::pgvStateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::pgvStates" />
+    </property>
+    <property name="ParentList">
+      <combine primary="">
+        <read column="name" />
+        <constant string="Distance;Magnitude;Eta;" />
+        <constant string="IM" />
+        <read column="name" />
+        <constant string="SaM1Epsilon" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Intensity measures, their residuals, and the source-to-site distance of each grid cell">
+    <property name="ObjectName">
+      <constant string="HazardMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="HG" primary="" secondary=";">
+        <constant string="IM" />
+        <read column="name" />
+        <constant string="Sa0" />
+      </combine>
+      <constant string="/" />
+      <combine default="HG" primary="" secondary=";">
+        <constant string="IM" />
+        <read column="name" />
+        <constant string="SaShortPeriod" />
+      </combine>
+      <constant string="/" />
+      <combine default="HG" primary="" secondary=";">
+        <constant string="IM" />
+        <read column="name" />
+        <constant string="Sa1" />
+      </combine>
+      <constant string="/" />
+      <combine default="HG" primary="" secondary=";">
+        <constant string="IM" />
+        <read column="name" />
+        <constant string="SaM1" />
+      </combine>
+      <constant string="/" />
+      <combine default="HG" primary="" secondary=";">
+        <read column="name" />
+        <constant string="Distance" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="HG" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="name" />
+        <constant string="Point1;" />
+        <constant string="_Loc" />
+        <read column="name" />
+        <constant string="Point2;" />
+        <constant string="_Loc" />
+        <read column="name" />
+        <constant string="Point3;" />
+        <constant string="_Loc" />
+        <read column="name" />
+        <constant string="Point4;" />
+        <constant string="_Loc" />
+        <read column="name" />
+        <constant string="Point5;" />
+        <constant string="_Loc" />
+        <read column="name" />
+        <constant string="Point6" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="HG" primary="" secondary=";">
+        <read column="name" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Sa0 (PGA);SaShortPeriod;Sa1;SaM1 (PGV);Distance" />
+    </property>
+    <property name="Opacity">
+      <constant string="0.6" />
+    </property>
+    <property name="Visible">
+      <constant string="true" />
+    </property>
+  </instantiate>
+
 </rml>

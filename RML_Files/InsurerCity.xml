@@ -332,10 +332,10 @@
     </property>
     <!-- <property name="PreferredNumberOfCDFPoints">
       <constant string="ref::prefPoint" />
-    </property>
+    </property> !-->
     <property name="SavingInterval">
       <constant string="ref::savInt" />
-    </property> -->
+    </property>
     <property name="Responses">
       <constant string="SourceSelector_State_;" />
       <constant string="SourceIndicator_R_;" />
@@ -402,7 +402,7 @@
       
     </property>
     <property name="RecordingTypeFlagMatrix">
-      <constant string="1;1;1;0;1/" />
+      <constant string="1;1;1;0;0/" />
     </property>
   </instantiate>
 

@@ -56,10 +56,251 @@
     </cell>
   </config>
 
+  <import from="../Dependencies/StateBounds.csv" name="StateBounds" />
+
+  <config source="StateBounds">
+    <cell column="magnitude_states" row="2"><save name="magStates" /></cell>
+    <cell column="magnitude_state_names" row="2"><save name="magStateNames" /></cell>
+    <cell column="std_normal_states" row="2"><save name="stdNormStates" /></cell>
+    <cell column="std_normal_state_names" row="2"><save name="stdNormStateNames" /></cell>
+    <cell column="sa0_states" row="2"><save name="sa0States" /></cell>
+    <cell column="sa0_state_names" row="2"><save name="sa0StateNames" /></cell>
+    <cell column="sa_short_period_states" row="2"><save name="saShortPeriodStates" /></cell>
+    <cell column="sa_short_period_state_names" row="2"><save name="saShortPeriodStateNames" /></cell>
+    <cell column="sa1_states" row="2"><save name="sa1States" /></cell>
+    <cell column="sa1_state_names" row="2"><save name="sa1StateNames" /></cell>
+    <cell column="pgv_states" row="2"><save name="pgvStates" /></cell>
+    <cell column="pgv_state_names" row="2"><save name="pgvStateNames" /></cell>
+    <cell column="portion_rds1_states" row="2"><save name="portionRDS1States" /></cell>
+    <cell column="portion_rds1_state_names" row="2"><save name="portionRDS1StateNames" /></cell>
+    <cell column="portion_rds2_states" row="2"><save name="portionRDS2States" /></cell>
+    <cell column="portion_rds2_state_names" row="2"><save name="portionRDS2StateNames" /></cell>
+    <cell column="portion_rds3_states" row="2"><save name="portionRDS3States" /></cell>
+    <cell column="portion_rds3_state_names" row="2"><save name="portionRDS3StateNames" /></cell>
+    <cell column="arup_states" row="2"><save name="arupStates" /></cell>
+    <cell column="arup_state_names" row="2"><save name="arupStateNames" /></cell>
+    <cell column="distance_states" row="2"><save name="distanceStates" /></cell>
+    <cell column="distance_state_names" row="2"><save name="distanceStateNames" /></cell>
+    <cell column="power_station_damage_states" row="2"><save name="psDamageStates" /></cell>
+    <cell column="power_line_damage_states" row="2"><save name="plDamageStates" /></cell>
+    <cell column="water_station_damage_states" row="2"><save name="wsDamageStates" /></cell>
+    <cell column="water_pipeline_damage_states" row="2"><save name="wplDamageStates" /></cell>
+    <cell column="building_damage_states" row="2"><save name="buildingDamageStates" /></cell>
+    <cell column="collapse_states" row="2"><save name="collapseStates" /></cell>
+    <cell column="functionality_states" row="2"><save name="functionalityStates" /></cell>
+    <cell column="serviceability_states" row="2"><save name="serviceabilityStates" /></cell>
+    <cell column="rds_lower_bounds" row="2"><save name="rdsLowerBounds" /></cell>
+    <cell column="rds_upper_bounds" row="2"><save name="rdsUpperBounds" /></cell>
+  </config>
+
   <include from="./BN_Parts/_BNHazard.xml" group="BNHazardGroup" />
   <include from="./BN_Parts/_BNBuilding.xml" group="BNBuildingGroup" />
   <include from="./BN_Parts/_BNPower.xml" group="BNPowerGroup" />
   <include from="./BN_Parts/_BNWater.xml" group="BNWaterGroup" />
   <include from="./BN_Parts/_BNHospital.xml" group="BNHospitalGroup" />
+
+  <import from="../Dependencies/bn_option.csv" name="BNOptions" />
+
+  <config source="BNOptions">
+    <cell column="inference_samples" row="2"><save name="infSamples" /></cell>
+    <cell column="propagation_length" row="2"><save name="propLength" /></cell>
+    <cell column="epsilon_cutoff" row="2"><save name="epsCutoff" /></cell>
+    <cell column="plotting_interval" row="2"><save name="plotInt" /></cell>
+    <cell column="records_path" row="2"><save name="recPath" /></cell>
+    <cell column="bn_output_path" row="2"><save name="bnOutPath" /></cell>
+  </config>
+
+  <instantiate class="RNoCorrelationTransformer" group="BNHazardGroup">
+    <property name="ObjectName">
+      <constant string="myInferenceTransformer" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RIndependentNormalRandomNumberGenerator" group="BNHazardGroup">
+    <property name="ObjectName">
+      <constant string="myInferenceRandomNumberGenerator" />
+    </property>
+    <property name="Algorithm">
+      <constant string="mt19937" />
+    </property>
+    <property name="Transformer">
+      <constant string="myInferenceTransformer" />
+    </property>
+  </instantiate>
+
+  <instantiate class="REvidencePrepropagationImportanceSampling" group="BNHazardGroup">
+    <property name="ObjectName">
+      <constant string="myEPISInferencer" />
+    </property>
+    <property name="NumberOfSamples">
+      <constant string="ref::infSamples" />
+    </property>
+    <property name="PropagationLength">
+      <constant string="ref::propLength" />
+    </property>
+    <property name="EpsilonCutoff">
+      <constant string="ref::epsCutoff" />
+    </property>
+    <property name="RandomNumberGenerator">
+      <constant string="myInferenceRandomNumberGenerator" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RVariableEliminationInferencer" group="BNHazardGroup">
+    <property name="ObjectName">
+      <constant string="myVariableEliminationInferencer" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianNetworkAnalyzer" group="BNHazardGroup"
+    comment="Learns the node CPTs from the samples written by Recorder. Run Sampling first, then this.">
+    <property name="ObjectName">
+      <constant string="BNAnalyzer" />
+    </property>
+    <property name="LearningDataSource">
+      <constant string="CSVFile" />
+    </property>
+    <property name="CSVFile">
+      <constant string="ref::recPath/Recorder_Samples.csv" />
+    </property>
+    <property name="NodeList">
+      <combine primary="" secondary="">
+        <constant string="Hypocenter;Source;Magnitude;Eta;U1;U2;Arup;" />
+        <combine default="HG" primary="" secondary=";">
+          <read column="name" />
+          <constant string="Distance" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="IM" />
+          <read column="name" />
+          <constant string="Sa0" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="IM" />
+          <read column="name" />
+          <constant string="SaShortPeriod" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="IM" />
+          <read column="name" />
+          <constant string="Sa1" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="IM" />
+          <read column="name" />
+          <constant string="SaM1" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="IM" />
+          <read column="name" />
+          <constant string="Sa0Epsilon" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="IM" />
+          <read column="name" />
+          <constant string="SaShortPeriodEpsilon" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="IM" />
+          <read column="name" />
+          <constant string="Sa1Epsilon" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="IM" />
+          <read column="name" />
+          <constant string="SaM1Epsilon" />
+        </combine>
+      </combine>
+    </property>
+    <property name="ResponseList">
+      <combine primary="" secondary="">
+        <constant string="SourceSelector_State_;SourceIndicator_R_;SourceSelector_Mag_;SourceSelector_Eta_;SourceSelector_U1_;SourceSelector_U2_;SourceSelector_RuptureArea_;" />
+        <combine default="HG" primary="" secondary=";">
+          <constant string="SourceSelector_" />
+          <read column="name" />
+          <constant string="Rrup_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="SourceSelector_" />
+          <read column="name" />
+          <constant string="Sa0_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="SourceSelector_" />
+          <read column="name" />
+          <constant string="SaShortPeriod_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="SourceSelector_" />
+          <read column="name" />
+          <constant string="Sa1_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="SourceSelector_" />
+          <read column="name" />
+          <constant string="SaM1_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="ApproximateResidulas_Loc" />
+          <read column="name" />
+          <constant string="Sa0_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="ApproximateResidulas_Loc" />
+          <read column="name" />
+          <constant string="SaShortPeriod_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="ApproximateResidulas_Loc" />
+          <read column="name" />
+          <constant string="Sa1_" />
+        </combine>
+        <combine default="HG" primary="" secondary=";">
+          <constant string="ApproximateResidulas_Loc" />
+          <read column="name" />
+          <constant string="SaM1Corr_" />
+        </combine>
+      </combine>
+    </property>
+    <property name="LearnNetwork">
+      <constant string="false" />
+    </property>
+    <property name="Inferencer">
+      <constant string="myEPISInferencer" />
+    </property>
+    <property name="ConditionalProbabilityTableDirectory">
+      <constant string="CPTs" />
+    </property>
+    <property name="AutoSaveConditionalProbabilityTables">
+      <constant string="true" />
+    </property>
+  </instantiate>
+
+
+  <instantiate class="RNodeStyle" group="BNHazardGroup"
+    comment="Default node style: every property left at its theme default.">
+    <property name="ObjectName">
+      <constant string="BNDefaultNodeStyle" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianVisualizer" group="BNHazardGroup"
+    comment="Draws BNAnalyzer's network. Run the analyzer first, then Show Visualizer.">
+    <property name="ObjectName">
+      <constant string="BNVisualizer" />
+    </property>
+    <property name="Analyzer">
+      <constant string="BNAnalyzer" />
+    </property>
+    <property name="Mode">
+      <constant string="Map" />
+    </property>
+    <property name="DefaultNodeStyle">
+      <constant string="BNDefaultNodeStyle" />
+    </property>
+    <property name="MapperList">
+      <constant string="HazardMap" />
+    </property>
+  </instantiate>
 
 </rml>

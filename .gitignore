@@ -1,9 +1,10 @@
 .vscode
 .vs
 .claude
+_old
 /Analysis/CPTs
 /Analysis/Loggers
-/Analysis/Output
+/Analysis/Recorders
 /Analysis/*.txt
 /Database/output
 /RML_Files/Errors/*.txt
