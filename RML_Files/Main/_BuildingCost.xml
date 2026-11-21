@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
+
+  <instantiate class="RContinuousRandomVariable" comment="Base structural unit area cost">
+    <property name="ObjectName">
+      <constant string="_BaseStrUnitAreaCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Mean">
+      <constant string="500" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Steel cost coefficient">
+    <property name="ObjectName">
+      <constant string="_SteelCostCoeff" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0.9" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1.2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Reinforced concrete cost coefficient">
+    <property name="ObjectName">
+      <constant string="_RCCostCoeff" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0.8" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" comment="Confined masonry cost coefficient">
+    <property name="ObjectName">
+      <constant string="_CMasonryCostCoeff" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="0.6" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" comment="Unreinforced masonry cost coefficient">
+    <property name="ObjectName">
+      <constant string="_UMasonryCostCoeff" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="0.6" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" comment="Adobe cost coefficient">
+    <property name="ObjectName">
+      <constant string="_AdobeCostCoeff" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="High price band cost coefficient">
+    <property name="ObjectName">
+      <constant string="_HighPriceCostCoeff" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="1" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1.4" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Low price band cost coefficient">
+    <property name="ObjectName">
+      <constant string="_LowPriceCostCoeff" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0.6" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="SteelHighPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_SteelCostCoeff;_HighPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="RCHighPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_RCCostCoeff;_HighPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="CMasonryHighPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_CMasonryCostCoeff;_HighPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="UMasonryHighPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_UMasonryCostCoeff;_HighPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="AdobeHighPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_AdobeCostCoeff;_HighPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="SteelMidPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_SteelCostCoeff;" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="RCMidPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_RCCostCoeff;" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="CMasonryMidPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_CMasonryCostCoeff;" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="UMasonryMidPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_UMasonryCostCoeff;" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="AdobeMidPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_AdobeCostCoeff;" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="SteelLowPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_SteelCostCoeff;_LowPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="RCLowPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_RCCostCoeff;_LowPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="CMasonryLowPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_CMasonryCostCoeff;_LowPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="UMasonryLowPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_UMasonryCostCoeff;_LowPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName"><constant string="AdobeLowPriceStrUnitCost" /></property>
+    <property name="OperationType"><constant string="Product" /></property>
+    <property name="ParameterList"><constant string="_BaseStrUnitAreaCost;_AdobeCostCoeff;_LowPriceCostCoeff" /></property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" default="SB"
+    comment="Sub-block unit area cost, blended over the three price bands by their area shares">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="StrUnitAreaCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <read column="Material" />
+      <constant string="LowPriceStrUnitCost_R_;" />
+      <read column="Material" />
+      <constant string="MidPriceStrUnitCost_R_;" />
+      <read column="Material" />
+      <constant string="HighPriceStrUnitCost_R_;" />
+    </property>
+    <property name="Weights">
+      <read column="Low Price Buildings Area Coeff" />
+      <constant string=";" />
+      <read column="Middle Price Buildings Area Coeff" />
+      <constant string=";" />
+      <read column="High Price Buildings Area Coeff" />
+      <constant string=";" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="SB">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="NsdReplacementCostRatio" />
+    </property>
+    <property name="CurrentValue">
+      <read column="Nonstructural Drift Replacment Cost Ratio Considering Occ" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="SB">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="NsaReplacementCostRatio" />
+    </property>
+    <property name="CurrentValue">
+      <read column="Nonstructural Acc Replacment Cost Ratio Considering Occ" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="SB">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="ContentReplacementCostRatio" />
+    </property>
+    <property name="CurrentValue">
+      <read column="Content Replacment Cost Ratio Considering Occ" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" default="SB">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="InventoryReplacementCostRatio" />
+    </property>
+    <property name="CurrentValue">
+      <read column="Inventory Replacment Cost Ratio Considering Occ" />
+    </property>
+  </instantiate>
+
+
+  <filter source="SB" name="SB_NameSourceList" basedOn="Sub Block Name" />
+
+  <instantiate class="RBuildingRepairCostModel" default="SB">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="RepairCost" />
+    </property>
+    <property name="BuildingInformationModel">
+      <read column="Sub Block Name" />
+      <constant string="Info" />
+    </property>
+    <property name="StructuralCostRatio">
+      <read column="Sub Block Name" />
+      <constant string="Dmg_StructuralCostRatio_" />
+    </property>
+    <property name="NonstructuralDriftDamageRatio">
+      <read column="Sub Block Name" />
+      <constant string="Dmg_NonstructuralDriftSensitiveDamageRatio_" />
+    </property>
+    <property name="NonstructuralAccelerationDamageRatio">
+      <read column="Sub Block Name" />
+      <constant string="Dmg_NonstructuralAccelerationSensitiveDamageRatio_" />
+    </property>
+    <property name="ContentDamageRatio">
+      <read column="Sub Block Name" />
+      <constant string="Dmg_ContentDamageRatio_" />
+    </property>
+    <property name="InventoryDamageRatio">
+      <read column="Sub Block Name" />
+      <constant string="Dmg_ContentDamageRatio_" />
+    </property>
+    <property name="UnitAreaReplacementCostPerOccupancyTypeList">
+      <sourceLoop sourceList="SB_NameSourceList">
+        <combine primary="" secondary=";">
+          <read column="Occupancy Type List" split=";" applyFunction="empty" />
+          <read column="Sub Block Name" />
+          <constant string="StrUnitAreaCost_R_" />
+        </combine>
+      </sourceLoop>
+    </property>
+    <property name="NonstructuralDriftReplacementCostRatioList">
+      <sourceLoop sourceList="SB_NameSourceList">
+        <combine primary="" secondary=";">
+          <read column="Occupancy Type List" split=";" applyFunction="empty" />
+          <read column="Sub Block Name" />
+          <constant string="NsdReplacementCostRatio" />
+        </combine>
+      </sourceLoop>
+    </property>
+    <property name="NonstructuralAccelerationReplacementCostRatioList">
+      <sourceLoop sourceList="SB_NameSourceList">
+        <combine primary="" secondary=";">
+          <read column="Occupancy Type List" split=";" applyFunction="empty" />
+          <read column="Sub Block Name" />
+          <constant string="NsaReplacementCostRatio" />
+        </combine>
+      </sourceLoop>
+    </property>
+    <property name="ContentReplacementCostRatioList">
+      <sourceLoop sourceList="SB_NameSourceList">
+        <combine primary="" secondary=";">
+          <read column="Occupancy Type List" split=";" applyFunction="empty" />
+          <read column="Sub Block Name" />
+          <constant string="ContentReplacementCostRatio" />
+        </combine>
+      </sourceLoop>
+    </property>
+    <property name="InventoryReplacementCostRatioList">
+      <sourceLoop sourceList="SB_NameSourceList">
+        <combine primary="" secondary=";">
+          <read column="Occupancy Type List" split=";" applyFunction="empty" />
+          <read column="Sub Block Name" />
+          <constant string="InventoryReplacementCostRatio" />
+        </combine>
+      </sourceLoop>
+    </property>
+    <property name="RepairStatus">
+      <constant string="_COne" />
+    </property>
+    <property name="Time">
+      <constant string="_Time" />
+    </property>
+    <property name="AnnualInterestRate">
+      <constant string="_InterestRate" />
+    </property>
+  </instantiate>
+
+</rml>

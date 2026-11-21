@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
+
+  <instantiate class="RSubblockBuildingInformationModel" default="SB">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="Info" />
+    </property>
+    <property name="NumberOfBuildings">
+      <read column="Total Buildings" />
+    </property>
+    <property name="Location">
+      <constant string="_Loc" />
+      <read column="Sub Block Name" />
+    </property>
+    <property name="FEMAOccupancyTypes">
+      <read column="Occupancy Type List" />
+    </property>
+    <property name="AreaPerOccupancyTypeMatrix">
+      <read column="Area Per Occupancy Type Per Building" />
+    </property>
+    <property name="OwnershipStatusPerOccupancyType">
+      <read column="Ownership Status Per Occupancy Type List" />
+    </property>
+    <property name="OccupancyStatusPerOccupancyType">
+      <read column="Occupancy Per Occupancy Type List" />
+    </property>
+    <property name="LoadBearingSystem">
+      <read column="Structural Type" />
+    </property>
+    <property name="SeismicPerformanceLevel">
+      <read column="Construction Quality" />
+    </property>
+    <property name="HeightLevel">
+      <read column="Height Level" />
+    </property>
+    <property name="CodeLevel">
+      <read column="Code Level" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RSubblockBuildingCapacitySpectrumModel" default="SB"
+    comment="FEMA-NIBS capacity spectrum: Sa(0.3s) and Sa(1s) in, Sd and Sa response out">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="CapacitySpectrumModel" />
+    </property>
+    <property name="InformationModel">
+      <read column="Sub Block Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Sa1">
+      <constant string="SourceSelector_" />
+      <read column="Sub Block Name" />
+      <constant string="Sa1_" />
+    </property>
+    <property name="SaShortPeriod">
+      <constant string="SourceSelector_" />
+      <read column="Sub Block Name" />
+      <constant string="SaShortPeriod_" />
+    </property>
+    <property name="Magnitude">
+      <constant string="SourceSelector_Mag_" />
+    </property>
+    <property name="CapacityCurveUncertainty">
+      <constant string="_CHalf" />
+    </property>
+    <property name="Numerical Method">
+      <read column="Spectrum Capacity Numerical Method" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="SB" comment="Structural damage uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Sub Block Name" />
+      <constant string="StrDmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="SB" comment="Nonstructural acceleration-sensitive damage uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Sub Block Name" />
+      <constant string="NsaDmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="SB" comment="Nonstructural drift-sensitive damage uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Sub Block Name" />
+      <constant string="NsdDmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RSubblockBuildingDamageFragilityModel" default="SB">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="Dmg" />
+    </property>
+    <property name="InformationModel">
+      <read column="Sub Block Name" />
+      <constant string="Info" />
+    </property>
+    <property name="SpectralDisplacement">
+      <read column="Sub Block Name" />
+      <constant string="CapacitySpectrumModel_Displacement_" />
+    </property>
+    <property name="SpectralAcceleration">
+      <read column="Sub Block Name" />
+      <constant string="CapacitySpectrumModel_Acceleration_" />
+    </property>
+    <property name="StructuralDamageUncertainty">
+      <constant string="_" />
+      <read column="Sub Block Name" />
+      <constant string="StrDmgUnc" />
+    </property>
+    <property name="NonstructuralDriftSensitiveDamageUncertainty">
+      <constant string="_" />
+      <read column="Sub Block Name" />
+      <constant string="NsdDmgUnc" />
+    </property>
+    <property name="NonstructuralAccelerationSensitiveDamageUncertainty">
+      <constant string="_" />
+      <read column="Sub Block Name" />
+      <constant string="NsaDmgUnc" />
+    </property>
+  </instantiate>
+</rml>

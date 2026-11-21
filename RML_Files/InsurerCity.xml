@@ -192,13 +192,14 @@
   <write string="// #1 Hazard Models" />
   <include from="./Main/_TimeBased.xml" />
 
-  <write string="// #2 Power Network Models" />
+  <write string="// #2 Building Models" />
+  <include from="./Main/_Building.xml" />
+
+  <write string="// #3 Power Network Models" />
   <include from="./Main/_PowerNetwork.xml" group="PNGroup" />
 
-  <write string="// #3 Water Network Models" />
+  <write string="// #4 Water Network Models" />
   <include from="./Main/_WaterNetwork.xml" group="WNGroup" />
-
-
 
   <instantiate class="RArithmeticOperationModel"
     comment="Activator: pulls every recorded response into the evaluation tree so the sampler computes them all">
@@ -271,7 +272,22 @@
         <read column="name" />
         <constant string="SaM1Corr_" />
       </combine>
-      
+      <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+        <read column="grid_name" />
+        <constant string="BldgDamageRatio_R_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS1_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS2_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS3_" />
+      </combine>
     </property>
   </instantiate>
 
@@ -399,7 +415,22 @@
         <read column="name" />
         <constant string="SaM1Corr_" />
       </combine>
-      
+      <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+        <read column="grid_name" />
+        <constant string="BldgDamageRatio_R_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS1_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS2_" />
+      </combine>
+      <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+        <read column="grid_name" />
+        <constant string="BldgPortion_RDS3_" />
+      </combine>
     </property>
     <property name="RecordingTypeFlagMatrix">
       <constant string="1;1;1;0;0/" />

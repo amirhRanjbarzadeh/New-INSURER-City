@@ -1,5 +1,296 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  
+  <import from="../../Database/bayesian_network/subblock_grids.csv" name="SBG" />
+
+  <filter source="SBG" name="BGC" basedOn="grid_name" cluster=";" />
+
+  <filter source="SBG" name="SBG_ByGrid" basedOn="grid_name" />
+
+  <instantiate class="RArithmeticOperationModel" default="BGC#grid_name"
+    comment="Area-weighted mean structural damage ratio of the cell's buildings">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BldgDamageRatio" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <sourceLoop sourceList="SBG_ByGrid">
+        <combine primary="" secondary=";">
+          <read column="subblock" />
+          <constant string="Dmg_StructuralDamageRatio_" />
+        </combine>
+      </sourceLoop>
+    </property>
+    <property name="Weights">
+      <sourceLoop sourceList="SBG_ByGrid">
+        <combine primary="" secondary=";">
+          <flatten applyFunction="weight">
+            <lookup column="subblock">
+              <target source="SB" matchColumn="Sub Block Name" readColumn="Total Area" />
+            </lookup>
+          </flatten>
+        </combine>
+      </sourceLoop>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" default="SB"
+    comment="Sub-block damage index: structural damage ratio, lifted by 2 on collapse">
+    <property name="ObjectName">
+      <read column="Sub Block Name" />
+      <constant string="DmgIndex" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <combine primary="">
+        <read column="Sub Block Name" />
+        <constant string="Dmg_StructuralDamageRatio_;" />
+        <read column="Sub Block Name" />
+        <constant string="Dmg_CollapseStatus_" />
+      </combine>
+    </property>
+    <property name="Weights">
+      <constant string="1;2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RStateCountingModel" default="BGC#grid_name"
+    comment="Area-weighted portion of the cell's buildings in each damage class">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BldgPortion" />
+    </property>
+    <property name="ParameterList">
+      <sourceLoop sourceList="SBG_ByGrid">
+        <combine primary="" secondary=";">
+          <read column="subblock" />
+          <constant string="DmgIndex_R_" />
+        </combine>
+      </sourceLoop>
+    </property>
+    <property name="Weights">
+      <sourceLoop sourceList="SBG_ByGrid">
+        <combine primary="" secondary=";">
+          <flatten applyFunction="weight">
+            <lookup column="subblock">
+              <target source="SB" matchColumn="Sub Block Name" readColumn="Total Area" />
+            </lookup>
+          </flatten>
+        </combine>
+      </sourceLoop>
+    </property>
+    <property name="StateLowerBounds">
+      <constant string="ref::rdsLowerBounds" />
+    </property>
+    <property name="StateUpperBounds">
+      <constant string="ref::rdsUpperBounds" />
+    </property>
+    <property name="ResponseNames">
+      <constant string="RDS1;RDS2;RDS3" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="BGC#grid_name" comment="Building stock damage nodes">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BuildingStockDamageCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="BGC#grid_name">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BuildingStockDamage" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="grid_name" />
+      <constant string="BuildingStockDamageCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="None;Slight;Moderate;Extensive;Complete;Total" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::buildingDamageStates" />
+    </property>
+    <property name="ParentList">
+      <combine primary="">
+        <constant string="IM" />
+        <read column="grid_name" />
+        <constant string="SaShortPeriod;IM" />
+        <read column="grid_name" />
+        <constant string="Sa1" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="BGC#grid_name" comment="Portion of buildings in RDS1 (None-Slight)">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS1CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="BGC#grid_name">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS1" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS1CPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::portionRDS1StateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::portionRDS1States" />
+    </property>
+    <property name="ParentList">
+      <combine primary="">
+        <constant string="IM" />
+        <read column="grid_name" />
+        <constant string="SaShortPeriod;IM" />
+        <read column="grid_name" />
+        <constant string="Sa1" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="BGC#grid_name" comment="Portion of buildings in RDS2 (Moderate-Complete, standing)">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS2CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="BGC#grid_name">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS2" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS2CPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::portionRDS2StateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::portionRDS2States" />
+    </property>
+    <property name="ParentList">
+      <combine primary="">
+        <constant string="IM" />
+        <read column="grid_name" />
+        <constant string="SaShortPeriod;IM" />
+        <read column="grid_name" />
+        <constant string="Sa1" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="BGC#grid_name" comment="Portion of buildings in RDS3 (Collapse)">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS3CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="BGC#grid_name">
+    <property name="ObjectName">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS3" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="grid_name" />
+      <constant string="BldgPortionRDS3CPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="ref::portionRDS3StateNames" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::portionRDS3States" />
+    </property>
+    <property name="ParentList">
+      <combine primary="">
+        <constant string="IM" />
+        <read column="grid_name" />
+        <constant string="SaShortPeriod;IM" />
+        <read column="grid_name" />
+        <constant string="Sa1" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <write string="// Building stock map layer: each occupied cell drawn as its hexagon" />
+
+  <instantiate class="RBayesianMapper"
+    comment="Building stock damage and damage-class portions of each occupied grid cell">
+    <property name="ObjectName">
+      <constant string="BuildingStockMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+        <constant string="BuildingStockDamage" />
+      </combine>
+      <constant string="/" />
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+        <constant string="BldgPortionRDS1" />
+      </combine>
+      <constant string="/" />
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+        <constant string="BldgPortionRDS2" />
+      </combine>
+      <constant string="/" />
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+        <constant string="BldgPortionRDS3" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="BGC#grid_name" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="grid_name" />
+        <constant string="Point1;" />
+        <constant string="_Loc" />
+        <read column="grid_name" />
+        <constant string="Point2;" />
+        <constant string="_Loc" />
+        <read column="grid_name" />
+        <constant string="Point3;" />
+        <constant string="_Loc" />
+        <read column="grid_name" />
+        <constant string="Point4;" />
+        <constant string="_Loc" />
+        <read column="grid_name" />
+        <constant string="Point5;" />
+        <constant string="_Loc" />
+        <read column="grid_name" />
+        <constant string="Point6" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="BGC#grid_name" primary="" secondary=";">
+        <read column="grid_name" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Building stock damage;Portion RDS1 (None-Slight);Portion RDS2 (Moderate-Complete);Portion RDS3 (Collapse)" />
+    </property>
+    <property name="Opacity">
+      <constant string="0.6" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
 </rml>

@@ -210,6 +210,22 @@
           <read column="name" />
           <constant string="SaM1Epsilon" />
         </combine>
+        <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+          <read column="grid_name" />
+          <constant string="BuildingStockDamage" />
+        </combine>
+        <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+          <read column="grid_name" />
+          <constant string="BldgPortionRDS1" />
+        </combine>
+        <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+          <read column="grid_name" />
+          <constant string="BldgPortionRDS2" />
+        </combine>
+        <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+          <read column="grid_name" />
+          <constant string="BldgPortionRDS3" />
+        </combine>
       </combine>
     </property>
     <property name="ResponseList">
@@ -260,6 +276,22 @@
           <read column="name" />
           <constant string="SaM1Corr_" />
         </combine>
+        <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+          <read column="grid_name" />
+          <constant string="BldgDamageRatio_R_" />
+        </combine>
+        <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+          <read column="grid_name" />
+          <constant string="BldgPortion_RDS1_" />
+        </combine>
+        <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+          <read column="grid_name" />
+          <constant string="BldgPortion_RDS2_" />
+        </combine>
+        <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
+          <read column="grid_name" />
+          <constant string="BldgPortion_RDS3_" />
+        </combine>
       </combine>
     </property>
     <property name="LearnNetwork">
@@ -300,6 +332,9 @@
     </property>
     <property name="MapperList">
       <constant string="HazardMap" />
+      <combine primary="" group="BNBuildingGroup">
+        <constant string=";BuildingStockMap" />
+      </combine>
     </property>
   </instantiate>
 
