@@ -1,5 +1,405 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  
+  <import from="../../Database/bayesian_network/power_asset_grids.csv" name="PAG" />
+  <import from="../../Database/bayesian_network/power_service_chain.csv" name="PSC" />
+  <import from="../../Database/bayesian_network/power_zone_service.csv" name="PZS" />
+  <import from="../../Database/bayesian_network/power_zone_feeders.csv" name="PZF" />
+
+  <filter source="PAG" name="PAG_PS">
+    <and>
+      <condition column="asset_class" value="PowerStation" />
+      <condition column="has_fragility" value="TRUE" />
+    </and>
+  </filter>
+
+  <filter source="PAG" name="PAG_PL">
+    <condition column="asset_class" contain="PowerLine" />
+  </filter>
+
+  <filter source="PSC" name="PSC_Root">
+    <condition column="is_root" value="TRUE" />
+  </filter>
+
+  <filter source="PSC" name="PSC_Junction">
+    <and>
+      <condition column="is_root" value="FALSE" />
+      <condition column="has_fragility" value="FALSE" />
+    </and>
+  </filter>
+
+  <filter source="PSC" name="PSC_Station">
+    <and>
+      <condition column="is_root" value="FALSE" />
+      <condition column="has_fragility" value="TRUE" />
+    </and>
+  </filter>
+
+  <write string="// Power station damage: parent is the PGA node of the grid cell holding the station" />
+
+  <instantiate class="RConditionalProbabilityTable" default="PAG_PS">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="PAG_PS">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="Damage" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="None;Slight;Moderate;Extensive;Complete" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::psDamageStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="IM" />
+      <read column="grid_name" />
+      <constant string="Sa0" />
+    </property>
+  </instantiate>
+
+  <write string="// Power line damage: parent is the PGA node of the grid cell holding the line midpoint" />
+
+  <instantiate class="RConditionalProbabilityTable" default="PAG_PL">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="PAG_PL">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="Damage" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="Undamaged;Damaged" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::plDamageStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="IM" />
+      <read column="grid_name" />
+      <constant string="Sa0" />
+    </property>
+  </instantiate>
+
+  <write string="// Power station functionality" />
+
+  <instantiate class="RConditionalProbabilityTable" default="PAG_PS">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="FunctionalityCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="PAG_PS">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="Functionality" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="asset_name" />
+      <constant string="FunctionalityCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="NotFunctional;Functional" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::functionalityStates" />
+    </property>
+    <property name="ParentList">
+      <read column="asset_name" />
+      <constant string="Damage" />
+    </property>
+  </instantiate>
+
+  <write string="// Power serviceability: user-defined CPTs" />
+
+  <instantiate class="RConditionalProbabilityTable" default="PSC" group="BNPowerServUserDefinedGroup">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="ServiceabilityCPT" />
+    </property>
+    <property name="ValueTable">
+      <read column="cpt" />
+    </property>
+    <property name="UserDefined">
+      <constant string="true" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="PZS" group="BNPowerServUserDefinedGroup">
+    <property name="ObjectName">
+      <read column="zone" />
+      <constant string="ServiceabilityCPT" />
+    </property>
+    <property name="ValueTable">
+      <read column="cpt" />
+    </property>
+    <property name="UserDefined">
+      <constant string="true" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="PSC_Root" group="BNPowerServUserDefinedGroup"
+    comment="Slack bus: serviceable when functional">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serv" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="node" />
+      <constant string="Dmg_FunctionalityState_&gt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="PSC_Junction" group="BNPowerServUserDefinedGroup"
+    comment="Junction: serviceable when fed and the feeding line is undamaged">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serv" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="upstream" />
+      <constant string="Serv_R_&gt;0.5)*(" />
+      <read column="link" />
+      <constant string="Dmg_State_&lt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="PSC_Station" group="BNPowerServUserDefinedGroup"
+    comment="Station: serviceable when fed, the feeding line is undamaged and the station is functional">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serv" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="upstream" />
+      <constant string="Serv_R_&gt;0.5)*(" />
+      <read column="link" />
+      <constant string="Dmg_State_&lt;0.5)*(" />
+      <read column="node" />
+      <constant string="Dmg_FunctionalityState_&gt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" default="PZS"
+    comment="Zone serviceability: served while any of its feeders is">
+    <property name="ObjectName">
+      <read column="zone" />
+      <constant string="Serv" />
+    </property>
+    <property name="OperationType">
+      <constant string="Max" />
+    </property>
+    <property name="ParameterList">
+      <read column="responses" />
+    </property>
+  </instantiate>
+
+  <write string="// Power serviceability nodes: one per station, junctions included, so the chain stays connected" />
+
+  <instantiate class="RNode" default="PSC">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serviceability" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="node" />
+      <constant string="ServiceabilityCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="NotServiceable;Serviceable" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::serviceabilityStates" />
+    </property>
+    <property name="ParentList">
+      <read column="parents" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="PZS" comment="Power zone serviceability">
+    <property name="ObjectName">
+      <read column="zone" />
+      <constant string="Serviceability" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="zone" />
+      <constant string="ServiceabilityCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="NotServiceable;Serviceable" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::serviceabilityStates" />
+    </property>
+    <property name="ParentList">
+      <read column="parents" />
+    </property>
+  </instantiate>
+
+  <write string="// Power network map layers" />
+
+  <instantiate class="RBayesianMapper" comment="Damage and functionality of each power station with a fragility">
+    <property name="ObjectName">
+      <constant string="PowerStationMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="PAG_PS" primary="" secondary=";">
+        <read column="asset_name" />
+        <constant string="Damage" />
+      </combine>
+      <constant string="/" />
+      <combine default="PAG_PS" primary="" secondary=";">
+        <read column="asset_name" />
+        <constant string="Functionality" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="PAG_PS" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="asset_name" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="PAG_PS" primary="" secondary=";">
+        <read column="asset_name" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Damage;Functionality" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Damage of each power line, drawn between its end stations">
+    <property name="ObjectName">
+      <constant string="PowerLineMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="PL" primary="" secondary=";">
+        <read column="Power Line Name" />
+        <constant string="Damage" />
+      </combine>
+      <constant string=";" />
+      <combine default="PL_M" primary="" secondary=";">
+        <read column="Power Line Name" />
+        <constant string="Damage" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="PL" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="Origin Node" />
+        <constant string=";_Loc" />
+        <read column="Destination Node" />
+      </combine>
+      <constant string="/" />
+      <combine default="PL_M" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="Origin Node" />
+        <constant string=";_Loc" />
+        <read column="Destination Node" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="PL" primary="" secondary=";">
+        <read column="Power Line Name" />
+      </combine>
+      <constant string=";" />
+      <combine default="PL_M" primary="" secondary=";">
+        <read column="Power Line Name" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Damage" />
+    </property>
+    <property name="LineThickness">
+      <constant string="3" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Serviceability of every power network node">
+    <property name="ObjectName">
+      <constant string="PowerServiceabilityMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="PSC" primary="" secondary=";">
+        <read column="node" />
+        <constant string="Serviceability" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="PSC" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="node" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="PSC" primary="" secondary=";">
+        <read column="node" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Serviceability" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Serviceability of each power zone, drawn as a point at each of its feeders">
+    <property name="ObjectName">
+      <constant string="PowerZoneMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="PZF" primary="" secondary=";">
+        <read column="zone" />
+        <constant string="Serviceability" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="PZF" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="feeder" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="PZF" primary="" secondary=";">
+        <read column="zone" />
+        <constant string="_" />
+        <read column="feeder" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Serviceability" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
 </rml>

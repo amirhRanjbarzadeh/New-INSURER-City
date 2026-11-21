@@ -26,6 +26,7 @@
     <cell column="power_Network" row="2">
       <case value="Dummy">
         <skip targetGroup="PNGroup" />
+        <skip targetGroup="BNPowerGroup" />
         <skip targetGroup="HospitalGroup" />
       </case>
       <case value="Full">
@@ -35,6 +36,7 @@
     <cell column="water_Network" row="2">
       <case value="Dummy">
         <skip targetGroup="WNGroup" />
+        <skip targetGroup="BNWaterGroup" />
         <skip targetGroup="HospitalGroup" />
       </case>
       <case value="Full">
@@ -288,6 +290,56 @@
         <read column="grid_name" />
         <constant string="BldgPortion_RDS3_" />
       </combine>
+      <combine primary="" group="PNGroup">
+        <constant string="PNTotalRepairCost_R_;" />
+      </combine>
+      <combine default="PAG_PS" primary="" secondary=";" group="BNPowerGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_Ratio_" />
+      </combine>
+      <combine default="PAG_PL" primary="" secondary=";" group="BNPowerGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="PAG_PS" primary="" secondary=";" group="BNPowerGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_FunctionalityState_" />
+      </combine>
+      <combine default="PSC" primary="" secondary=";" group="BNPowerGroup">
+        <read column="node" />
+        <constant string="Serv_R_" />
+      </combine>
+      <combine default="PZS" primary="" secondary=";" group="BNPowerGroup">
+        <read column="zone" />
+        <constant string="Serv_R_" />
+      </combine>
+      <combine primary="" group="WNGroup">
+        <constant string="WaterNetworkTotalCost_R_;" />
+      </combine>
+      <combine default="WAG_WS" primary="" secondary=";" group="BNWaterGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="WAG_WSDN" primary="" secondary=";" group="BNWaterGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_AverageRepairRate_" />
+      </combine>
+      <combine default="WAG_WPl" primary="" secondary=";" group="BNWaterGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="WAG_WS" primary="" secondary=";" group="BNWaterGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_Functionality_" />
+      </combine>
+      <combine default="WSC" primary="" secondary=";" group="BNWaterGroup">
+        <read column="node" />
+        <constant string="Serv_R_" />
+      </combine>
+      <combine default="WZS" primary="" secondary=";" group="BNWaterGroup">
+        <read column="zone" />
+        <constant string="Serv_R_" />
+      </combine>
     </property>
   </instantiate>
 
@@ -430,6 +482,56 @@
       <combine default="BGC#grid_name" primary="" secondary=";" group="BNBuildingGroup">
         <read column="grid_name" />
         <constant string="BldgPortion_RDS3_" />
+      </combine>
+      <combine primary="" group="PNGroup">
+        <constant string="PNTotalRepairCost_R_;" />
+      </combine>
+      <combine default="PAG_PS" primary="" secondary=";" group="BNPowerGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_Ratio_" />
+      </combine>
+      <combine default="PAG_PL" primary="" secondary=";" group="BNPowerGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="PAG_PS" primary="" secondary=";" group="BNPowerGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_FunctionalityState_" />
+      </combine>
+      <combine default="PSC" primary="" secondary=";" group="BNPowerGroup">
+        <read column="node" />
+        <constant string="Serv_R_" />
+      </combine>
+      <combine default="PZS" primary="" secondary=";" group="BNPowerGroup">
+        <read column="zone" />
+        <constant string="Serv_R_" />
+      </combine>
+      <combine primary="" group="WNGroup">
+        <constant string="WaterNetworkTotalCost_R_;" />
+      </combine>
+      <combine default="WAG_WS" primary="" secondary=";" group="BNWaterGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="WAG_WSDN" primary="" secondary=";" group="BNWaterGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_AverageRepairRate_" />
+      </combine>
+      <combine default="WAG_WPl" primary="" secondary=";" group="BNWaterGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_State_" />
+      </combine>
+      <combine default="WAG_WS" primary="" secondary=";" group="BNWaterGroup">
+        <read column="asset_name" />
+        <constant string="Dmg_Functionality_" />
+      </combine>
+      <combine default="WSC" primary="" secondary=";" group="BNWaterGroup">
+        <read column="node" />
+        <constant string="Serv_R_" />
+      </combine>
+      <combine default="WZS" primary="" secondary=";" group="BNWaterGroup">
+        <read column="zone" />
+        <constant string="Serv_R_" />
       </combine>
     </property>
     <property name="RecordingTypeFlagMatrix">

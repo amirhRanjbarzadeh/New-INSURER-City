@@ -1,5 +1,725 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  
+  <import from="../../Database/insurer_city/PowerStation_Dist.csv" name="PSDist" />
+  <import from="../../Database/insurer_city/PowerStation_GenORTrans.csv" name="PSGenORTrans" />
+
+  <filter source="PSDist" name="PSDist_Switch">
+    <condition column="Power Station Type" value="FEMA_NIBS_2012_LW_SwitchingStation" />
+  </filter>
+
+  <instantiate class="RPowerStationInformationModel" default="PSDist"
+    comment="Distribution stations: switching stations and junctions">
+    <property name="ObjectName">
+      <read column="Power Station Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Location">
+      <constant string="_Loc" />
+      <read column="Power Station Name" />
+    </property>
+    <property name="PowerStationType">
+      <read column="Power Station Type" />
+    </property>
+    <property name="BusType">
+      <read column="Bus Type" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerStationInformationModel" default="PSGenORTrans"
+    comment="Generation, slack and transformation substations">
+    <property name="ObjectName">
+      <read column="Power Station Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Location">
+      <constant string="_Loc" />
+      <read column="Power Station Name" />
+    </property>
+    <property name="PowerStationType">
+      <read column="Power Station Type" />
+    </property>
+    <property name="BusType">
+      <read column="Bus Type" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerLineInformationModel" default="PL">
+    <property name="ObjectName">
+      <read column="Power Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="OriginNodeInformationModel">
+      <read column="Origin Node" />
+      <constant string="Info" />
+    </property>
+    <property name="DestinationNodeInformationModel">
+      <read column="Destination Node" />
+      <constant string="Info" />
+    </property>
+    <property name="Voltage">
+      <read column="Voltage" />
+    </property>
+    <property name="ConductorType">
+      <read column="Conductor Type" />
+    </property>
+    <property name="TowerType">
+      <read column="Tower Type" />
+    </property>
+    <property name="ManueveringLine">
+      <constant string="false" />
+    </property>
+    <property name="AverageDistanceBetweenTowers">
+      <read column="Average Distance Between Consecutive Power Towers [m]" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerLineInformationModel" default="PL_M">
+    <property name="ObjectName">
+      <read column="Power Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="OriginNodeInformationModel">
+      <read column="Origin Node" />
+      <constant string="Info" />
+    </property>
+    <property name="DestinationNodeInformationModel">
+      <read column="Destination Node" />
+      <constant string="Info" />
+    </property>
+    <property name="ConductorType">
+      <read column="Conductor Type" />
+    </property>
+    <property name="TowerType">
+      <read column="Tower Type" />
+    </property>
+    <property name="ManueveringLine">
+      <constant string="true" />
+    </property>
+    <property name="AverageDistanceBetweenTowers">
+      <read column="Average Distance Between Consecutive Power Towers [m]" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PSDist_Switch" comment="Power station damage uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PSGenORTrans" comment="Power station damage uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RFemaNibs2012PowerStationDamageModel" default="PSDist_Switch">
+    <property name="ObjectName">
+      <read column="Power Station Name" />
+      <constant string="Dmg" />
+    </property>
+    <property name="PowerStationInformationModel">
+      <read column="Power Station Name" />
+      <constant string="Info" />
+    </property>
+    <property name="PGA">
+      <constant string="SourceSelector_" />
+      <read column="Power Station Name" />
+      <constant string="Sa0_" />
+    </property>
+    <property name="Uncertainty">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="DmgUnc" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RFemaNibs2012PowerStationDamageModel" default="PSGenORTrans">
+    <property name="ObjectName">
+      <read column="Power Station Name" />
+      <constant string="Dmg" />
+    </property>
+    <property name="PowerStationInformationModel">
+      <read column="Power Station Name" />
+      <constant string="Info" />
+    </property>
+    <property name="PGA">
+      <constant string="SourceSelector_" />
+      <read column="Power Station Name" />
+      <constant string="Sa0_" />
+    </property>
+    <property name="Uncertainty">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="DmgUnc" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL" comment="Power line damage uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL_M" comment="Power line damage uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerLineDamageModel" default="PL">
+    <property name="ObjectName">
+      <read column="Power Line Name" />
+      <constant string="Dmg" />
+    </property>
+    <property name="PowerLineInformationModel">
+      <read column="Power Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Intensity">
+      <constant string="SourceSelector_" />
+      <read column="Power Line Name" />
+      <constant string="Sa0_" />
+    </property>
+    <property name="DamageRatioUncertainty">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="DmgUnc" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerLineDamageModel" default="PL_M">
+    <property name="ObjectName">
+      <read column="Power Line Name" />
+      <constant string="Dmg" />
+    </property>
+    <property name="PowerLineInformationModel">
+      <read column="Power Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Intensity">
+      <constant string="SourceSelector_" />
+      <read column="Power Line Name" />
+      <constant string="Sa0_" />
+    </property>
+    <property name="DamageRatioUncertainty">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="DmgUnc" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PSDist_Switch" comment="Power station repair time uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="RepairTimeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PSGenORTrans" comment="Power station repair time uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="RepairTimeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0" />
+    </property>
+    <property name="StandardDeviation">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RFemaNibs2012PowerStationRepairTimeModel" default="PSDist_Switch">
+    <property name="ObjectName">
+      <read column="Power Station Name" />
+      <constant string="RepairTime" />
+    </property>
+    <property name="DamageRatio">
+      <constant string="_CZero" />
+    </property>
+    <property name="Uncertainty">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="RepairTimeUnc" />
+    </property>
+    <property name="NegligibleTimeThreshold">
+      <constant string="0.1" />
+    </property>
+    <property name="NegligibleDamageThreshold">
+      <constant string="0.05" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RFemaNibs2012PowerStationRepairTimeModel" default="PSGenORTrans">
+    <property name="ObjectName">
+      <read column="Power Station Name" />
+      <constant string="RepairTime" />
+    </property>
+    <property name="DamageRatio">
+      <read column="Power Station Name" />
+      <constant string="Dmg_Ratio_" />
+    </property>
+    <property name="Uncertainty">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="RepairTimeUnc" />
+    </property>
+    <property name="NegligibleTimeThreshold">
+      <constant string="0.1" />
+    </property>
+    <property name="NegligibleDamageThreshold">
+      <constant string="0.05" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL" comment="Repair time of one power tower">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="TowersRepairTime" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0.125" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL_M" comment="Repair time of one power tower">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="TowersRepairTime" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="0.125" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL" comment="Conductor repair time">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="ConductorRepairTime" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="1" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL_M" comment="Conductor repair time">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="ConductorRepairTime" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="1" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerLineRepairTimeModel" default="PL">
+    <property name="ObjectName">
+      <read column="Power Line Name" />
+      <constant string="RepairTime" />
+    </property>
+    <property name="TotalDamagedPowerTowers">
+      <read column="Power Line Name" />
+      <constant string="Dmg_TowersTotalDamage_" />
+    </property>
+    <property name="TotalDamagedConductor">
+      <read column="Power Line Name" />
+      <constant string="Dmg_ConductorTotalDamage_" />
+    </property>
+    <property name="PowerTowerRepairTime">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="TowersRepairTime" />
+    </property>
+    <property name="ConductorRepairTime">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="ConductorRepairTime" />
+    </property>
+    <property name="NegligibleTimeThreshold">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerLineRepairTimeModel" default="PL_M">
+    <property name="ObjectName">
+      <read column="Power Line Name" />
+      <constant string="RepairTime" />
+    </property>
+    <property name="TotalDamagedPowerTowers">
+      <read column="Power Line Name" />
+      <constant string="Dmg_TowersTotalDamage_" />
+    </property>
+    <property name="TotalDamagedConductor">
+      <read column="Power Line Name" />
+      <constant string="Dmg_ConductorTotalDamage_" />
+    </property>
+    <property name="PowerTowerRepairTime">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="TowersRepairTime" />
+    </property>
+    <property name="ConductorRepairTime">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="ConductorRepairTime" />
+    </property>
+    <property name="NegligibleTimeThreshold">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PSDist_Switch" comment="Power station replacement cost">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="ReplacementCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <read column="Replacement Cost [kT]" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <read column="COV" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PSGenORTrans" comment="Power station replacement cost">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="ReplacementCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <read column="Replacement Cost [kT]" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <read column="COV" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RSimplePowerStationRepairCostModel" default="PSDist_Switch">
+    <property name="ObjectName">
+      <read column="Power Station Name" />
+      <constant string="RepairCost" />
+    </property>
+    <property name="DamageRatio">
+      <read column="Power Station Name" />
+      <constant string="Dmg_Ratio_" />
+    </property>
+    <property name="RepairStatus">
+      <constant string="_COne" />
+    </property>
+    <property name="ReplacementCost">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="ReplacementCost" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RSimplePowerStationRepairCostModel" default="PSGenORTrans">
+    <property name="ObjectName">
+      <read column="Power Station Name" />
+      <constant string="RepairCost" />
+    </property>
+    <property name="DamageRatio">
+      <read column="Power Station Name" />
+      <constant string="Dmg_Ratio_" />
+    </property>
+    <property name="RepairStatus">
+      <constant string="_COne" />
+    </property>
+    <property name="ReplacementCost">
+      <constant string="_" />
+      <read column="Power Station Name" />
+      <constant string="ReplacementCost" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL" comment="Replacement cost of one power tower">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="PowerTowerReplacementCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <read column="Power Tower Replacement Cost (kT)" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <read column="COV" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL_M" comment="Replacement cost of one power tower">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="PowerTowerReplacementCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <read column="Power Tower Replacement Cost (kT)" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <read column="COV" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL" comment="Conductor replacement cost per km">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="ConductorReplacementCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <read column="Conductor Replacement Cost (kT/km)" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="PL_M" comment="Conductor replacement cost per km">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="ConductorReplacementCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <read column="Conductor Replacement Cost (kT/km)" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerLineRepairCostModel" default="PL">
+    <property name="ObjectName">
+      <read column="Power Line Name" />
+      <constant string="RepairCost" />
+    </property>
+    <property name="SinglePowerTowerReplacementCost">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="PowerTowerReplacementCost" />
+    </property>
+    <property name="ConductorUnitReplacementCost">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="ConductorReplacementCost" />
+    </property>
+    <property name="TotalFailedPowerTowers">
+      <read column="Power Line Name" />
+      <constant string="Dmg_TowersTotalDamage_" />
+    </property>
+    <property name="TotalLengthOfFailedConductor">
+      <read column="Power Line Name" />
+      <constant string="Dmg_ConductorTotalDamage_" />
+    </property>
+    <property name="RepairStatus">
+      <constant string="_COne" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RPowerLineRepairCostModel" default="PL_M">
+    <property name="ObjectName">
+      <read column="Power Line Name" />
+      <constant string="RepairCost" />
+    </property>
+    <property name="SinglePowerTowerReplacementCost">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="PowerTowerReplacementCost" />
+    </property>
+    <property name="ConductorUnitReplacementCost">
+      <constant string="_" />
+      <read column="Power Line Name" />
+      <constant string="ConductorReplacementCost" />
+    </property>
+    <property name="TotalFailedPowerTowers">
+      <read column="Power Line Name" />
+      <constant string="Dmg_TowersTotalDamage_" />
+    </property>
+    <property name="TotalLengthOfFailedConductor">
+      <read column="Power Line Name" />
+      <constant string="Dmg_ConductorTotalDamage_" />
+    </property>
+    <property name="RepairStatus">
+      <constant string="_COne" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Generation, slack and transformation substations">
+    <property name="ObjectName">
+      <constant string="PSGenORTransTotalRepairCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <combine default="PSGenORTrans" primary="" secondary=";">
+        <read column="Power Station Name" />
+        <constant string="RepairCost_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Switching stations">
+    <property name="ObjectName">
+      <constant string="PSDistTotalRepairCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <combine default="PSDist_Switch" primary="" secondary=";">
+        <read column="Power Station Name" />
+        <constant string="RepairCost_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Power lines">
+    <property name="ObjectName">
+      <constant string="PLTotalRepairCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <combine default="PL" primary="" secondary=";">
+        <read column="Power Line Name" />
+        <constant string="RepairCost_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Maneuver lines">
+    <property name="ObjectName">
+      <constant string="PLMTotalRepairCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <combine default="PL_M" primary="" secondary=";">
+        <read column="Power Line Name" />
+        <constant string="RepairCost_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Whole power network">
+    <property name="ObjectName">
+      <constant string="PNTotalRepairCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <constant string="PSGenORTransTotalRepairCost_R_;PSDistTotalRepairCost_R_;PLTotalRepairCost_R_;PLMTotalRepairCost_R_" />
+    </property>
+  </instantiate>
+
 </rml>

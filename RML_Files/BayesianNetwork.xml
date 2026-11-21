@@ -85,6 +85,7 @@
     <cell column="power_line_damage_states" row="2"><save name="plDamageStates" /></cell>
     <cell column="water_station_damage_states" row="2"><save name="wsDamageStates" /></cell>
     <cell column="water_pipeline_damage_states" row="2"><save name="wplDamageStates" /></cell>
+    <cell column="water_node_damage_states" row="2"><save name="wsdnDamageStates" /></cell>
     <cell column="building_damage_states" row="2"><save name="buildingDamageStates" /></cell>
     <cell column="collapse_states" row="2"><save name="collapseStates" /></cell>
     <cell column="functionality_states" row="2"><save name="functionalityStates" /></cell>
@@ -226,6 +227,50 @@
           <read column="grid_name" />
           <constant string="BldgPortionRDS3" />
         </combine>
+        <combine default="PAG_PS" primary="" secondary=";" group="BNPowerGroup">
+          <read column="asset_name" />
+          <constant string="Damage" />
+        </combine>
+        <combine default="PAG_PL" primary="" secondary=";" group="BNPowerGroup">
+          <read column="asset_name" />
+          <constant string="Damage" />
+        </combine>
+        <combine default="PAG_PS" primary="" secondary=";" group="BNPowerGroup">
+          <read column="asset_name" />
+          <constant string="Functionality" />
+        </combine>
+        <combine default="PSC" primary="" secondary=";" group="BNPowerGroup">
+          <read column="node" />
+          <constant string="Serviceability" />
+        </combine>
+        <combine default="PZS" primary="" secondary=";" group="BNPowerGroup">
+          <read column="zone" />
+          <constant string="Serviceability" />
+        </combine>
+        <combine default="WAG_WS" primary="" secondary=";" group="BNWaterGroup">
+          <read column="asset_name" />
+          <constant string="Damage" />
+        </combine>
+        <combine default="WAG_WSDN" primary="" secondary=";" group="BNWaterGroup">
+          <read column="asset_name" />
+          <constant string="Damage" />
+        </combine>
+        <combine default="WAG_WPl" primary="" secondary=";" group="BNWaterGroup">
+          <read column="asset_name" />
+          <constant string="Damage" />
+        </combine>
+        <combine default="WAG_WS" primary="" secondary=";" group="BNWaterGroup">
+          <read column="asset_name" />
+          <constant string="Functionality" />
+        </combine>
+        <combine default="WSC" primary="" secondary=";" group="BNWaterGroup">
+          <read column="node" />
+          <constant string="Serviceability" />
+        </combine>
+        <combine default="WZS" primary="" secondary=";" group="BNWaterGroup">
+          <read column="zone" />
+          <constant string="Serviceability" />
+        </combine>
       </combine>
     </property>
     <property name="ResponseList">
@@ -292,6 +337,50 @@
           <read column="grid_name" />
           <constant string="BldgPortion_RDS3_" />
         </combine>
+        <combine default="PAG_PS" primary="" secondary=";" group="BNPowerGroup">
+          <read column="asset_name" />
+          <constant string="Dmg_Ratio_" />
+        </combine>
+        <combine default="PAG_PL" primary="" secondary=";" group="BNPowerGroup">
+          <read column="asset_name" />
+          <constant string="Dmg_State_" />
+        </combine>
+        <combine default="PAG_PS" primary="" secondary=";" group="BNPowerGroup">
+          <read column="asset_name" />
+          <constant string="Dmg_FunctionalityState_" />
+        </combine>
+        <combine default="PSC" primary="" secondary=";" group="BNPowerGroup">
+          <read column="node" />
+          <constant string="Serv_R_" />
+        </combine>
+        <combine default="PZS" primary="" secondary=";" group="BNPowerGroup">
+          <read column="zone" />
+          <constant string="Serv_R_" />
+        </combine>
+        <combine default="WAG_WS" primary="" secondary=";" group="BNWaterGroup">
+          <read column="asset_name" />
+          <constant string="Dmg_State_" />
+        </combine>
+        <combine default="WAG_WSDN" primary="" secondary=";" group="BNWaterGroup">
+          <read column="asset_name" />
+          <constant string="Dmg_AverageRepairRate_" />
+        </combine>
+        <combine default="WAG_WPl" primary="" secondary=";" group="BNWaterGroup">
+          <read column="asset_name" />
+          <constant string="Dmg_State_" />
+        </combine>
+        <combine default="WAG_WS" primary="" secondary=";" group="BNWaterGroup">
+          <read column="asset_name" />
+          <constant string="Dmg_Functionality_" />
+        </combine>
+        <combine default="WSC" primary="" secondary=";" group="BNWaterGroup">
+          <read column="node" />
+          <constant string="Serv_R_" />
+        </combine>
+        <combine default="WZS" primary="" secondary=";" group="BNWaterGroup">
+          <read column="zone" />
+          <constant string="Serv_R_" />
+        </combine>
       </combine>
     </property>
     <property name="LearnNetwork">
@@ -334,6 +423,12 @@
       <constant string="HazardMap" />
       <combine primary="" group="BNBuildingGroup">
         <constant string=";BuildingStockMap" />
+      </combine>
+      <combine primary="" group="BNPowerGroup">
+        <constant string=";PowerStationMap;PowerLineMap;PowerServiceabilityMap;PowerZoneMap" />
+      </combine>
+      <combine primary="" group="BNWaterGroup">
+        <constant string=";WaterStationMap;WaterNodeMap;WaterPipelineMap;WaterServiceabilityMap;WaterZoneMap" />
       </combine>
     </property>
   </instantiate>

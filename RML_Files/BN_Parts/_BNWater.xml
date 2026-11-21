@@ -1,5 +1,467 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  
+  <import from="../../Database/bayesian_network/water_asset_grids.csv" name="WAG" />
+  <import from="../../Database/bayesian_network/water_service_chain.csv" name="WSC" />
+  <import from="../../Database/bayesian_network/water_zone_service.csv" name="WZS" />
+  <import from="../../Database/bayesian_network/water_zone_feeders.csv" name="WZF" />
+
+  <filter source="WAG" name="WAG_WS">
+    <condition column="asset_class" value="WaterStation" />
+  </filter>
+
+  <filter source="WAG" name="WAG_WSDN">
+    <condition column="asset_class" value="WaterDistributionNode" />
+  </filter>
+
+  <filter source="WAG" name="WAG_WPl">
+    <condition column="asset_class" value="WaterPipeline" />
+  </filter>
+
+  <filter source="WSC" name="WSC_Root">
+    <condition column="kind" value="Root" />
+  </filter>
+
+  <filter source="WSC" name="WSC_Station">
+    <condition column="kind" value="Station" />
+  </filter>
+
+  <filter source="WSC" name="WSC_Node">
+    <condition column="kind" value="Node" />
+  </filter>
+
+  <filter source="WSC" name="WSC_Junction">
+    <condition column="kind" value="Junction" />
+  </filter>
+
+  <write string="// Water station damage: parent is the PGA node of the grid cell holding the station" />
+
+  <instantiate class="RConditionalProbabilityTable" default="WAG_WS">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="WAG_WS">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="Damage" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="None;Slight;Moderate;Extensive;Complete" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::wsDamageStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="IM" />
+      <read column="grid_name" />
+      <constant string="Sa0" />
+    </property>
+  </instantiate>
+
+  <write string="// Water station functionality" />
+
+  <instantiate class="RConditionalProbabilityTable" default="WAG_WS">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="FunctionalityCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="WAG_WS">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="Functionality" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="asset_name" />
+      <constant string="FunctionalityCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="NotFunctional;Functional" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::functionalityStates" />
+    </property>
+    <property name="ParentList">
+      <read column="asset_name" />
+      <constant string="Damage" />
+    </property>
+  </instantiate>
+
+  <write string="// Water distribution node damage: damaged above a 0.2 repair rate; parent is the PGV node of its grid cell" />
+
+  <instantiate class="RConditionalProbabilityTable" default="WAG_WSDN">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="WAG_WSDN">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="Damage" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="Undamaged;Damaged" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::wsdnDamageStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="IM" />
+      <read column="grid_name" />
+      <constant string="SaM1" />
+    </property>
+  </instantiate>
+
+  <write string="// Water pipeline damage: parent is the PGV node of the grid cell holding the pipeline centre" />
+
+  <instantiate class="RConditionalProbabilityTable" default="WAG_WPl">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="WAG_WPl">
+    <property name="ObjectName">
+      <read column="asset_name" />
+      <constant string="Damage" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="asset_name" />
+      <constant string="DamageCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="None;Leak;Break" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::wplDamageStates" />
+    </property>
+    <property name="ParentList">
+      <constant string="IM" />
+      <read column="grid_name" />
+      <constant string="SaM1" />
+    </property>
+  </instantiate>
+
+  <write string="// Water serviceability: user-defined CPTs" />
+
+  <instantiate class="RConditionalProbabilityTable" default="WSC" group="BNWaterServUserDefinedGroup">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="ServiceabilityCPT" />
+    </property>
+    <property name="ValueTable">
+      <read column="cpt" />
+    </property>
+    <property name="UserDefined">
+      <constant string="true" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="WZS" group="BNWaterServUserDefinedGroup">
+    <property name="ObjectName">
+      <read column="zone" />
+      <constant string="ServiceabilityCPT" />
+    </property>
+    <property name="ValueTable">
+      <read column="cpt" />
+    </property>
+    <property name="UserDefined">
+      <constant string="true" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="WSC_Root" group="BNWaterServUserDefinedGroup"
+    comment="Source station: serviceable when functional">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serv" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="node" />
+      <constant string="Dmg_Functionality_&gt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="WSC_Station" group="BNWaterServUserDefinedGroup"
+    comment="Station: serviceable when fed, the feeding pipe is not broken and the station is functional">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serv" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="upstream" />
+      <constant string="Serv_R_&gt;0.5)*(" />
+      <read column="link" />
+      <constant string="Dmg_State_&lt;1.5)*(" />
+      <read column="node" />
+      <constant string="Dmg_Functionality_&gt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="WSC_Node" group="BNWaterServUserDefinedGroup"
+    comment="Distribution node: serviceable when fed, the feeding pipe is not broken and its repair rate is at most 0.2">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serv" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="upstream" />
+      <constant string="Serv_R_&gt;0.5)*(" />
+      <read column="link" />
+      <constant string="Dmg_State_&lt;1.5)*(" />
+      <read column="node" />
+      <constant string="Dmg_AverageRepairRate_&lt;0.2)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="WSC_Junction" group="BNWaterServUserDefinedGroup"
+    comment="Junction: serviceable when fed and the feeding pipe is not broken">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serv" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="upstream" />
+      <constant string="Serv_R_&gt;0.5)*(" />
+      <read column="link" />
+      <constant string="Dmg_State_&lt;1.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" default="WZS"
+    comment="Zone serviceability: served while any of its feeders is">
+    <property name="ObjectName">
+      <read column="zone" />
+      <constant string="Serv" />
+    </property>
+    <property name="OperationType">
+      <constant string="Max" />
+    </property>
+    <property name="ParameterList">
+      <read column="responses" />
+    </property>
+  </instantiate>
+
+  <write string="// Water serviceability nodes: one per station, distribution node and junction" />
+
+  <instantiate class="RNode" default="WSC">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="Serviceability" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="node" />
+      <constant string="ServiceabilityCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="NotServiceable;Serviceable" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::serviceabilityStates" />
+    </property>
+    <property name="ParentList">
+      <read column="parents" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="WZS" comment="Water zone serviceability">
+    <property name="ObjectName">
+      <read column="zone" />
+      <constant string="Serviceability" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="zone" />
+      <constant string="ServiceabilityCPT" />
+    </property>
+    <property name="StateNames">
+      <constant string="NotServiceable;Serviceable" />
+    </property>
+    <property name="StateBoundsTable">
+      <constant string="ref::serviceabilityStates" />
+    </property>
+    <property name="ParentList">
+      <read column="parents" />
+    </property>
+  </instantiate>
+
+  <write string="// Water network map layers" />
+
+  <instantiate class="RBayesianMapper" comment="Damage and functionality of each water station">
+    <property name="ObjectName">
+      <constant string="WaterStationMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="WAG_WS" primary="" secondary=";">
+        <read column="asset_name" />
+        <constant string="Damage" />
+      </combine>
+      <constant string="/" />
+      <combine default="WAG_WS" primary="" secondary=";">
+        <read column="asset_name" />
+        <constant string="Functionality" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="WAG_WS" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="asset_name" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="WAG_WS" primary="" secondary=";">
+        <read column="asset_name" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Damage;Functionality" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Damage of each distribution node">
+    <property name="ObjectName">
+      <constant string="WaterNodeMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="WAG_WSDN" primary="" secondary=";">
+        <read column="asset_name" />
+        <constant string="Damage" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="WAG_WSDN" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="asset_name" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="WAG_WSDN" primary="" secondary=";">
+        <read column="asset_name" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Damage" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Damage of each water pipeline, drawn between its end nodes">
+    <property name="ObjectName">
+      <constant string="WaterPipelineMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="WPl" primary="" secondary=";">
+        <constant string="W" />
+        <read column="Pipe Line Name" />
+        <constant string="Damage" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="WPl" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="Origin Node" />
+        <constant string=";_Loc" />
+        <read column="Destination Node" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="WPl" primary="" secondary=";">
+        <constant string="W" />
+        <read column="Pipe Line Name" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Damage" />
+    </property>
+    <property name="LineThickness">
+      <constant string="3" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Serviceability of every water network node">
+    <property name="ObjectName">
+      <constant string="WaterServiceabilityMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="WSC" primary="" secondary=";">
+        <read column="node" />
+        <constant string="Serviceability" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="WSC" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="node" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="WSC" primary="" secondary=";">
+        <read column="node" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Serviceability" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Serviceability of each water zone, drawn as a point at each of its feeders">
+    <property name="ObjectName">
+      <constant string="WaterZoneMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="WZF" primary="" secondary=";">
+        <read column="zone" />
+        <constant string="Serviceability" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="WZF" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="feeder" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="WZF" primary="" secondary=";">
+        <read column="zone" />
+        <constant string="_" />
+        <read column="feeder" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Serviceability" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
 </rml>

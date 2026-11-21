@@ -1,0 +1,13 @@
+zone,feeders,parents,responses,cpt
+PNZone01,PNNodeT0004,PNNodeT0004Serviceability,PNNodeT0004Serv_R_,1;0/0;1
+PNZone02,PNNodeT0018,PNNodeT0018Serviceability,PNNodeT0018Serv_R_,1;0/0;1
+PNZone03,PNNodeD0306,PNNodeD0306Serviceability,PNNodeD0306Serv_R_,1;0/0;1
+PNZone04,PNNodeD0410;PNNodeD0411,PNNodeD0410Serviceability;PNNodeD0411Serviceability,PNNodeD0410Serv_R_;PNNodeD0411Serv_R_,1;0;0;0/0;1;1;1
+PNZone05,PNNodeT0019,PNNodeT0019Serviceability,PNNodeT0019Serv_R_,1;0/0;1
+PNZone06,PNNodeD0604,PNNodeD0604Serviceability,PNNodeD0604Serv_R_,1;0/0;1
+PNZone07,PNNodeD0702,PNNodeD0702Serviceability,PNNodeD0702Serv_R_,1;0/0;1
+PNZone08,PNNodeD0802,PNNodeD0802Serviceability,PNNodeD0802Serv_R_,1;0/0;1
+PNZone09,PNNodeD0904;PNNodeD0917,PNNodeD0904Serviceability;PNNodeD0917Serviceability,PNNodeD0904Serv_R_;PNNodeD0917Serv_R_,1;0;0;0/0;1;1;1
+PNZone10,PNNodeD1018,PNNodeD1018Serviceability,PNNodeD1018Serv_R_,1;0/0;1
+PNZone11,PNNodeD1101,PNNodeD1101Serviceability,PNNodeD1101Serv_R_,1;0/0;1
+PNZone12,PNNodeD1201,PNNodeD1201Serviceability,PNNodeD1201Serv_R_,1;0/0;1

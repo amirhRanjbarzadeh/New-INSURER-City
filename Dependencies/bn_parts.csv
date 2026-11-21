@@ -1,2 +1,2 @@
 hazard,building,power,water,hospital,power_serviceability,water_serviceability
-TRUE,TRUE,TRUE,TRUE,TRUE,network,network
+TRUE,TRUE,TRUE,TRUE,TRUE,user_defined,user_defined

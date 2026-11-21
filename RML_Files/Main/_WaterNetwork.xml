@@ -1,5 +1,1072 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  
+  <import from="../../Database/insurer_city/WaterStationDistributionNodes.csv" name="WSDN" />
+
+  <filter source="WS" name="WS_Tank">
+    <condition column="Water Station Type" contain="Tank" />
+  </filter>
+
+  <filter source="WS" name="WS_NonTank">
+    <condition column="Water Station Type" notContain="Tank" />
+  </filter>
+
+  <filter source="WSDNLT" name="WSDN_J">
+    <condition column="Water Station Name" contain="J" />
+  </filter>
+
+  <filter source="WPl" name="WPl_PRV">
+    <condition column="PRV Valve" value="True" />
+  </filter>
+
+  <filter source="WPl" name="WPl_NoPRV">
+    <condition column="PRV Valve" notValue="True" />
+  </filter>
+
+  <write string="// Water station information models" />
+
+  <instantiate class="RWaterStationInformationModel" default="WS_NonTank" comment="Pumping stations, treatment plant and well">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Location">
+      <constant string="_Loc" />
+      <read column="Water Station Name" />
+    </property>
+    <property name="WaterStationType">
+      <read column="Water Station Type" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterStationInformationModel" default="WS_Tank" comment="Tanks">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Location">
+      <constant string="_Loc" />
+      <read column="Water Station Name" />
+    </property>
+    <property name="TankHead">
+      <read column="Initial Head of Tank (m)" />
+    </property>
+    <property name="WaterStationType">
+      <read column="Water Station Type" />
+    </property>
+    <property name="Type">
+      <constant string="Source" />
+    </property>
+  </instantiate>
+
+  <write string="// Water distribution node information models" />
+
+  <instantiate class="RWaterDistributionNodeInformationModel" default="WSDN">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Location">
+      <constant string="_Loc" />
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+    </property>
+    <property name="BlockPipelineMaterials">
+      <read column="Pipeline Materials" />
+    </property>
+    <property name="BlockPipelineMaterialRatios">
+      <read column="Pipeline Materials Ratio" />
+    </property>
+    <property name="BlockTotalPipelineLength">
+      <read column="Total Pipeline Length (Km)" />
+    </property>
+    <property name="BlockSoilCorrosivity">
+      <read column="Soil Corrosivity" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterDistributionNodeInformationModel" default="WSDN_J" comment="Junctions">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="Info" />
+    </property>
+  </instantiate>
+
+  <write string="// Water pipeline information models" />
+
+  <instantiate class="RConstant" comment="Water pipelines time of construction">
+    <property name="ObjectName">
+      <constant string="WPlConstTime" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="4965" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterPipelineInformationModel" default="WPl_NoPRV">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Location">
+      <constant string="_Loc" />
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+    </property>
+    <property name="OriginNodeInformationModel">
+      <read column="Origin Node" />
+      <constant string="Info" />
+    </property>
+    <property name="DestinationNodeInformationModel">
+      <read column="Destination Node" />
+      <constant string="Info" />
+    </property>
+    <property name="Material">
+      <read column="Pipeline Materials" />
+    </property>
+    <property name="Diameter">
+      <read column="Diameter (mm)" />
+    </property>
+    <property name="Length">
+      <read column="Length (km)" />
+    </property>
+    <property name="SurfaceRoughness">
+      <read column="Roughness" />
+    </property>
+    <property name="JointType">
+      <read column="Joint Type" />
+    </property>
+    <property name="SoilCorrosivity">
+      <read column="Soil Corrosivity" />
+    </property>
+    <property name="TimeOfConstruction">
+      <constant string="WPlConstTime" />
+    </property>
+    <property name="HazenWilliamsCoefficient">
+      <read column="HW Coefficient" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterPipelineInformationModel" default="WPl_PRV" comment="Pipelines with a pressure reducing valve">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="Location">
+      <constant string="_Loc" />
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+    </property>
+    <property name="OriginNodeInformationModel">
+      <read column="Origin Node" />
+      <constant string="Info" />
+    </property>
+    <property name="DestinationNodeInformationModel">
+      <read column="Destination Node" />
+      <constant string="Info" />
+    </property>
+    <property name="Material">
+      <read column="Pipeline Materials" />
+    </property>
+    <property name="Diameter">
+      <read column="Diameter (mm)" />
+    </property>
+    <property name="Length">
+      <read column="Length (km)" />
+    </property>
+    <property name="SurfaceRoughness">
+      <read column="Roughness" />
+    </property>
+    <property name="JointType">
+      <read column="Joint Type" />
+    </property>
+    <property name="SoilCorrosivity">
+      <read column="Soil Corrosivity" />
+    </property>
+    <property name="TimeOfConstruction">
+      <constant string="WPlConstTime" />
+    </property>
+    <property name="HazenWilliamsCoefficient">
+      <read column="HW Coefficient" />
+    </property>
+    <property name="ValveHeadSet">
+      <read column="Head Set of PRV Valve (atm)" />
+    </property>
+  </instantiate>
+
+  <write string="// Water station damage models (ground shaking only)" />
+
+  <instantiate class="RContinuousRandomVariable" default="WS" comment="Water station damage uncertainty">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterStationDamageFragilityModel" default="WS">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="Dmg" />
+    </property>
+    <property name="AnalysisType">
+      <constant string="GroundShaking" />
+    </property>
+    <property name="WaterStationInformationModel">
+      <read column="Water Station Name" />
+      <constant string="Info" />
+    </property>
+    <property name="PGA">
+      <constant string="SourceSelector_" />
+      <read column="Water Station Name" />
+      <constant string="Sa0_" />
+    </property>
+    <property name="Uncertainty">
+      <read column="Water Station Name" />
+      <constant string="DmgUnc" />
+    </property>
+  </instantiate>
+
+  <write string="// Water distribution node and pipeline damage model parameters" />
+
+  <instantiate class="RContinuousRandomVariable" comment="Ground shaking theta">
+    <property name="ObjectName">
+      <constant string="GroundShakingTheta" />
+    </property>
+    <property name="DistributionType">
+      <constant string="t-distribution (nu, xo, sigma)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="59" />
+    </property>
+    <property name="Parameter2">
+      <constant string="-7.267807740601" />
+    </property>
+    <property name="Parameter3">
+      <constant string="0.4851534887438" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Ground failure theta, materials other than asbestos cement">
+    <property name="ObjectName">
+      <constant string="GroundFailureThetaOther" />
+    </property>
+    <property name="DistributionType">
+      <constant string="t-distribution (nu, xo, sigma)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="6" />
+    </property>
+    <property name="Parameter2">
+      <constant string="0.3112114527609" />
+    </property>
+    <property name="Parameter3">
+      <constant string="0.06179172935256" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Ground failure theta, asbestos cement">
+    <property name="ObjectName">
+      <constant string="GroundFailureThetaAC" />
+    </property>
+    <property name="DistributionType">
+      <constant string="t-distribution (nu, xo, sigma)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="11" />
+    </property>
+    <property name="Parameter2">
+      <constant string="-2.875748730054" />
+    </property>
+    <property name="Parameter3">
+      <constant string="0.9243415575703" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Ground shaking sigma squared">
+    <property name="ObjectName">
+      <constant string="GroundShakingSigmaSqr" />
+    </property>
+    <property name="DistributionType">
+      <constant string="ScaledInverseChi-square (nu, xo, sigma)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="59" />
+    </property>
+    <property name="Parameter2">
+      <constant string="0" />
+    </property>
+    <property name="Parameter3">
+      <constant string="1.061367863026" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Ground shaking sigma">
+    <property name="ObjectName">
+      <constant string="GroundShakingSigma" />
+    </property>
+    <property name="ParameterList">
+      <constant string="GroundShakingSigmaSqr" />
+    </property>
+    <property name="OperationType">
+      <constant string="Product" />
+    </property>
+    <property name="Weights">
+      <constant string="0.5" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Ground failure sigma squared, materials other than asbestos cement">
+    <property name="ObjectName">
+      <constant string="GroundFailureSigmaOtherSqr" />
+    </property>
+    <property name="DistributionType">
+      <constant string="ScaledInverseChi-square (nu, xo, sigma)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="6" />
+    </property>
+    <property name="Parameter2">
+      <constant string="0" />
+    </property>
+    <property name="Parameter3">
+      <constant string="0.2933756509819" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName">
+      <constant string="GroundFailureSigmaOther" />
+    </property>
+    <property name="ParameterList">
+      <constant string="GroundFailureSigmaOtherSqr" />
+    </property>
+    <property name="OperationType">
+      <constant string="Product" />
+    </property>
+    <property name="Weights">
+      <constant string="0.5" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Ground failure sigma squared, asbestos cement">
+    <property name="ObjectName">
+      <constant string="GroundFailureSigmaACSqr" />
+    </property>
+    <property name="DistributionType">
+      <constant string="ScaledInverseChi-square (nu, xo, sigma)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="11" />
+    </property>
+    <property name="Parameter2">
+      <constant string="0" />
+    </property>
+    <property name="Parameter3">
+      <constant string="0.345480739073" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel">
+    <property name="ObjectName">
+      <constant string="GroundFailureSigmaAC" />
+    </property>
+    <property name="ParameterList">
+      <constant string="GroundFailureSigmaACSqr" />
+    </property>
+    <property name="OperationType">
+      <constant string="Product" />
+    </property>
+    <property name="Weights">
+      <constant string="0.5" />
+    </property>
+  </instantiate>
+
+  <write string="// Water distribution node damage models (ground shaking only)" />
+
+  <instantiate class="RContinuousRandomVariable" default="WSDN" comment="Distribution node damage uncertainty">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WSDN" comment="Distribution node damage state uncertainty">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="DmgStateUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Distribution node damage epsilon">
+    <property name="ObjectName">
+      <constant string="WSDNEps" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterDistributionNodeDamageModel" default="WSDN">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Dmg" />
+    </property>
+    <property name="ModelType">
+      <constant string="FEMA_NIBS" />
+    </property>
+    <property name="Hazard">
+      <constant string="GroundShaking" />
+    </property>
+    <property name="WaterDistributionNodeInformationModel">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Info" />
+    </property>
+    <property name="PGV">
+      <constant string="SourceSelector_" />
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="SaM1_" />
+    </property>
+    <property name="PGD">
+      <constant string="_CZero" />
+    </property>
+    <property name="DamageUncertainty">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DamageStateUncertainty">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="DmgStateUnc" />
+    </property>
+    <property name="Epsilon">
+      <constant string="WSDNEps" />
+    </property>
+    <property name="GroundShakingTheta">
+      <constant string="GroundShakingTheta" />
+    </property>
+    <property name="GroundFailureThetaList">
+      <constant string="GroundFailureThetaOther;GroundFailureThetaAC;" />
+    </property>
+    <property name="GroundShakingSigma">
+      <constant string="GroundShakingSigma_R_" />
+    </property>
+    <property name="GroundFailureSigmaList">
+      <constant string="GroundFailureSigmaOther_R_;GroundFailureSigmaAC_R_;" />
+    </property>
+  </instantiate>
+
+  <write string="// Water pipeline damage models (ground shaking only)" />
+
+  <instantiate class="RContinuousRandomVariable" default="WPl" comment="Pipeline damage uncertainty">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WPl" comment="Pipeline damage state uncertainty">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="DmgStateUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" comment="Pipeline damage epsilon">
+    <property name="ObjectName">
+      <constant string="WPlEps" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WPl" comment="Pipeline leak type uncertainty">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="LeakTypeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterPipelineDamageModel" default="WPl">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Dmg" />
+    </property>
+    <property name="ModelType">
+      <constant string="KhayambashiMahsuli" />
+    </property>
+    <property name="Hazard">
+      <constant string="GroundShaking" />
+    </property>
+    <property name="WaterPipelineInformationModel">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="PGVList">
+      <constant string="SourceSelector_" />
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="SaM1_;" />
+    </property>
+    <property name="PGDList">
+      <constant string="_CZero;" />
+    </property>
+    <property name="RepairRateWeights">
+      <constant string="1" />
+    </property>
+    <property name="DamageUncertainty">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="DmgUnc" />
+    </property>
+    <property name="DamageStateUncertainty">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="DmgStateUnc" />
+    </property>
+    <property name="Epsilon">
+      <constant string="WPlEps" />
+    </property>
+    <property name="GroundShakingTheta">
+      <constant string="GroundShakingTheta" />
+    </property>
+    <property name="GroundFailureTheta">
+      <constant string="GroundFailureThetaOther" />
+    </property>
+    <property name="GroundShakingSigma">
+      <constant string="GroundShakingSigma_R_" />
+    </property>
+    <property name="GroundFailureSigma">
+      <constant string="GroundFailureSigmaOther_R_" />
+    </property>
+    <property name="LeakTypeUncertainty">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="LeakTypeUnc" />
+    </property>
+  </instantiate>
+
+  <write string="// Water station repair time and cost models" />
+
+  <instantiate class="RContinuousRandomVariable" default="WS" comment="Water station repair time uncertainty">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="RepTimeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterStationRepairTimeModel" default="WS">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="RepTime" />
+    </property>
+    <property name="WaterStationInformationModel">
+      <read column="Water Station Name" />
+      <constant string="Info" />
+    </property>
+    <property name="DamageRatio">
+      <read column="Water Station Name" />
+      <constant string="Dmg_Ratio_" />
+    </property>
+    <property name="RepairTimeUncertainty">
+      <read column="Water Station Name" />
+      <constant string="RepTimeUnc" />
+    </property>
+    <property name="NegligibleTimeThreshold">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WS" comment="Water station replacement cost">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="ReplacementCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Lognormal (zeta, sigma)" />
+    </property>
+    <property name="Mean">
+      <read column="Replacement Cost Mean (KT)" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <read column="Replacement Cost CoV" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterStationRepairCostModel" default="WS">
+    <property name="ObjectName">
+      <read column="Water Station Name" />
+      <constant string="RepCost" />
+    </property>
+    <property name="DamageRatio">
+      <read column="Water Station Name" />
+      <constant string="Dmg_Ratio_" />
+    </property>
+    <property name="ReplacementCost">
+      <read column="Water Station Name" />
+      <constant string="ReplacementCost" />
+    </property>
+    <property name="RepairStatus">
+      <constant string="_COne" />
+    </property>
+  </instantiate>
+
+  <write string="// Water distribution node repair time and cost models" />
+
+  <instantiate class="RContinuousRandomVariable" default="WSDN" comment="Leak repair time uncertainty">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="LeakRepTimeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WSDN" comment="Break repair time uncertainty">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="BreakRepTimeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" comment="Distribution node repair workers daily shift time">
+    <property name="ObjectName">
+      <constant string="WSDNRepWorkersShiftTime" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="16" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterDistributionNodeRepairTimeModel" default="WSDN">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="RepTime" />
+    </property>
+    <property name="WaterDistributionNodeInformationModel">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Info" />
+    </property>
+    <property name="NumberOfLeaks">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Dmg_NumberOfLeaksResponse_" />
+    </property>
+    <property name="NumberOfBreaks">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Dmg_NumberOfBreaksResponse_" />
+    </property>
+    <property name="LeakRepairTimeUncertainty">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="LeakRepTimeUnc" />
+    </property>
+    <property name="BreakRepairTimeUncertainty">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="BreakRepTimeUnc" />
+    </property>
+    <property name="WorkersDailyShiftTime">
+      <constant string="WSDNRepWorkersShiftTime" />
+    </property>
+    <property name="NegligibleTimeThreshold">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WSDN" comment="Distribution node leak repair cost">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="LeakRepCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="960" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WSDN" comment="Distribution node break repair cost">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="BreakRepCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <constant string="4000" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.3" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterDistributionNodeRepairCostModel" default="WSDN">
+    <property name="ObjectName">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="RepCost" />
+    </property>
+    <property name="WaterDistributionNodeInformationModel">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Info" />
+    </property>
+    <property name="NumberOfLeaks">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Dmg_NumberOfLeaksResponse_" />
+    </property>
+    <property name="NumberOfBreaks">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="Dmg_NumberOfBreaksResponse_" />
+    </property>
+    <property name="LeakRepairCost">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="LeakRepCost" />
+    </property>
+    <property name="PipelineSegmentReplacementCost">
+      <constant string="WS" />
+      <read column="Distribution Node Name" />
+      <constant string="BreakRepCost" />
+    </property>
+    <property name="RepairStatus">
+      <constant string="_COne" />
+    </property>
+  </instantiate>
+
+  <write string="// Water pipeline repair time and cost models" />
+
+  <instantiate class="RContinuousRandomVariable" default="WPl" comment="Leak repair time uncertainty">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="LeakRepTimeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WPl" comment="Break repair time uncertainty">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="BreakRepTimeUnc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConstant" comment="Pipeline repair workers daily shift time">
+    <property name="ObjectName">
+      <constant string="WPlRepWorkersShiftTime" />
+    </property>
+    <property name="CurrentValue">
+      <constant string="16" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterPipelineRepairTimeModel" default="WPl">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="RepTime" />
+    </property>
+    <property name="WaterPipelineInformationModel">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="NumberOfLeaks">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Dmg_NumberOfLeaks_" />
+    </property>
+    <property name="NumberOfBreaks">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Dmg_NumberOfBreaks_" />
+    </property>
+    <property name="LeakRepairTimeUncertainty">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="LeakRepTimeUnc" />
+    </property>
+    <property name="BreakRepairTimeUncertainty">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="BreakRepTimeUnc" />
+    </property>
+    <property name="WorkersDailyShiftTime">
+      <constant string="WPlRepWorkersShiftTime" />
+    </property>
+    <property name="NegligibleTimeThreshold">
+      <constant string="0.1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WPl" comment="Pipeline leak repair cost">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="LeakRepCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <read column="Leak Repair Cost Mean (kT)" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.2" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RContinuousRandomVariable" default="WPl" comment="Pipeline segment replacement cost">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="BreakRepCost" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Normal (mean, stdv)" />
+    </property>
+    <property name="Mean">
+      <read column="Segment Replacement Cost Mean (kT)" />
+    </property>
+    <property name="CoefficientOfVariation">
+      <constant string="0.3" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RWaterPipelineRepairCostModel" default="WPl">
+    <property name="ObjectName">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="RepCost" />
+    </property>
+    <property name="WaterPipelineInformationModel">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Info" />
+    </property>
+    <property name="NumberOfLeaks">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Dmg_NumberOfLeaks_" />
+    </property>
+    <property name="NumberOfBreaks">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="Dmg_NumberOfBreaks_" />
+    </property>
+    <property name="LeakRepairCost">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="LeakRepCost" />
+    </property>
+    <property name="PipelineSegmentReplacementCost">
+      <constant string="W" />
+      <read column="Pipe Line Name" />
+      <constant string="BreakRepCost" />
+    </property>
+    <property name="RepairStatus">
+      <constant string="_COne" />
+    </property>
+  </instantiate>
+
+  <write string="// Water network repair costs" />
+
+  <instantiate class="RArithmeticOperationModel" comment="Water stations">
+    <property name="ObjectName">
+      <constant string="WSTotalRepCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <combine default="WS" primary="" secondary=";">
+        <read column="Water Station Name" />
+        <constant string="RepCost_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Distribution nodes">
+    <property name="ObjectName">
+      <constant string="WSDNTotalRepCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <combine default="WSDN" primary="" secondary=";">
+        <constant string="WS" />
+        <read column="Distribution Node Name" />
+        <constant string="RepCost_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Pipelines">
+    <property name="ObjectName">
+      <constant string="WPlTotalRepCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <combine default="WPl" primary="" secondary=";">
+        <constant string="W" />
+        <read column="Pipe Line Name" />
+        <constant string="RepCost_R_" />
+      </combine>
+    </property>
+  </instantiate>
+
+  <instantiate class="RArithmeticOperationModel" comment="Whole water network">
+    <property name="ObjectName">
+      <constant string="WaterNetworkTotalCost" />
+    </property>
+    <property name="OperationType">
+      <constant string="Sum" />
+    </property>
+    <property name="ParameterList">
+      <constant string="WSTotalRepCost_R_;WSDNTotalRepCost_R_;WPlTotalRepCost_R_" />
+    </property>
+  </instantiate>
+
 </rml>

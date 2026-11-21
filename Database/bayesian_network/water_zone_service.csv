@@ -1,0 +1,12 @@
+zone,feeders,parents,responses,cpt
+WNZone01,WSDN03;WSDN15,WSDN03Serviceability;WSDN15Serviceability,WSDN03Serv_R_;WSDN15Serv_R_,1;0;0;0/0;1;1;1
+WNZone02,WSDN09,WSDN09Serviceability,WSDN09Serv_R_,1;0/0;1
+WNZone03,WSDN12,WSDN12Serviceability,WSDN12Serv_R_,1;0/0;1
+WNZone04,WSDN11,WSDN11Serviceability,WSDN11Serv_R_,1;0/0;1
+WNZone05,WSDN10,WSDN10Serviceability,WSDN10Serv_R_,1;0/0;1
+WNZone06,WSDN14,WSDN14Serviceability,WSDN14Serv_R_,1;0/0;1
+WNZone07,WSDN13,WSDN13Serviceability,WSDN13Serv_R_,1;0/0;1
+WNZone08,WSDN08,WSDN08Serviceability,WSDN08Serv_R_,1;0/0;1
+WNZone09,WSDN04,WSDN04Serviceability,WSDN04Serv_R_,1;0/0;1
+WNZone10,WSDN05,WSDN05Serviceability,WSDN05Serv_R_,1;0/0;1
+WNZone11,WSDN01,WSDN01Serviceability,WSDN01Serv_R_,1;0/0;1
