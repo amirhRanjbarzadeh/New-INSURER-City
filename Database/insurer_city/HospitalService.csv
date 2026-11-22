@@ -1,0 +1,13 @@
+hospital,service,functional
+H1,Laboratory,H1_LAB1_Func_R_ + H1_LAB2_Func_R_ + H1_LAB3_Func_R_
+H1,Operation,H1_OR1_Func_R_ + H1_OR2_Func_R_ + H1_OR3_Func_R_ + H1_OR4_Func_R_ + H1_OR5_Func_R_
+H1,Radiology,H1_RAD1_Func_R_ + H1_RAD2_Func_R_ + H1_RAD3_Func_R_
+H1,Resuscitation,H1_RES1_Func_R_ + H1_RES2_Func_R_ + H1_RES3_Func_R_ + H1_RES4_Func_R_ + H1_RES5_Func_R_
+H2,Laboratory,H2_LAB1_Func_R_ + H2_LAB2_Func_R_
+H2,Operation,H2_OR1_Func_R_ + H2_OR2_Func_R_ + H2_OR3_Func_R_
+H2,Radiology,H2_RAD1_Func_R_ + H2_RAD2_Func_R_
+H2,Resuscitation,H2_RES1_Func_R_ + H2_RES2_Func_R_ + H2_RES3_Func_R_
+H3,Laboratory,H3_LAB1_Func_R_
+H3,Operation,H3_OR1_Func_R_
+H3,Radiology,H3_RAD1_Func_R_
+H3,Resuscitation,H3_RES1_Func_R_

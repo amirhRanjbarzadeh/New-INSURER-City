@@ -1,5 +1,276 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
 
-  
+  <import from="../../Database/bayesian_network/hospital_nodes.csv" name="HND" />
+
+  <filter source="HND" name="HND_Pass">
+    <condition column="shape" value="pass" />
+  </filter>
+
+  <filter source="HND" name="HND_ZeroFlag">
+    <condition column="shape" value="zeroFlag" />
+  </filter>
+
+  <filter source="HND" name="HND_TwoOf">
+    <condition column="shape" value="twoOf" />
+  </filter>
+
+  <filter source="HND" name="HND_BothBelow">
+    <condition column="shape" value="bothBelow" />
+  </filter>
+
+  <filter source="HND" name="HND_Either">
+    <condition column="shape" value="either" />
+  </filter>
+
+  <filter source="HND" name="HND_Both">
+    <condition column="shape" value="both" />
+  </filter>
+
+  <filter source="HND" name="HND_AllThree">
+    <condition column="shape" value="allThree" />
+  </filter>
+
+  <filter source="HND" name="HND_Treatment">
+    <condition column="shape" value="treatment" />
+  </filter>
+
+  <filter source="HB" name="HB_Mapped">
+    <condition column="isHStar" notValue="True" />
+  </filter>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HND_Pass"
+    comment="Building damage ratio, used as is">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="_Val" />
+    </property>
+    <property name="Expression">
+      <read column="a" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HND_ZeroFlag"
+    comment="Functional while none of the equipment in the group is damaged">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="_Val" />
+    </property>
+    <property name="Expression">
+      <constant string="((" />
+      <read column="a" />
+      <constant string=")&lt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HND_TwoOf"
+    comment="0 neither service, 1 the first only, 2 the second only, 3 both">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="_Val" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="a" />
+      <constant string="&gt;0.5)+2*(" />
+      <read column="b" />
+      <constant string="&gt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HND_BothBelow"
+    comment="Usable while both damage ratios stay below Extensive, Hazus' 0.16">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="_Val" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="a" />
+      <constant string="&lt;0.16)*(" />
+      <read column="b" />
+      <constant string="&lt;0.16)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HND_Either"
+    comment="The utility reaches the hospital from its own backup or from its zone">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="_Val" />
+    </property>
+    <property name="Expression">
+      <constant string="1-(" />
+      <read column="a" />
+      <constant string="&lt;0.5)*(" />
+      <read column="b" />
+      <constant string="&lt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HND_Both"
+    comment="Serviceable only while both parents are">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="_Val" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="a" />
+      <constant string="&gt;0.5)*(" />
+      <read column="b" />
+      <constant string="&gt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HND_AllThree"
+    comment="Serviceable only while all three parents are">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="_Val" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="a" />
+      <constant string="&gt;0.5)*(" />
+      <read column="b" />
+      <constant string="&gt;0.5)*(" />
+      <read column="c" />
+      <constant string="&gt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HND_Treatment"
+    comment="0 closed, 1 basic, 2 partial, 3 full: open while basic serviceable, plus one per complete treatment or examination">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="_Val" />
+    </property>
+    <property name="Expression">
+      <constant string="(" />
+      <read column="a" />
+      <constant string="&gt;0.5)*(1+(" />
+      <read column="b" />
+      <constant string="&gt;2.5)+(" />
+      <read column="c" />
+      <constant string="&gt;2.5))" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RConditionalProbabilityTable" default="HND" 
+    comment="Hospital nodes: structural and nonstructural damage, medical functionality, utility access and serviceability">
+    <property name="ObjectName">
+      <read column="node" />
+      <constant string="CPT" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RNode" default="HND">
+    <property name="ObjectName">
+      <read column="node" />
+    </property>
+    <property name="ConditionalProbabilityTable">
+      <read column="node" />
+      <constant string="CPT" />
+    </property>
+    <property name="StateNames">
+      <read column="states" />
+    </property>
+    <property name="StateBoundsTable">
+      <read column="bounds" />
+    </property>
+    <property name="ParentList">
+      <read column="parents" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RBayesianMapper" comment="Damage, functionality and serviceability of each hospital">
+    <property name="ObjectName">
+      <constant string="HospitalMap" />
+    </property>
+    <property name="NodeTable">
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="StructuralDamage" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="NonStructuralDamage" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="MedicalTreatmentFunctionality" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="MedicalExaminationFunctionality" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="MedicalGasFunctionality" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="EmergencyPowerFunctionality" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="EmergencyWaterFunctionality" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="BasicFunctionality" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="WaterAccessServiceability" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="PowerAccessServiceability" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="EssentialUtilityService" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="BasicServiceability" />
+      </combine>
+      <constant string="/" />
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+        <constant string="TreatmentServiceability" />
+      </combine>
+    </property>
+    <property name="LocationTable">
+      <combine default="HB_Mapped" primary="" secondary="/">
+        <constant string="_Loc" />
+        <read column="Sub Block Name" />
+      </combine>
+    </property>
+    <property name="FeatureNames">
+      <combine default="HB_Mapped" primary="" secondary=";">
+        <read column="Hospital Name" />
+      </combine>
+    </property>
+    <property name="RowNames">
+      <constant string="Structural damage;Nonstructural damage;Medical treatment functionality;Medical examination functionality;Medical gas functionality;Emergency power functionality;Emergency water functionality;Basic functionality;Water access serviceability;Power access serviceability;Essential utility service;Basic serviceability;Treatment serviceability" />
+    </property>
+    <property name="Visible">
+      <constant string="false" />
+    </property>
+  </instantiate>
+
 </rml>

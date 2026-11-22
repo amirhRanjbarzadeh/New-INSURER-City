@@ -1,0 +1,31 @@
+hospital,room,room_type,broken
+H1,LAB1,LaboratoryRoom,H1_LAB1_Refrigerator_State_ + H1_LAB1_BloodAnalyser_State_ + H1_LAB1_UrineAnalyser_State_
+H1,LAB2,LaboratoryRoom,H1_LAB2_Refrigerator_State_ + H1_LAB2_BloodAnalyser_State_ + H1_LAB2_UrineAnalyser_State_
+H1,LAB3,LaboratoryRoom,H1_LAB3_Refrigerator_State_ + H1_LAB3_BloodAnalyser_State_ + H1_LAB3_UrineAnalyser_State_
+H1,OR1,OperationRoom,H1_OR1_ShadowLessLamp_State_ + H1_OR1_PartitionInOR_State_ + H1_OR1_CarmXrayMachine_State_ + H1_OR1_Ventilator_State_ + H1_OR1_AnesthesiaMachine_State_
+H1,OR2,OperationRoom,H1_OR2_ShadowLessLamp_State_ + H1_OR2_PartitionInOR_State_ + H1_OR2_CarmXrayMachine_State_ + H1_OR2_Ventilator_State_ + H1_OR2_AnesthesiaMachine_State_
+H1,OR3,OperationRoom,H1_OR3_ShadowLessLamp_State_ + H1_OR3_PartitionInOR_State_ + H1_OR3_CarmXrayMachine_State_ + H1_OR3_Ventilator_State_ + H1_OR3_AnesthesiaMachine_State_
+H1,OR4,OperationRoom,H1_OR4_ShadowLessLamp_State_ + H1_OR4_PartitionInOR_State_ + H1_OR4_CarmXrayMachine_State_ + H1_OR4_Ventilator_State_ + H1_OR4_AnesthesiaMachine_State_
+H1,OR5,OperationRoom,H1_OR5_ShadowLessLamp_State_ + H1_OR5_PartitionInOR_State_ + H1_OR5_CarmXrayMachine_State_ + H1_OR5_Ventilator_State_ + H1_OR5_AnesthesiaMachine_State_
+H1,RAD1,RadiologyRoom,H1_RAD1_CT_State_ + H1_RAD1_CTwall_State_
+H1,RAD2,RadiologyRoom,H1_RAD2_CT_State_ + H1_RAD2_CTwall_State_
+H1,RAD3,RadiologyRoom,H1_RAD3_CT_State_ + H1_RAD3_CTwall_State_
+H1,RES1,ResuscitationRoom,H1_RES1_Ventilator_State_
+H1,RES2,ResuscitationRoom,H1_RES2_Ventilator_State_
+H1,RES3,ResuscitationRoom,H1_RES3_Ventilator_State_
+H1,RES4,ResuscitationRoom,H1_RES4_Ventilator_State_
+H1,RES5,ResuscitationRoom,H1_RES5_Ventilator_State_
+H2,LAB1,LaboratoryRoom,H2_LAB1_Refrigerator_State_ + H2_LAB1_BloodAnalyser_State_ + H2_LAB1_UrineAnalyser_State_
+H2,LAB2,LaboratoryRoom,H2_LAB2_Refrigerator_State_ + H2_LAB2_BloodAnalyser_State_ + H2_LAB2_UrineAnalyser_State_
+H2,OR1,OperationRoom,H2_OR1_ShadowLessLamp_State_ + H2_OR1_PartitionInOR_State_ + H2_OR1_CarmXrayMachine_State_ + H2_OR1_Ventilator_State_ + H2_OR1_AnesthesiaMachine_State_
+H2,OR2,OperationRoom,H2_OR2_ShadowLessLamp_State_ + H2_OR2_PartitionInOR_State_ + H2_OR2_CarmXrayMachine_State_ + H2_OR2_Ventilator_State_ + H2_OR2_AnesthesiaMachine_State_
+H2,OR3,OperationRoom,H2_OR3_ShadowLessLamp_State_ + H2_OR3_PartitionInOR_State_ + H2_OR3_CarmXrayMachine_State_ + H2_OR3_Ventilator_State_ + H2_OR3_AnesthesiaMachine_State_
+H2,RAD1,RadiologyRoom,H2_RAD1_CT_State_ + H2_RAD1_CTwall_State_
+H2,RAD2,RadiologyRoom,H2_RAD2_CT_State_ + H2_RAD2_CTwall_State_
+H2,RES1,ResuscitationRoom,H2_RES1_Ventilator_State_
+H2,RES2,ResuscitationRoom,H2_RES2_Ventilator_State_
+H2,RES3,ResuscitationRoom,H2_RES3_Ventilator_State_
+H3,LAB1,LaboratoryRoom,H3_LAB1_Refrigerator_State_ + H3_LAB1_BloodAnalyser_State_ + H3_LAB1_UrineAnalyser_State_
+H3,OR1,OperationRoom,H3_OR1_ShadowLessLamp_State_ + H3_OR1_PartitionInOR_State_ + H3_OR1_CarmXrayMachine_State_ + H3_OR1_Ventilator_State_ + H3_OR1_AnesthesiaMachine_State_
+H3,RAD1,RadiologyRoom,H3_RAD1_CT_State_ + H3_RAD1_CTwall_State_
+H3,RES1,ResuscitationRoom,H3_RES1_Ventilator_State_

@@ -1,0 +1,40 @@
+hospital,node,shape,a,b,c,states,bounds,parents
+H1,H1StructuralDamage,pass,BL0139C2LowRiseHighCodeDmg_StructuralCostRatio_,,,None;Slight;Moderate;Extensive;Complete;Collapse,0.0005/0.0005;0.04/0.04;0.16/0.16;0.84/0.84;0.9995/0.9995,IMHGID111SaShortPeriod;IMHGID111Sa1
+H1,H1NonStructuralDamage,pass,BL0139C2LowRiseHighCodeDmg_NonstructuralAccelerationSensitiveDamageRatio_,,,None;Slight;Moderate;Extensive;Complete;Collapse,0.0005/0.0005;0.04/0.04;0.16/0.16;0.84/0.84;0.9995/0.9995,IMHGID111SaShortPeriod;IMHGID111Sa1
+H1,H1MedicalTreatmentFunctionality,twoOf,H1_Resuscitation_Service_R_,H1_Operation_Service_R_,,None;ResuscitationOnly;OperationOnly;Both,0.5/0.5;1.5/1.5;2.5/2.5,IMHGID111SaShortPeriod;IMHGID111Sa1
+H1,H1MedicalExaminationFunctionality,twoOf,H1_Radiology_Service_R_,H1_Laboratory_Service_R_,,None;RadiologyOnly;LaboratoryOnly;Both,0.5/0.5;1.5/1.5;2.5/2.5,IMHGID111SaShortPeriod;IMHGID111Sa1
+H1,H1MedicalGasFunctionality,zeroFlag,H1_OxygenPipe_State_ + H1_OxygenGenerator_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID111SaShortPeriod;IMHGID111Sa1
+H1,H1EmergencyPowerFunctionality,zeroFlag,H1_EmergencyPowerGenerator_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID111Sa0
+H1,H1EmergencyWaterFunctionality,zeroFlag,H1_EmergencyWaterTank_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID111Sa0
+H1,H1BasicFunctionality,bothBelow,BL0139C2LowRiseHighCodeDmg_StructuralCostRatio_,BL0139C2LowRiseHighCodeDmg_NonstructuralAccelerationSensitiveDamageRatio_,,NotFunctional;Functional,0.75/0.75,H1StructuralDamage;H1NonStructuralDamage
+H1,H1WaterAccessServiceability,either,H1EmergencyWaterFunctionality_Val_R_,WNZone01Serv_R_,,NotServiceable;Serviceable,0.5/0.5,H1EmergencyWaterFunctionality;WNZone01Serviceability
+H1,H1PowerAccessServiceability,either,H1EmergencyPowerFunctionality_Val_R_,PNZone01Serv_R_,,NotServiceable;Serviceable,0.5/0.5,H1EmergencyPowerFunctionality;PNZone01Serviceability
+H1,H1EssentialUtilityService,allThree,H1MedicalGasFunctionality_Val_R_,H1PowerAccessServiceability_Val_R_,H1WaterAccessServiceability_Val_R_,NotServiceable;Serviceable,0.5/0.5,H1MedicalGasFunctionality;H1PowerAccessServiceability;H1WaterAccessServiceability
+H1,H1BasicServiceability,both,H1BasicFunctionality_Val_R_,H1EssentialUtilityService_Val_R_,,NotServiceable;Serviceable,0.5/0.5,H1BasicFunctionality;H1EssentialUtilityService
+H1,H1TreatmentServiceability,treatment,H1BasicServiceability_Val_R_,H1MedicalTreatmentFunctionality_Val_R_,H1MedicalExaminationFunctionality_Val_R_,Closed;Basic;Partial;Full,0.5/0.5;1.5/1.5;2.5/2.5,H1MedicalTreatmentFunctionality;H1MedicalExaminationFunctionality;H1BasicServiceability
+H2,H2StructuralDamage,pass,BL0214C2LowRiseModerateCodeDmg_StructuralCostRatio_,,,None;Slight;Moderate;Extensive;Complete;Collapse,0.0005/0.0005;0.04/0.04;0.16/0.16;0.84/0.84;0.9995/0.9995,IMHGID069SaShortPeriod;IMHGID069Sa1
+H2,H2NonStructuralDamage,pass,BL0214C2LowRiseModerateCodeDmg_NonstructuralAccelerationSensitiveDamageRatio_,,,None;Slight;Moderate;Extensive;Complete;Collapse,0.0005/0.0005;0.04/0.04;0.16/0.16;0.84/0.84;0.9995/0.9995,IMHGID069SaShortPeriod;IMHGID069Sa1
+H2,H2MedicalTreatmentFunctionality,twoOf,H2_Resuscitation_Service_R_,H2_Operation_Service_R_,,None;ResuscitationOnly;OperationOnly;Both,0.5/0.5;1.5/1.5;2.5/2.5,IMHGID069SaShortPeriod;IMHGID069Sa1
+H2,H2MedicalExaminationFunctionality,twoOf,H2_Radiology_Service_R_,H2_Laboratory_Service_R_,,None;RadiologyOnly;LaboratoryOnly;Both,0.5/0.5;1.5/1.5;2.5/2.5,IMHGID069SaShortPeriod;IMHGID069Sa1
+H2,H2MedicalGasFunctionality,zeroFlag,H2_OxygenPipe_State_ + H2_OxygenGenerator_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID069SaShortPeriod;IMHGID069Sa1
+H2,H2EmergencyPowerFunctionality,zeroFlag,H2_EmergencyPowerGenerator_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID069Sa0
+H2,H2EmergencyWaterFunctionality,zeroFlag,H2_EmergencyWaterTank_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID069Sa0
+H2,H2BasicFunctionality,bothBelow,BL0214C2LowRiseModerateCodeDmg_StructuralCostRatio_,BL0214C2LowRiseModerateCodeDmg_NonstructuralAccelerationSensitiveDamageRatio_,,NotFunctional;Functional,0.75/0.75,H2StructuralDamage;H2NonStructuralDamage
+H2,H2WaterAccessServiceability,either,H2EmergencyWaterFunctionality_Val_R_,WNZone02Serv_R_,,NotServiceable;Serviceable,0.5/0.5,H2EmergencyWaterFunctionality;WNZone02Serviceability
+H2,H2PowerAccessServiceability,either,H2EmergencyPowerFunctionality_Val_R_,PNZone02Serv_R_,,NotServiceable;Serviceable,0.5/0.5,H2EmergencyPowerFunctionality;PNZone02Serviceability
+H2,H2EssentialUtilityService,allThree,H2MedicalGasFunctionality_Val_R_,H2PowerAccessServiceability_Val_R_,H2WaterAccessServiceability_Val_R_,NotServiceable;Serviceable,0.5/0.5,H2MedicalGasFunctionality;H2PowerAccessServiceability;H2WaterAccessServiceability
+H2,H2BasicServiceability,both,H2BasicFunctionality_Val_R_,H2EssentialUtilityService_Val_R_,,NotServiceable;Serviceable,0.5/0.5,H2BasicFunctionality;H2EssentialUtilityService
+H2,H2TreatmentServiceability,treatment,H2BasicServiceability_Val_R_,H2MedicalTreatmentFunctionality_Val_R_,H2MedicalExaminationFunctionality_Val_R_,Closed;Basic;Partial;Full,0.5/0.5;1.5/1.5;2.5/2.5,H2MedicalTreatmentFunctionality;H2MedicalExaminationFunctionality;H2BasicServiceability
+H3,H3StructuralDamage,pass,BL0407C1LowRiseLowCodeDmg_StructuralCostRatio_,,,None;Slight;Moderate;Extensive;Complete;Collapse,0.0005/0.0005;0.04/0.04;0.16/0.16;0.84/0.84;0.9995/0.9995,IMHGID062SaShortPeriod;IMHGID062Sa1
+H3,H3NonStructuralDamage,pass,BL0407C1LowRiseLowCodeDmg_NonstructuralAccelerationSensitiveDamageRatio_,,,None;Slight;Moderate;Extensive;Complete;Collapse,0.0005/0.0005;0.04/0.04;0.16/0.16;0.84/0.84;0.9995/0.9995,IMHGID062SaShortPeriod;IMHGID062Sa1
+H3,H3MedicalTreatmentFunctionality,twoOf,H3_Resuscitation_Service_R_,H3_Operation_Service_R_,,None;ResuscitationOnly;OperationOnly;Both,0.5/0.5;1.5/1.5;2.5/2.5,IMHGID062SaShortPeriod;IMHGID062Sa1
+H3,H3MedicalExaminationFunctionality,twoOf,H3_Radiology_Service_R_,H3_Laboratory_Service_R_,,None;RadiologyOnly;LaboratoryOnly;Both,0.5/0.5;1.5/1.5;2.5/2.5,IMHGID062SaShortPeriod;IMHGID062Sa1
+H3,H3MedicalGasFunctionality,zeroFlag,H3_OxygenPipe_State_ + H3_OxygenGenerator_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID062SaShortPeriod;IMHGID062Sa1
+H3,H3EmergencyPowerFunctionality,zeroFlag,H3_EmergencyPowerGenerator_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID062Sa0
+H3,H3EmergencyWaterFunctionality,zeroFlag,H3_EmergencyWaterTank_State_,,,NotFunctional;Functional,0.75/0.75,IMHGID062Sa0
+H3,H3BasicFunctionality,bothBelow,BL0407C1LowRiseLowCodeDmg_StructuralCostRatio_,BL0407C1LowRiseLowCodeDmg_NonstructuralAccelerationSensitiveDamageRatio_,,NotFunctional;Functional,0.75/0.75,H3StructuralDamage;H3NonStructuralDamage
+H3,H3WaterAccessServiceability,either,H3EmergencyWaterFunctionality_Val_R_,WNZone04Serv_R_,,NotServiceable;Serviceable,0.5/0.5,H3EmergencyWaterFunctionality;WNZone04Serviceability
+H3,H3PowerAccessServiceability,either,H3EmergencyPowerFunctionality_Val_R_,PNZone04Serv_R_,,NotServiceable;Serviceable,0.5/0.5,H3EmergencyPowerFunctionality;PNZone04Serviceability
+H3,H3EssentialUtilityService,allThree,H3MedicalGasFunctionality_Val_R_,H3PowerAccessServiceability_Val_R_,H3WaterAccessServiceability_Val_R_,NotServiceable;Serviceable,0.5/0.5,H3MedicalGasFunctionality;H3PowerAccessServiceability;H3WaterAccessServiceability
+H3,H3BasicServiceability,both,H3BasicFunctionality_Val_R_,H3EssentialUtilityService_Val_R_,,NotServiceable;Serviceable,0.5/0.5,H3BasicFunctionality;H3EssentialUtilityService
+H3,H3TreatmentServiceability,treatment,H3BasicServiceability_Val_R_,H3MedicalTreatmentFunctionality_Val_R_,H3MedicalExaminationFunctionality_Val_R_,Closed;Basic;Partial;Full,0.5/0.5;1.5/1.5;2.5/2.5,H3MedicalTreatmentFunctionality;H3MedicalExaminationFunctionality;H3BasicServiceability

@@ -271,6 +271,9 @@
           <read column="zone" />
           <constant string="Serviceability" />
         </combine>
+        <combine default="HND" primary="" secondary=";" group="BNHospitalGroup">
+          <read column="node" />
+        </combine>
       </combine>
     </property>
     <property name="ResponseList">
@@ -381,6 +384,10 @@
           <read column="zone" />
           <constant string="Serv_R_" />
         </combine>
+        <combine default="HND" primary="" secondary=";" group="BNHospitalGroup">
+          <read column="node" />
+          <constant string="_Val_R_" />
+        </combine>
       </combine>
     </property>
     <property name="LearnNetwork">
@@ -396,7 +403,6 @@
       <constant string="true" />
     </property>
   </instantiate>
-
 
   <instantiate class="RNodeStyle" group="BNHazardGroup"
     comment="Default node style: every property left at its theme default.">
@@ -429,6 +435,9 @@
       </combine>
       <combine primary="" group="BNWaterGroup">
         <constant string=";WaterStationMap;WaterNodeMap;WaterPipelineMap;WaterServiceabilityMap;WaterZoneMap" />
+      </combine>
+      <combine primary="" group="BNHospitalGroup">
+        <constant string=";HospitalMap" />
       </combine>
     </property>
   </instantiate>

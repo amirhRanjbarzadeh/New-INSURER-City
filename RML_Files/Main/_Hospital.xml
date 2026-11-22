@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" error="d" warning="d" object="d" xsi:noNamespaceSchemaLocation="../../Dependencies/Rxsd_V4.5.2.xsd">
+
+  <import from="../../Database/insurer_city/HospitalEquipment.csv" name="HEQ" />
+  <import from="../../Database/insurer_city/HospitalRoom.csv" name="HRM" />
+  <import from="../../Database/insurer_city/HospitalService.csv" name="HSV" />
+
+  <instantiate class="RContinuousRandomVariable" default="HEQ" comment="Equipment damage uncertainty">
+    <property name="ObjectName">
+      <constant string="_" />
+      <read column="hospital" />
+      <constant string="_" />
+      <read column="item" />
+      <constant string="Unc" />
+    </property>
+    <property name="DistributionType">
+      <constant string="Uniform (a, b)" />
+    </property>
+    <property name="Parameter1">
+      <constant string="0" />
+    </property>
+    <property name="Parameter2">
+      <constant string="1" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RFragilityModel" default="HEQ">
+    <property name="ObjectName">
+      <read column="hospital" />
+      <constant string="_" />
+      <read column="item" />
+    </property>
+    <property name="Demand">
+      <read column="demand" />
+    </property>
+    <property name="Medians">
+      <read column="median" />
+    </property>
+    <property name="Dispersions">
+      <read column="dispersion" />
+    </property>
+    <property name="DamageRatioBounds">
+      <constant string="0,0/1,1" />
+    </property>
+    <property name="DamageUncertainty">
+      <constant string="_" />
+      <read column="hospital" />
+      <constant string="_" />
+      <read column="item" />
+      <constant string="Unc" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HRM" comment="Hospital room functionality: a room works only while none of its equipment is damaged">
+    <property name="ObjectName">
+      <read column="hospital" />
+      <constant string="_" />
+      <read column="room" />
+      <constant string="_Func" />
+    </property>
+    <property name="Expression">
+      <constant string="((" />
+      <read column="broken" />
+      <constant string=")&lt;0.5)" />
+    </property>
+  </instantiate>
+
+  <instantiate class="RAlgebraicExpressionModel" default="HSV" comment="Hospital clinical services: a service runs while any of its rooms does">
+    <property name="ObjectName">
+      <read column="hospital" />
+      <constant string="_" />
+      <read column="service" />
+      <constant string="_Service" />
+    </property>
+    <property name="Expression">
+      <constant string="((" />
+      <read column="functional" />
+      <constant string=")&gt;0.5)" />
+    </property>
+  </instantiate>
+
+</rml>

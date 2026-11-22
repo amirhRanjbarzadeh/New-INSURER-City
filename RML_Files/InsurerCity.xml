@@ -28,6 +28,7 @@
         <skip targetGroup="PNGroup" />
         <skip targetGroup="BNPowerGroup" />
         <skip targetGroup="HospitalGroup" />
+        <skip targetGroup="BNHospitalGroup" />
       </case>
       <case value="Full">
         <skip targetGroup="DummyPNGroup" />
@@ -38,6 +39,7 @@
         <skip targetGroup="WNGroup" />
         <skip targetGroup="BNWaterGroup" />
         <skip targetGroup="HospitalGroup" />
+        <skip targetGroup="BNHospitalGroup" />
       </case>
       <case value="Full">
         <skip targetGroup="DummyWNGroup" />
@@ -59,6 +61,8 @@
   <import from="../Database/insurer_city/WaterStation.csv" name="WS" group="WNGroup" />
   <import from="../Database/insurer_city/WSDNLocsAndTypes.csv" name="WSDNLT" group="WNGroup" />
   <import from="../Database/insurer_city/WaterPipeline.csv" name="WPl" group="WNGroup" />
+
+  <import from="../Database/insurer_city/HospitalBuilding.csv" name="HB" group="HospitalGroup" />
 
   <import from="../Database/hazard/eq_fault_sources.csv" name="LS" />
   <import from="../Database/hazard/eq_area_sources.csv" name="AS" />
@@ -203,6 +207,9 @@
   <write string="// #4 Water Network Models" />
   <include from="./Main/_WaterNetwork.xml" group="WNGroup" />
 
+  <write string="// #5 Hospital Models" />
+  <include from="./Main/_Hospital.xml" group="HospitalGroup" />
+
   <instantiate class="RArithmeticOperationModel"
     comment="Activator: pulls every recorded response into the evaluation tree so the sampler computes them all">
     <property name="ObjectName">
@@ -340,6 +347,10 @@
         <read column="zone" />
         <constant string="Serv_R_" />
       </combine>
+      <combine default="HND" primary="" secondary=";" group="BNHospitalGroup">
+        <read column="node" />
+        <constant string="_Val_R_" />
+      </combine>
     </property>
   </instantiate>
 
@@ -398,9 +409,9 @@
     <property name="OutputPath">
       <constant string="Recorders/" />
     </property>
-    <!-- <property name="PreferredNumberOfCDFPoints">
+    <property name="PreferredNumberOfCDFPoints">
       <constant string="ref::prefPoint" />
-    </property> !-->
+    </property> 
     <property name="SavingInterval">
       <constant string="ref::savInt" />
     </property>
@@ -532,6 +543,10 @@
       <combine default="WZS" primary="" secondary=";" group="BNWaterGroup">
         <read column="zone" />
         <constant string="Serv_R_" />
+      </combine>
+      <combine default="HND" primary="" secondary=";" group="BNHospitalGroup">
+        <read column="node" />
+        <constant string="_Val_R_" />
       </combine>
     </property>
     <property name="RecordingTypeFlagMatrix">
